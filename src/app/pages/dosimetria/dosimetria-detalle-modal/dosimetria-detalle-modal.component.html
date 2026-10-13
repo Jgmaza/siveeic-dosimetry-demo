@@ -1,0 +1,31 @@
+<div class="modal-header hu10-modal-header">
+  <h5 class="modal-title">Detalle del registro dosimétrico</h5>
+  <button type="button" class="close" aria-label="Cerrar" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *ngIf="registro">
+  <h6 class="hu10-section-title">Datos generales</h6>
+  <div class="row hu10-grid">
+    <div class="col-md-4 col-sm-6 mb-2" *ngFor="let d of datosGenerales">
+      <div class="hu10-field-label">{{ d.label }}</div>
+      <div class="hu10-field-value" [class.hu10-alerta]="d.alerta">{{ displayValue(d.value) }}</div>
+    </div>
+  </div>
+
+  <h6 class="hu10-section-title mt-3">Dosimetría mensual (mSv)</h6>
+  <div class="hu10-dosis-panel">
+    <div class="row">
+      <div class="col-md-3 col-sm-4 mb-2" *ngFor="let m of mesesHp">
+        <div class="hu10-field-label">{{ m.label }}</div>
+        <div class="hu10-field-value" [class.hu10-alerta]="m.alerta">{{ displayValue(m.value) }}</div>
+      </div>
+    </div>
+    <div class="mt-2" *ngIf="totalCalculado() != null">
+      <strong>Total calculado:</strong> {{ totalCalculado() }} mSv
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary btn-sm" (click)="activeModal.dismiss()">Cerrar</button>
+</div>

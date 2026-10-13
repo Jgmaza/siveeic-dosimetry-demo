@@ -1,24 +1,29 @@
-# Dose Ledger Demo (SIVEEIC-inspired)
+# Dosimetry Reports Demo (sanitized Angular copy)
 
-Sanitized portfolio demo focused on **Excel dosimetry mass load**, plus unified ledger consult — inspired by SIVEEIC Angular upload + Consultar.
+Portfolio demo based on the **real SIVEEIC frontend** (Angular 7 + ngx-admin), not a redesign.
 
-- **Stack:** Vite + React + TypeScript + Tailwind + MSW
-- **Primary flow:** `/upload` — period → drop Excel → validate → error file → Guardar (mock)
-- **Secondary:** unified ledger, dual-write preview, reports
-- **No real backends**, workers, or institutional hosts
+- Keeps the **dosimetría / reportes** module (filters, table, historic views)
+- Removes login wall, unused modules, and institutional branding
+- **DemoMockInterceptor** serves fictional `/api/*` data
 
-## Local
+## Local (Node 14)
 
 ```bash
-npm install
-npm run dev
+# recommended: Docker build (matches production Node)
+docker build -f Dockerfile.demo -t siveeic-demo .
+docker run --rm -p 8080:80 siveeic-demo
 ```
 
-Accounts (password `demo1234`):
+Or with Node 14 locally:
 
-- `admin@dose-ledger.dev` — can upload + full ledger
-- `consult@dose-ledger.dev` — ledger scoped; upload forbidden
+```bash
+npm ci
+npm run build:prod
+npx serve dist
+```
 
-## Live
+Opens on `#/pages/dosimetria/reportes-dosimetria`.
 
-https://siveeic-dosimetry-demo.vercel.app
+## Deploy
+
+Static `dist/` on Vercel (hash routing).

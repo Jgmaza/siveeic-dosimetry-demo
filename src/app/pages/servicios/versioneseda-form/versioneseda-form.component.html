@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Borrar '}} {{ "GLOBAL.tableroseda.titulo_version" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()">
+    
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Nombre">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.tableroseda.nombre" | translate }}
+          </mat-label>
+          <input type="text" id="Nombre" placeholder='{{ "GLOBAL.tableroseda.placeholder_nombre" | translate }}' class="form-control" formControlName="Nombre" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Nombre'].errors && (registroForm.controls['Nombre'].dirty || registroForm.controls['Nombre'].touched)"  >
+            <p *ngIf="registroForm.controls['Nombre'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Nombre'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.maxlength">Máximo {{registroForm.controls['Nombre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Version" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.tableroseda.version" | translate }}
+          </mat-label>
+          <select id="Version" class="form-control" formControlName="Version" [compareWith]="compareById" >
+            <!--option [ngValue]="0" >Todas</option-->
+            <option *ngFor="let item of Version" 
+                    [ngValue]="item">{{item.Nombre}}</option>
+          </select>
+          <!--p *ngIf="selected_Versionrol">  {{selected_Versionrol | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Version'].errors"  >
+            <p *ngIf="registroForm.controls['Version'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div>   
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

@@ -1,0 +1,19 @@
+:host /deep/ .nb-theme-default ng2-smart-table table tr td {
+    font-size: 0.85rem;
+  }
+  
+// permite alinear los iconos en una misma linea
+::ng-deep {
+  ng2-st-tbody-edit-delete {
+    display: none;
+    height: 0 !important;
+  }
+
+  ng2-st-tbody-custom {
+    display: flex;
+    text-align: center;
+    height: 0 !important;
+  }
+}
+
+::ng-deep .my-class .modal-dialog { max-width: 80%; width: 80%; }

@@ -1,0 +1,39 @@
+.hu10-modal-header {
+  background-color: #1b5e20;
+  color: #fff;
+
+  .close {
+    color: #fff;
+    opacity: 0.9;
+  }
+}
+
+.hu10-section-title {
+  color: #1b5e20;
+  font-weight: 600;
+  border-bottom: 2px solid #2e7d32;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.hu10-field-label {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.hu10-field-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.hu10-dosis-panel {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.hu10-alerta {
+  color: #c62828;
+  font-weight: 700;
+}

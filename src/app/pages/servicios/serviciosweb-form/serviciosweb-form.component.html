@@ -1,0 +1,161 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.serviciosweb.parametros" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()">
+    
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="form-group" >
+          <mat-label for="Nombre">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.serviciosweb.nombre" | translate }}
+          </mat-label>
+          <input type="text" id="Nombre" placeholder='{{ "GLOBAL.serviciosweb.placeholder_nombre" | translate }}' class="form-control" formControlName="Nombre" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Nombre'].errors && (registroForm.controls['Nombre'].dirty || registroForm.controls['Nombre'].touched)"  >
+            <p *ngIf="registroForm.controls['Nombre'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Nombre'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.maxlength">Máximo {{registroForm.controls['Nombre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+
+      <div class="col-lg-4">
+        <div class="form-group" >
+          <mat-label for="Abreviatura">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.serviciosweb.abreviatura" | translate }}
+          </mat-label>
+          <input type="text" id="Abreviatura" placeholder='{{ "GLOBAL.serviciosweb.placeholder_abreviatura" | translate }}' class="form-control" formControlName="Abreviatura" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Abreviatura'].errors && (registroForm.controls['Abreviatura'].dirty || registroForm.controls['Abreviatura'].touched)"  >
+            <p *ngIf="registroForm.controls['Abreviatura'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Abreviatura'].errors.minlength">Se requieren mínimo {{registroForm.controls['Abreviatura'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Abreviatura'].errors.maxlength">Máximo {{registroForm.controls['Abreviatura'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Abreviatura'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+
+      <div class="col-lg-4">
+        <div class="form-group" >
+          <mat-label for="Estado" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.serviciosweb.estado" | translate }}
+          </mat-label>
+          <select id="Estado" class="form-control" formControlName="Estado" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.serviciosweb.placeholder_estadorol" | translate }}</option-->
+            <option *ngFor="let item of Estado" 
+                    [ngValue]="item">{{item.NombreEstado}}</option>
+          </select>
+          <!--p *ngIf="selected_Estadorol">  {{selected_Estadorol | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Estado'].errors"  >
+            <p *ngIf="registroForm.controls['Estado'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div>   
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Servidor">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.serviciosweb.servidor" | translate }}
+          </mat-label>
+          <input type="text" id="Servidor" placeholder='{{ "GLOBAL.serviciosweb.placeholder_servidor" | translate }}' class="form-control" formControlName="Servidor" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Servidor'].errors && (registroForm.controls['Servidor'].dirty || registroForm.controls['Servidor'].touched)"  >
+            <p *ngIf="registroForm.controls['Servidor'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Servidor'].errors.minlength">Se requieren mínimo {{registroForm.controls['Servidor'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Servidor'].errors.maxlength">Máximo {{registroForm.controls['Servidor'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Servidor'].errors.pattern">Sólo se permiten letras y números. Valide que el formato del dato ingresado sea correcto</p>
+            </div>
+        </div>  
+      </div>   
+    </div> 
+
+    <nb-card>
+      <nb-card-header>{{ "GLOBAL.serviciosweb.titulo_estrutura" | translate }}</nb-card-header>
+      <nb-card-body>   
+            
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="parametros" class="label col-form-label">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.serviciosweb.parametros" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Parametros" placeholder='{{ "GLOBAL.serviciosweb.placeholder_parametros" | translate }}' class="form-control" formControlName="Parametros" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Parametros'].errors && (registroForm.controls['Parametros'].dirty || registroForm.controls['Parametros'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Parametros'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Parametros'].errors.minlength">Se requieren mínimo {{registroForm.controls['Parametros'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Parametros'].errors.maxlength">Máximo {{registroForm.controls['Parametros'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Parametros'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide el formato de los datos.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="peticion" class="label col-form-label">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                {{ "GLOBAL.serviciosweb.peticion" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Peticion" placeholder='{{ "GLOBAL.serviciosweb.placeholder_peticion" | translate }}' class="form-control" formControlName="Peticion" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Peticion'].errors && (registroForm.controls['Peticion'].dirty || registroForm.controls['Peticion'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Peticion'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Peticion'].errors.minlength">Se requieren mínimo {{registroForm.controls['Peticion'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Peticion'].errors.maxlength">Máximo {{registroForm.controls['Peticion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Peticion'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide el formato de los datos.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>        
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="uso" class="label col-form-label">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                {{ "GLOBAL.serviciosweb.uso" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Uso" placeholder='{{ "GLOBAL.serviciosweb.placeholder_uso" | translate }}' class="form-control" formControlName="Uso" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Uso'].errors && (registroForm.controls['Uso'].dirty || registroForm.controls['Uso'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Uso'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Uso'].errors.minlength">Se requieren mínimo {{registroForm.controls['Uso'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Uso'].errors.maxlength">Máximo {{registroForm.controls['Uso'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Uso'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide el formato de los datos.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+
+
+      </nb-card-body>  
+    </nb-card>  
+
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

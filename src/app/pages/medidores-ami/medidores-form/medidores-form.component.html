@@ -1,0 +1,1730 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.medidoresami.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body"  style="z-index:1000">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()" method="post" enctype="multipart/form-data" >
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Operador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.medidoresami.operador" | translate }}
+          </mat-label>
+          <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Operador" 
+                    [ngValue]="item">{{item.Nombres}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Operador'].errors"  >
+            <p *ngIf="registroForm.controls['Operador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="form-group" >
+          <mat-label for="Periodo" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.medidoresami.periodo" | translate }}
+          </mat-label>
+          <select id="Periodo" class="form-control" formControlName="Periodo" [compareWith]="compareById" >
+            <option *ngFor="let item of Periodo" 
+                    [ngValue]="item">{{item.Periodo}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Periodo'].errors"  >
+            <p *ngIf="registroForm.controls['Periodo'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+
+      <div class="col-lg-5">
+        <div class="form-group" >
+          <mat-label for="Departamento" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.medidoresami.departamento" | translate }}
+          </mat-label>
+          <select id="Departamento" class="form-control" formControlName="Departamento"
+                 [compareWith]="compareById" (change)="selectMunicipio()"  >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Departamento" 
+                    [ngValue]="item">{{item.Id}} - {{item.NombreDepartamento}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Departamento'].errors"  >
+            <p *ngIf="registroForm.controls['Departamento'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+
+      <div class="col-lg-5">
+        <div class="form-group" >
+          <mat-label for="Municipio" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.medidoresami.municipio" | translate }}
+          </mat-label>
+          <select id="Municipio" class="form-control" formControlName="Municipio" [compareWith]="compareById" [disabled] >
+            <option [ngValue]="0" >Todos </option>
+            <option *ngFor="let item of Municipio" 
+                    [ngValue]="item">{{item.Id}} - {{item.NombreMunicipio}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Municipio'].errors"  >
+            <p *ngIf="registroForm.controls['Municipio'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+
+    <nb-card>
+      <nb-card-body>  
+        <div class="row">
+          <div class="col-lg-12">
+            <span style="color:#960303; font-size: 16px;"><b>{{ "GLOBAL.medidoresami.tooltip_Med" | translate }}</b><br></span>
+          </div> 
+        </div> 
+      </nb-card-body>   
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedConv" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvEst1_1_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvEst1_1_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvEst1_1_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvEst1_1_1" | translate }}' class="form-control" formControlName="MedConvEst1_1_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvEst1_1_1'].errors && (registroForm.controls['MedConvEst1_1_1'].dirty || registroForm.controls['MedConvEst1_1_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvEst1_1_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvEst1_1_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvEst1_1_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvEst1_1_1'].errors.maxlength">Máximo {{registroForm.controls['MedConvEst1_1_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvEst1_1_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvEst2_1_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvEst2_1_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvEst2_1_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvEst2_1_2" | translate }}' class="form-control" formControlName="MedConvEst2_1_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvEst2_1_2'].errors && (registroForm.controls['MedConvEst2_1_2'].dirty || registroForm.controls['MedConvEst2_1_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvEst2_1_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvEst2_1_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvEst2_1_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvEst2_1_2'].errors.maxlength">Máximo {{registroForm.controls['MedConvEst2_1_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvEst2_1_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvEst3_1_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvEst3_1_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvEst3_1_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvEst3_1_3" | translate }}' class="form-control" formControlName="MedConvEst3_1_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvEst3_1_3'].errors && (registroForm.controls['MedConvEst3_1_3'].dirty || registroForm.controls['MedConvEst3_1_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvEst3_1_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvEst3_1_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvEst2_1_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvEst3_1_3'].errors.maxlength">Máximo {{registroForm.controls['MedConvEst3_1_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvEst3_1_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvEst4_1_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvEst4_1_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvEst4_1_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvEst4_1_4" | translate }}' class="form-control" formControlName="MedConvEst4_1_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvEst4_1_4'].errors && (registroForm.controls['MedConvEst4_1_4'].dirty || registroForm.controls['MedConvEst4_1_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvEst4_1_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvEst4_1_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvEst4_1_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvEst4_1_4'].errors.maxlength">Máximo {{registroForm.controls['MedConvEst4_1_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvEst4_1_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvEst5_1_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvEst5_1_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvEst5_1_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvEst5_1_5" | translate }}' class="form-control" formControlName="MedConvEst5_1_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvEst5_1_5'].errors && (registroForm.controls['MedConvEst5_1_5'].dirty || registroForm.controls['MedConvEst5_1_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvEst5_1_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvEst5_1_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvEst5_1_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvEst5_1_5'].errors.maxlength">Máximo {{registroForm.controls['MedConvEst5_1_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvEst5_1_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvEst6_1_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvEst6_1_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvEst6_1_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvEst6_1_6" | translate }}' class="form-control" formControlName="MedConvEst6_1_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvEst6_1_6'].errors && (registroForm.controls['MedConvEst6_1_6'].dirty || registroForm.controls['MedConvEst6_1_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvEst6_1_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvEst6_1_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvEst6_1_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvEst6_1_6'].errors.maxlength">Máximo {{registroForm.controls['MedConvEst6_1_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvEst6_1_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvCom_1_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvCom_1_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvCom_1_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvCom_1_7" | translate }}' class="form-control" formControlName="MedConvCom_1_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvCom_1_7'].errors && (registroForm.controls['MedConvCom_1_7'].dirty || registroForm.controls['MedConvCom_1_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvCom_1_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvCom_1_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvCom_1_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvCom_1_7'].errors.maxlength">Máximo {{registroForm.controls['MedConvCom_1_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvCom_1_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvInd_1_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvInd_1_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvInd_1_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvInd_1_8" | translate }}' class="form-control" formControlName="MedConvInd_1_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvInd_1_8'].errors && (registroForm.controls['MedConvInd_1_8'].dirty || registroForm.controls['MedConvInd_1_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvInd_1_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvInd_1_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvInd_1_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvInd_1_8'].errors.maxlength">Máximo {{registroForm.controls['MedConvInd_1_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvInd_1_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvOfc_1_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvOfc_1_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvOfc_1_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvOfc_1_9" | translate }}' class="form-control" formControlName="MedConvOfc_1_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvOfc_1_9'].errors && (registroForm.controls['MedConvOfc_1_9'].dirty || registroForm.controls['MedConvOfc_1_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvOfc_1_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvOfc_1_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvOfc_1_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvOfc_1_9'].errors.maxlength">Máximo {{registroForm.controls['MedConvOfc_1_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvOfc_1_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedConvOtr_1_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedConvOtr_1_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedConvOtr_1_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedConvOtr_1_10" | translate }}' class="form-control" formControlName="MedConvOtr_1_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedConvOtr_1_10'].errors && (registroForm.controls['MedConvOtr_1_10'].dirty || registroForm.controls['MedConvOtr_1_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedConvOtr_1_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedConvOtr_1_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedConvOtr_1_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedConvOtr_1_10'].errors.maxlength">Máximo {{registroForm.controls['MedConvOtr_1_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedConvOtr_1_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>
+   
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedPrep" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepEst1_2_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepEst1_2_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepEst1_2_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepEst1_2_1" | translate }}' class="form-control" formControlName="MedPrepEst1_2_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepEst1_2_1'].errors && (registroForm.controls['MedPrepEst1_2_1'].dirty || registroForm.controls['MedPrepEst1_2_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepEst1_2_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepEst1_2_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepEst1_2_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst1_2_1'].errors.maxlength">Máximo {{registroForm.controls['MedPrepEst1_2_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst1_2_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepEst2_2_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepEst2_2_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepEst2_2_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepEst2_2_2" | translate }}' class="form-control" formControlName="MedPrepEst2_2_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepEst2_2_2'].errors && (registroForm.controls['MedPrepEst2_2_2'].dirty || registroForm.controls['MedPrepEst2_2_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepEst2_2_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepEst2_2_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepEst2_2_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst2_2_2'].errors.maxlength">Máximo {{registroForm.controls['MedPrepEst2_2_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst2_2_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepEst3_2_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepEst3_2_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepEst3_2_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepEst3_2_3" | translate }}' class="form-control" formControlName="MedPrepEst3_2_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepEst3_2_3'].errors && (registroForm.controls['MedPrepEst3_2_3'].dirty || registroForm.controls['MedPrepEst3_2_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepEst3_2_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepEst3_2_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepEst2_2_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst3_2_3'].errors.maxlength">Máximo {{registroForm.controls['MedPrepEst3_2_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst3_2_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepEst4_2_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepEst4_2_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepEst4_2_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepEst4_2_4" | translate }}' class="form-control" formControlName="MedPrepEst4_2_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepEst4_2_4'].errors && (registroForm.controls['MedPrepEst4_2_4'].dirty || registroForm.controls['MedPrepEst4_2_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepEst4_2_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepEst4_2_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepEst4_2_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst4_2_4'].errors.maxlength">Máximo {{registroForm.controls['MedPrepEst4_2_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst4_2_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepEst5_2_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepEst5_2_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepEst5_2_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepEst5_2_5" | translate }}' class="form-control" formControlName="MedPrepEst5_2_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepEst5_2_5'].errors && (registroForm.controls['MedPrepEst5_2_5'].dirty || registroForm.controls['MedPrepEst5_2_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepEst5_2_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepEst5_2_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepEst5_2_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst5_2_5'].errors.maxlength">Máximo {{registroForm.controls['MedPrepEst5_2_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst5_2_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepEst6_2_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepEst6_2_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepEst6_2_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepEst6_2_6" | translate }}' class="form-control" formControlName="MedPrepEst6_2_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepEst6_2_6'].errors && (registroForm.controls['MedPrepEst6_2_6'].dirty || registroForm.controls['MedPrepEst6_2_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepEst6_2_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepEst6_2_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepEst6_2_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst6_2_6'].errors.maxlength">Máximo {{registroForm.controls['MedPrepEst6_2_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepEst6_2_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepCom_2_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepCom_2_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepCom_2_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepCom_2_7" | translate }}' class="form-control" formControlName="MedPrepCom_2_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepCom_2_7'].errors && (registroForm.controls['MedPrepCom_2_7'].dirty || registroForm.controls['MedPrepCom_2_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepCom_2_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepCom_2_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepCom_2_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepCom_2_7'].errors.maxlength">Máximo {{registroForm.controls['MedPrepCom_2_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepCom_2_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepInd_2_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepInd_2_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepInd_2_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepInd_2_8" | translate }}' class="form-control" formControlName="MedPrepInd_2_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepInd_2_8'].errors && (registroForm.controls['MedPrepInd_2_8'].dirty || registroForm.controls['MedPrepInd_2_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepInd_2_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepInd_2_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepInd_2_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepInd_2_8'].errors.maxlength">Máximo {{registroForm.controls['MedPrepInd_2_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepInd_2_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+   
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepOfc_2_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepOfc_2_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepOfc_2_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepOfc_2_9" | translate }}' class="form-control" formControlName="MedPrepOfc_2_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepOfc_2_9'].errors && (registroForm.controls['MedPrepOfc_2_9'].dirty || registroForm.controls['MedPrepOfc_2_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepOfc_2_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepOfc_2_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepOfc_2_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepOfc_2_9'].errors.maxlength">Máximo {{registroForm.controls['MedPrepOfc_2_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepOfc_2_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPrepOtr_2_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPrepOtr_2_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedPrepOtr_2_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPrepOtr_2_10" | translate }}' class="form-control" formControlName="MedPrepOtr_2_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPrepOtr_2_10'].errors && (registroForm.controls['MedPrepOtr_2_10'].dirty || registroForm.controls['MedPrepOtr_2_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPrepOtr_2_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPrepOtr_2_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPrepOtr_2_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPrepOtr_2_10'].errors.maxlength">Máximo {{registroForm.controls['MedPrepOtr_2_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPrepOtr_2_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>    
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedAvan" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanEst1_3_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanEst1_3_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanEst1_3_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanEst1_3_1" | translate }}' class="form-control" formControlName="MedAvanEst1_3_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanEst1_3_1'].errors && (registroForm.controls['MedAvanEst1_3_1'].dirty || registroForm.controls['MedAvanEst1_3_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanEst1_3_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanEst1_3_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanEst1_3_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst1_3_1'].errors.maxlength">Máximo {{registroForm.controls['MedAvanEst1_3_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst1_3_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanEst2_3_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanEst2_3_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanEst2_3_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanEst2_3_2" | translate }}' class="form-control" formControlName="MedAvanEst2_3_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanEst2_3_2'].errors && (registroForm.controls['MedAvanEst2_3_2'].dirty || registroForm.controls['MedAvanEst2_3_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanEst2_3_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanEst2_3_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanEst2_3_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst2_3_2'].errors.maxlength">Máximo {{registroForm.controls['MedAvanEst2_3_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst2_3_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanEst3_3_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanEst3_3_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanEst3_3_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanEst3_3_3" | translate }}' class="form-control" formControlName="MedAvanEst3_3_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanEst3_3_3'].errors && (registroForm.controls['MedAvanEst3_3_3'].dirty || registroForm.controls['MedAvanEst3_3_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanEst3_3_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanEst3_3_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanEst2_3_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst3_3_3'].errors.maxlength">Máximo {{registroForm.controls['MedAvanEst3_3_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst3_3_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanEst4_3_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanEst4_3_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanEst4_3_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanEst4_3_4" | translate }}' class="form-control" formControlName="MedAvanEst4_3_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanEst4_3_4'].errors && (registroForm.controls['MedAvanEst4_3_4'].dirty || registroForm.controls['MedAvanEst4_3_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanEst4_3_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanEst4_3_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanEst4_3_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst4_3_4'].errors.maxlength">Máximo {{registroForm.controls['MedAvanEst4_3_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst4_3_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanEst5_3_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanEst5_3_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanEst5_3_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanEst5_3_5" | translate }}' class="form-control" formControlName="MedAvanEst5_3_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanEst5_3_5'].errors && (registroForm.controls['MedAvanEst5_3_5'].dirty || registroForm.controls['MedAvanEst5_3_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanEst5_3_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanEst5_3_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanEst5_3_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst5_3_5'].errors.maxlength">Máximo {{registroForm.controls['MedAvanEst5_3_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst5_3_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanEst6_3_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanEst6_3_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanEst6_3_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanEst6_3_6" | translate }}' class="form-control" formControlName="MedAvanEst6_3_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanEst6_3_6'].errors && (registroForm.controls['MedAvanEst6_3_6'].dirty || registroForm.controls['MedAvanEst6_3_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanEst6_3_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanEst6_3_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanEst6_3_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst6_3_6'].errors.maxlength">Máximo {{registroForm.controls['MedAvanEst6_3_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanEst6_3_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanCom_3_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanCom_3_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanCom_3_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanCom_3_7" | translate }}' class="form-control" formControlName="MedAvanCom_3_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanCom_3_7'].errors && (registroForm.controls['MedAvanCom_3_7'].dirty || registroForm.controls['MedAvanCom_3_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanCom_3_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanCom_3_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanCom_3_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanCom_3_7'].errors.maxlength">Máximo {{registroForm.controls['MedAvanCom_3_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanCom_3_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanInd_3_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanInd_3_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanInd_3_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanInd_3_8" | translate }}' class="form-control" formControlName="MedAvanInd_3_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanInd_3_8'].errors && (registroForm.controls['MedAvanInd_3_8'].dirty || registroForm.controls['MedAvanInd_3_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanInd_3_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanInd_3_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanInd_3_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanInd_3_8'].errors.maxlength">Máximo {{registroForm.controls['MedAvanInd_3_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanInd_3_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanOfc_3_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanOfc_3_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanOfc_3_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanOfc_3_9" | translate }}' class="form-control" formControlName="MedAvanOfc_3_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanOfc_3_9'].errors && (registroForm.controls['MedAvanOfc_3_9'].dirty || registroForm.controls['MedAvanOfc_3_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanOfc_3_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanOfc_3_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanOfc_3_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanOfc_3_9'].errors.maxlength">Máximo {{registroForm.controls['MedAvanOfc_3_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanOfc_3_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedAvanOtr_3_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedAvanOtr_3_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedAvanOtr_3_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedAvanOtr_3_10" | translate }}' class="form-control" formControlName="MedAvanOtr_3_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedAvanOtr_3_10'].errors && (registroForm.controls['MedAvanOtr_3_10'].dirty || registroForm.controls['MedAvanOtr_3_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedAvanOtr_3_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedAvanOtr_3_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedAvanOtr_3_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedAvanOtr_3_10'].errors.maxlength">Máximo {{registroForm.controls['MedAvanOtr_3_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedAvanOtr_3_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:darkorange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-body>  
+        <div class="row">
+          <div class="col-lg-12">
+            <span style="color:#6498fe;"><b>{{ "GLOBAL.medidoresami.tooltip_MedAvan" | translate }}</b><br></span>
+          </div> 
+        </div> 
+      </nb-card-body>   
+    </nb-card>
+    
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedFopt" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptEst1_4_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptEst1_4_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptEst1_4_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptEst1_4_1" | translate }}' class="form-control" formControlName="MedFoptEst1_4_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptEst1_4_1'].errors && (registroForm.controls['MedFoptEst1_4_1'].dirty || registroForm.controls['MedFoptEst1_4_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptEst1_4_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptEst1_4_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptEst1_4_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst1_4_1'].errors.maxlength">Máximo {{registroForm.controls['MedFoptEst1_4_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst1_4_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptEst2_4_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptEst2_4_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptEst2_4_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptEst2_4_2" | translate }}' class="form-control" formControlName="MedFoptEst2_4_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptEst2_4_2'].errors && (registroForm.controls['MedFoptEst2_4_2'].dirty || registroForm.controls['MedFoptEst2_4_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptEst2_4_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptEst2_4_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptEst2_4_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst2_4_2'].errors.maxlength">Máximo {{registroForm.controls['MedFoptEst2_4_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst2_4_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptEst3_4_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptEst3_4_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptEst3_4_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptEst3_4_3" | translate }}' class="form-control" formControlName="MedFoptEst3_4_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptEst3_4_3'].errors && (registroForm.controls['MedFoptEst3_4_3'].dirty || registroForm.controls['MedFoptEst3_4_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptEst3_4_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptEst3_4_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptEst2_4_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst3_4_3'].errors.maxlength">Máximo {{registroForm.controls['MedFoptEst3_4_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst3_4_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptEst4_4_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptEst4_4_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptEst4_4_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptEst4_4_4" | translate }}' class="form-control" formControlName="MedFoptEst4_4_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptEst4_4_4'].errors && (registroForm.controls['MedFoptEst4_4_4'].dirty || registroForm.controls['MedFoptEst4_4_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptEst4_4_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptEst4_4_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptEst4_4_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst4_4_4'].errors.maxlength">Máximo {{registroForm.controls['MedFoptEst4_4_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst4_4_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptEst5_4_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptEst5_4_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptEst5_4_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptEst5_4_5" | translate }}' class="form-control" formControlName="MedFoptEst5_4_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptEst5_4_5'].errors && (registroForm.controls['MedFoptEst5_4_5'].dirty || registroForm.controls['MedFoptEst5_4_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptEst5_4_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptEst5_4_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptEst5_4_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst5_4_5'].errors.maxlength">Máximo {{registroForm.controls['MedFoptEst5_4_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst5_4_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptEst6_4_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptEst6_4_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptEst6_4_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptEst6_4_6" | translate }}' class="form-control" formControlName="MedFoptEst6_4_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptEst6_4_6'].errors && (registroForm.controls['MedFoptEst6_4_6'].dirty || registroForm.controls['MedFoptEst6_4_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptEst6_4_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptEst6_4_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptEst6_4_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst6_4_6'].errors.maxlength">Máximo {{registroForm.controls['MedFoptEst6_4_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptEst6_4_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptCom_4_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptCom_4_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptCom_4_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptCom_4_7" | translate }}' class="form-control" formControlName="MedFoptCom_4_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptCom_4_7'].errors && (registroForm.controls['MedFoptCom_4_7'].dirty || registroForm.controls['MedFoptCom_4_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptCom_4_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptCom_4_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptCom_4_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptCom_4_7'].errors.maxlength">Máximo {{registroForm.controls['MedFoptCom_4_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptCom_4_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptInd_4_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptInd_4_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptInd_4_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptInd_4_8" | translate }}' class="form-control" formControlName="MedFoptInd_4_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptInd_4_8'].errors && (registroForm.controls['MedFoptInd_4_8'].dirty || registroForm.controls['MedFoptInd_4_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptInd_4_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptInd_4_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptInd_4_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptInd_4_8'].errors.maxlength">Máximo {{registroForm.controls['MedFoptInd_4_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptInd_4_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+    
+   
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptOfc_4_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptOfc_4_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptOfc_4_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptOfc_4_9" | translate }}' class="form-control" formControlName="MedFoptOfc_4_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptOfc_4_9'].errors && (registroForm.controls['MedFoptOfc_4_9'].dirty || registroForm.controls['MedFoptOfc_4_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptOfc_4_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptOfc_4_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptOfc_4_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptOfc_4_9'].errors.maxlength">Máximo {{registroForm.controls['MedFoptOfc_4_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptOfc_4_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedFoptOtr_4_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedFoptOtr_4_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedFoptOtr_4_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedFoptOtr_4_10" | translate }}' class="form-control" formControlName="MedFoptOtr_4_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedFoptOtr_4_10'].errors && (registroForm.controls['MedFoptOtr_4_10'].dirty || registroForm.controls['MedFoptOtr_4_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedFoptOtr_4_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedFoptOtr_4_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedFoptOtr_4_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedFoptOtr_4_10'].errors.maxlength">Máximo {{registroForm.controls['MedFoptOtr_4_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedFoptOtr_4_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedPLC" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCEst1_5_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCEst1_5_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCEst1_5_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCEst1_5_1" | translate }}' class="form-control" formControlName="MedPLCEst1_5_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCEst1_5_1'].errors && (registroForm.controls['MedPLCEst1_5_1'].dirty || registroForm.controls['MedPLCEst1_5_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCEst1_5_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCEst1_5_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCEst1_5_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst1_5_1'].errors.maxlength">Máximo {{registroForm.controls['MedPLCEst1_5_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst1_5_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCEst2_5_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCEst2_5_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCEst2_5_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCEst2_5_2" | translate }}' class="form-control" formControlName="MedPLCEst2_5_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCEst2_5_2'].errors && (registroForm.controls['MedPLCEst2_5_2'].dirty || registroForm.controls['MedPLCEst2_5_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCEst2_5_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCEst2_5_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCEst2_5_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst2_5_2'].errors.maxlength">Máximo {{registroForm.controls['MedPLCEst2_5_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst2_5_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCEst3_5_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCEst3_5_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCEst3_5_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCEst3_5_3" | translate }}' class="form-control" formControlName="MedPLCEst3_5_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCEst3_5_3'].errors && (registroForm.controls['MedPLCEst3_5_3'].dirty || registroForm.controls['MedPLCEst3_5_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCEst3_5_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCEst3_5_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCEst2_5_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst3_5_3'].errors.maxlength">Máximo {{registroForm.controls['MedPLCEst3_5_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst3_5_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCEst4_5_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCEst4_5_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCEst4_5_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCEst4_5_4" | translate }}' class="form-control" formControlName="MedPLCEst4_5_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCEst4_5_4'].errors && (registroForm.controls['MedPLCEst4_5_4'].dirty || registroForm.controls['MedPLCEst4_5_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCEst4_5_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCEst4_5_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCEst4_5_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst4_5_4'].errors.maxlength">Máximo {{registroForm.controls['MedPLCEst4_5_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst4_5_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCEst5_5_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCEst5_5_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCEst5_5_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCEst5_5_5" | translate }}' class="form-control" formControlName="MedPLCEst5_5_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCEst5_5_5'].errors && (registroForm.controls['MedPLCEst5_5_5'].dirty || registroForm.controls['MedPLCEst5_5_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCEst5_5_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCEst5_5_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCEst5_5_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst5_5_5'].errors.maxlength">Máximo {{registroForm.controls['MedPLCEst5_5_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst5_5_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCEst6_5_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCEst6_5_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCEst6_5_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCEst6_5_6" | translate }}' class="form-control" formControlName="MedPLCEst6_5_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCEst6_5_6'].errors && (registroForm.controls['MedPLCEst6_5_6'].dirty || registroForm.controls['MedPLCEst6_5_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCEst6_5_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCEst6_5_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCEst6_5_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst6_5_6'].errors.maxlength">Máximo {{registroForm.controls['MedPLCEst6_5_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCEst6_5_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCCom_5_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCCom_5_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCCom_5_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCCom_5_7" | translate }}' class="form-control" formControlName="MedPLCCom_5_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCCom_5_7'].errors && (registroForm.controls['MedPLCCom_5_7'].dirty || registroForm.controls['MedPLCCom_5_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCCom_5_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCCom_5_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCCom_5_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCCom_5_7'].errors.maxlength">Máximo {{registroForm.controls['MedPLCCom_5_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCCom_5_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCInd_5_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCInd_5_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCInd_5_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCInd_5_8" | translate }}' class="form-control" formControlName="MedPLCInd_5_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCInd_5_8'].errors && (registroForm.controls['MedPLCInd_5_8'].dirty || registroForm.controls['MedPLCInd_5_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCInd_5_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCInd_5_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCInd_5_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCInd_5_8'].errors.maxlength">Máximo {{registroForm.controls['MedPLCInd_5_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCInd_5_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+   
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCOfc_5_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCOfc_5_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCOfc_5_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCOfc_5_9" | translate }}' class="form-control" formControlName="MedPLCOfc_5_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCOfc_5_9'].errors && (registroForm.controls['MedPLCOfc_5_9'].dirty || registroForm.controls['MedPLCOfc_5_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCOfc_5_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCOfc_5_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCOfc_5_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCOfc_5_9'].errors.maxlength">Máximo {{registroForm.controls['MedPLCOfc_5_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCOfc_5_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedPLCOtr_5_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedPLCOtr_5_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedPLCOtr_5_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedPLCOtr_5_10" | translate }}' class="form-control" formControlName="MedPLCOtr_5_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedPLCOtr_5_10'].errors && (registroForm.controls['MedPLCOtr_5_10'].dirty || registroForm.controls['MedPLCOtr_5_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedPLCOtr_5_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedPLCOtr_5_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedPLCOtr_5_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedPLCOtr_5_10'].errors.maxlength">Máximo {{registroForm.controls['MedPLCOtr_5_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedPLCOtr_5__10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedRF" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFEst1_6_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFEst1_6_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFEst1_6_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFEst1_6_1" | translate }}' class="form-control" formControlName="MedRFEst1_6_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFEst1_6_1'].errors && (registroForm.controls['MedRFEst1_6_1'].dirty || registroForm.controls['MedRFEst1_6_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFEst1_6_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFEst1_6_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFEst1_6_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFEst1_6_1'].errors.maxlength">Máximo {{registroForm.controls['MedRFEst1_6_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFEst1_6_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFEst2_6_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFEst2_6_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFEst2_6_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFEst2_6_2" | translate }}' class="form-control" formControlName="MedRFEst2_6_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFEst2_6_2'].errors && (registroForm.controls['MedRFEst2_6_2'].dirty || registroForm.controls['MedRFEst2_6_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFEst2_6_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFEst2_6_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFEst2_6_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFEst2_6_2'].errors.maxlength">Máximo {{registroForm.controls['MedRFEst2_6_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFEst2_6_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFEst3_6_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFEst3_6_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFEst3_6_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFEst3_6_3" | translate }}' class="form-control" formControlName="MedRFEst3_6_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFEst3_6_3'].errors && (registroForm.controls['MedRFEst3_6_3'].dirty || registroForm.controls['MedRFEst3_6_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFEst3_6_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFEst3_6_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFEst2_6_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFEst3_6_3'].errors.maxlength">Máximo {{registroForm.controls['MedRFEst3_6_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFEst3_6_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFEst4_6_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFEst4_6_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFEst4_6_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFEst4_6_4" | translate }}' class="form-control" formControlName="MedRFEst4_6_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFEst4_6_4'].errors && (registroForm.controls['MedRFEst4_6_4'].dirty || registroForm.controls['MedRFEst4_6_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFEst4_6_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFEst4_6_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFEst4_6_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFEst4_6_4'].errors.maxlength">Máximo {{registroForm.controls['MedRFEst4_6_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFEst4_6_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFEst5_6_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFEst5_6_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFEst5_6_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFEst5_6_5" | translate }}' class="form-control" formControlName="MedRFEst5_6_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFEst5_6_5'].errors && (registroForm.controls['MedRFEst5_6_5'].dirty || registroForm.controls['MedRFEst5_6_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFEst5_6_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFEst5_6_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFEst5_6_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFEst5_6_5'].errors.maxlength">Máximo {{registroForm.controls['MedRFEst5_6_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFEst5_6_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFEst6_6_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFEst6_6_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFEst6_6_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFEst6_6_6" | translate }}' class="form-control" formControlName="MedRFEst6_6_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFEst6_6_6'].errors && (registroForm.controls['MedRFEst6_6_6'].dirty || registroForm.controls['MedRFEst6_6_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFEst6_6_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFEst6_6_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFEst6_6_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFEst6_6_6'].errors.maxlength">Máximo {{registroForm.controls['MedRFEst6_6_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFEst6_6_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFCom_6_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFCom_6_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFCom_6_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFCom_6_7" | translate }}' class="form-control" formControlName="MedRFCom_6_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFCom_6_7'].errors && (registroForm.controls['MedRFCom_6_7'].dirty || registroForm.controls['MedRFCom_6_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFCom_6_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFCom_6_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFCom_6_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFCom_6_7'].errors.maxlength">Máximo {{registroForm.controls['MedRFCom_6_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFCom_6_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFInd_6_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFInd_6_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFInd_6_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFInd_6_8" | translate }}' class="form-control" formControlName="MedRFInd_6_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFInd_6_8'].errors && (registroForm.controls['MedRFInd_6_8'].dirty || registroForm.controls['MedRFInd_6_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFInd_6_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFInd_6_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFInd_6_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFInd_6_8'].errors.maxlength">Máximo {{registroForm.controls['MedRFInd_6_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFInd_6_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+
+    
+   
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFOfc_6_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFOfc_6_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFOfc_6_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFOfc_6_9" | translate }}' class="form-control" formControlName="MedRFOfc_6_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFOfc_6_9'].errors && (registroForm.controls['MedRFOfc_6_9'].dirty || registroForm.controls['MedRFOfc_6_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFOfc_6_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFOfc_6_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFOfc_6_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFOfc_6_9'].errors.maxlength">Máximo {{registroForm.controls['MedRFOfc_6_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFOfc_6_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedRFOtr_6_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedRFOtr_6_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedRFOtr_6_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedRFOtr_6_10" | translate }}' class="form-control" formControlName="MedRFOtr_6_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedRFOtr_6_10'].errors && (registroForm.controls['MedRFOtr_6_10'].dirty || registroForm.controls['MedRFOtr_6_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedRFOtr_6_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedRFOtr_6_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedRFOtr_6_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedRFOtr_6_10'].errors.maxlength">Máximo {{registroForm.controls['MedRFOtr_6_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedRFOtr_6_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>          
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedGPRS" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSEst1_7_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSEst1_7_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSEst1_7_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSEst1_7_1" | translate }}' class="form-control" formControlName="MedGPRSEst1_7_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSEst1_7_1'].errors && (registroForm.controls['MedGPRSEst1_7_1'].dirty || registroForm.controls['MedGPRSEst1_7_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSEst1_7_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSEst1_7_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSEst1_7_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst1_7_1'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSEst1_7_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst1_7_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSEst2_7_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSEst2_7_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSEst2_7_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSEst2_7_2" | translate }}' class="form-control" formControlName="MedGPRSEst2_7_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSEst2_7_2'].errors && (registroForm.controls['MedGPRSEst2_7_2'].dirty || registroForm.controls['MedGPRSEst2_7_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSEst2_7_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSEst2_7_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSEst2_7_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst2_7_2'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSEst2_7_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst2_7_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSEst3_7_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSEst3_7_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSEst3_7_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSEst3_7_3" | translate }}' class="form-control" formControlName="MedGPRSEst3_7_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSEst3_7_3'].errors && (registroForm.controls['MedGPRSEst3_7_3'].dirty || registroForm.controls['MedGPRSEst3_7_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSEst3_7_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSEst3_7_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSEst2_7_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst3_7_3'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSEst3_7_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst3_7_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSEst4_7_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSEst4_7_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSEst4_7_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSEst4_7_4" | translate }}' class="form-control" formControlName="MedGPRSEst4_7_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSEst4_7_4'].errors && (registroForm.controls['MedGPRSEst4_7_4'].dirty || registroForm.controls['MedGPRSEst4_7_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSEst4_7_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSEst4_7_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSEst4_7_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst4_7_4'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSEst4_7_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst4_7_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSEst5_7_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSEst5_7_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSEst5_7_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSEst5_7_5" | translate }}' class="form-control" formControlName="MedGPRSEst5_7_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSEst5_7_5'].errors && (registroForm.controls['MedGPRSEst5_7_5'].dirty || registroForm.controls['MedGPRSEst5_7_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSEst5_7_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSEst5_7_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSEst5_7_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst5_7_5'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSEst5_7_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst5_7_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSEst6_7_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSEst6_7_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSEst6_7_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSEst6_7_6" | translate }}' class="form-control" formControlName="MedGPRSEst6_7_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSEst6_7_6'].errors && (registroForm.controls['MedGPRSEst6_7_6'].dirty || registroForm.controls['MedGPRSEst6_7_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSEst6_7_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSEst6_7_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSEst6_7_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst6_7_6'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSEst6_7_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSEst6_7_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSCom_7_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSCom_7_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSCom_7_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSCom_7_7" | translate }}' class="form-control" formControlName="MedGPRSCom_7_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSCom_7_7'].errors && (registroForm.controls['MedGPRSCom_7_7'].dirty || registroForm.controls['MedGPRSCom_7_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSCom_7_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSCom_7_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSCom_7_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSCom_7_7'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSCom_7_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSCom_7_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSInd_7_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSInd_7_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSInd_7_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSInd_7_8" | translate }}' class="form-control" formControlName="MedGPRSInd_7_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSInd_7_8'].errors && (registroForm.controls['MedGPRSInd_7_8'].dirty || registroForm.controls['MedGPRSInd_7_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSInd_7_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSInd_7_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSInd_7_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSInd_7_8'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSInd_7_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSInd_7_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSOfc_7_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSOfc_7_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSOfc_7_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSOfc_7_9" | translate }}' class="form-control" formControlName="MedGPRSOfc_7_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSOfc_7_9'].errors && (registroForm.controls['MedGPRSOfc_7_9'].dirty || registroForm.controls['MedGPRSOfc_7_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSOfc_7_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSOfc_7_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSOfc_7_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSOfc_7_9'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSOfc_7_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSOfc_7_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedGPRSOtr_7_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedGPRSOtr_7_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedGPRSOtr_7_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedGPRSOtr_7_10" | translate }}' class="form-control" formControlName="MedGPRSOtr_7_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedGPRSOtr_7_10'].errors && (registroForm.controls['MedGPRSOtr_7_10'].dirty || registroForm.controls['MedGPRSOtr_7_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedGPRSOtr_7_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedGPRSOtr_7_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedGPRSOtr_7_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedGPRSOtr_7_10'].errors.maxlength">Máximo {{registroForm.controls['MedGPRSOtr_7_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedGPRSOtr_7_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedLPWAN" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANEst1_8_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANEst1_8_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANEst1_8_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANEst1_8_1" | translate }}' class="form-control" formControlName="MedLPWANEst1_8_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANEst1_8_1'].errors && (registroForm.controls['MedLPWANEst1_8_1'].dirty || registroForm.controls['MedLPWANEst1_8_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANEst1_8_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANEst1_8_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANEst1_8_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst1_8_1'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANEst1_8_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst1_8_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANEst2_8_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANEst2_8_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANEst2_8_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANEst2_8_2" | translate }}' class="form-control" formControlName="MedLPWANEst2_8_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANEst2_8_2'].errors && (registroForm.controls['MedLPWANEst2_8_2'].dirty || registroForm.controls['MedLPWANEst2_8_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANEst2_8_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANEst2_8_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANEst2_8_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst2_8_2'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANEst2_8_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst2_8_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANEst3_8_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANEst3_8_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANEst3_8_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANEst3_8_3" | translate }}' class="form-control" formControlName="MedLPWANEst3_8_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANEst3_8_3'].errors && (registroForm.controls['MedLPWANEst3_8_3'].dirty || registroForm.controls['MedLPWANEst3_8_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANEst3_8_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANEst3_8_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANEst2_8_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst3_8_3'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANEst3_8_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst3_8_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANEst4_8_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANEst4_8_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANEst4_8_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANEst4_8_4" | translate }}' class="form-control" formControlName="MedLPWANEst4_8_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANEst4_8_4'].errors && (registroForm.controls['MedLPWANEst4_8_4'].dirty || registroForm.controls['MedLPWANEst4_8_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANEst4_8_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANEst4_8_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANEst4_8_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst4_8_4'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANEst4_8_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst4_8_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANEst5_8_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANEst5_8_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANEst5_8_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANEst5_8_5" | translate }}' class="form-control" formControlName="MedLPWANEst5_8_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANEst5_8_5'].errors && (registroForm.controls['MedLPWANEst5_8_5'].dirty || registroForm.controls['MedLPWANEst5_8_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANEst5_8_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANEst5_8_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANEst5_8_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst5_8_5'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANEst5_8_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst5_8_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANEst6_8_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANEst6_8_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANEst6_8_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANEst6_8_6" | translate }}' class="form-control" formControlName="MedLPWANEst6_8_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANEst6_8_6'].errors && (registroForm.controls['MedLPWANEst6_8_6'].dirty || registroForm.controls['MedLPWANEst6_8_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANEst6_8_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANEst6_8_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANEst6_8_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst6_8_6'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANEst6_8_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANEst6_8_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANCom_8_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANCom_8_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANCom_8_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANCom_8_7" | translate }}' class="form-control" formControlName="MedLPWANCom_8_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANCom_8_7'].errors && (registroForm.controls['MedLPWANCom_8_7'].dirty || registroForm.controls['MedLPWANCom_8_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANCom_8_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANCom_8_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANCom_8_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANCom_8_7'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANCom_8_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANCom_8_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANInd_8_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANInd_8_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANInd_8_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANInd_8_8" | translate }}' class="form-control" formControlName="MedLPWANInd_8_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANInd_8_8'].errors && (registroForm.controls['MedLPWANInd_8_8'].dirty || registroForm.controls['MedLPWANInd_8_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANInd_8_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANInd_8_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANInd_8_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANInd_8_8'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANInd_8_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANInd_8_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+
+    
+   
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANOfc_8_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANOfc_8_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANOfc_8_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANOfc_8_9" | translate }}' class="form-control" formControlName="MedLPWANOfc_8_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANOfc_8_9'].errors && (registroForm.controls['MedLPWANOfc_8_9'].dirty || registroForm.controls['MedLPWANOfc_8_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANOfc_8_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANOfc_8_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANOfc_8_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANOfc_8_9'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANOfc_8_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANOfc_8_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedLPWANOtr_8_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedLPWANOtr_8_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedLPWANOtr_8_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedLPWANOtr_8_10" | translate }}' class="form-control" formControlName="MedLPWANOtr_8_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedLPWANOtr_8_10'].errors && (registroForm.controls['MedLPWANOtr_8_10'].dirty || registroForm.controls['MedLPWANOtr_8_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedLPWANOtr_8_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedLPWANOtr_8_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedLPWANOtr_8_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedLPWANOtr_8_10'].errors.maxlength">Máximo {{registroForm.controls['MedLPWANOtr_8_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedLPWANOtr_8_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>          
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>Cantidad {{ "GLOBAL.medidoresami.TituloMedOtro" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroEst1_9_1">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroEst1_9_1" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroEst1_9_1" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroEst1_9_1" | translate }}' class="form-control" formControlName="MedOtroEst1_9_1" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroEst1_9_1'].errors && (registroForm.controls['MedOtroEst1_9_1'].dirty || registroForm.controls['MedOtroEst1_9_1'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroEst1_9_1'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroEst1_9_1'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroEst1_9_1'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst1_9_1'].errors.maxlength">Máximo {{registroForm.controls['MedOtroEst1_9_1'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst1_9_1'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroEst2_9_2">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroEst2_9_2" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroEst2_9_2" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroEst2_9_2" | translate }}' class="form-control" formControlName="MedOtroEst2_9_2" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroEst2_9_2'].errors && (registroForm.controls['MedOtroEst2_9_2'].dirty || registroForm.controls['MedOtroEst2_9_2'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroEst2_9_2'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroEst2_9_2'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroEst2_9_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst2_9_2'].errors.maxlength">Máximo {{registroForm.controls['MedOtroEst2_9_2'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst2_9_2'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroEst3_9_3">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroEst3_9_3" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroEst3_9_3" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroEst3_9_3" | translate }}' class="form-control" formControlName="MedOtroEst3_9_3" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroEst3_9_3'].errors && (registroForm.controls['MedOtroEst3_9_3'].dirty || registroForm.controls['MedOtroEst3_9_3'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroEst3_9_3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroEst3_9_3'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroEst2_9_2'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst3_9_3'].errors.maxlength">Máximo {{registroForm.controls['MedOtroEst3_9_3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst3_9_3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroEst4_9_4">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroEst4_9_4" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroEst4_9_4" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroEst4_9_4" | translate }}' class="form-control" formControlName="MedOtroEst4_9_4" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroEst4_9_4'].errors && (registroForm.controls['MedOtroEst4_9_4'].dirty || registroForm.controls['MedOtroEst4_9_4'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroEst4_9_4'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroEst4_9_4'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroEst4_9_4'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst4_9_4'].errors.maxlength">Máximo {{registroForm.controls['MedOtroEst4_9_4'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst4_9_4'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroEst5_9_5">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroEst5_9_5" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroEst5_9_5" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroEst5_9_5" | translate }}' class="form-control" formControlName="MedOtroEst5_9_5" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroEst5_9_5'].errors && (registroForm.controls['MedOtroEst5_9_5'].dirty || registroForm.controls['MedOtroEst5_9_5'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroEst5_9_5'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroEst5_9_5'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroEst5_9_5'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst5_9_5'].errors.maxlength">Máximo {{registroForm.controls['MedOtroEst5_9_5'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst5_9_5'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroEst6_9_6">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroEst6_9_6" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroEst6_9_6" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroEst6_9_6" | translate }}' class="form-control" formControlName="MedOtroEst6_9_6" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroEst6_9_6'].errors && (registroForm.controls['MedOtroEst6_9_6'].dirty || registroForm.controls['MedOtroEst6_9_6'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroEst6_9_6'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroEst6_9_6'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroEst6_9_6'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst6_9_6'].errors.maxlength">Máximo {{registroForm.controls['MedOtroEst6_9_6'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroEst6_9_6'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroCom_9_7">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroCom_9_7" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroCom_9_7" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroCom_9_7" | translate }}' class="form-control" formControlName="MedOtroCom_9_7" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroCom_9_7'].errors && (registroForm.controls['MedOtroCom_9_7'].dirty || registroForm.controls['MedOtroCom_9_7'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroCom_9_7'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroCom_9_7'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroCom_9_7'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroCom_9_7'].errors.maxlength">Máximo {{registroForm.controls['MedOtroCom_9_7'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroCom_9_7'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroInd_9_8">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroInd_9_8" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroInd_9_8" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroInd_9_8" | translate }}' class="form-control" formControlName="MedOtroInd_9_8" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroInd_9_8'].errors && (registroForm.controls['MedOtroInd_9_8'].dirty || registroForm.controls['MedOtroInd_9_8'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroInd_9_8'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroInd_9_8'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroInd_9_8'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroInd_9_8'].errors.maxlength">Máximo {{registroForm.controls['MedOtroInd_9_8'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroInd_9_8'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          
+    
+   
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroOfc_9_9">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroOfc_9_9" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroOfc_9_9" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroOfc_9_9" | translate }}' class="form-control" formControlName="MedOtroOfc_9_9" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroOfc_9_9'].errors && (registroForm.controls['MedOtroOfc_9_9'].dirty || registroForm.controls['MedOtroOfc_9_9'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroOfc_9_9'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroOfc_9_9'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroOfc_9_9'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroOfc_9_9'].errors.maxlength">Máximo {{registroForm.controls['MedOtroOfc_9_9'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroOfc_9_9'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>    
+          <div class="col-lg-2">
+            <div class="form-group" >
+              <mat-label for="MedOtroOtr_9_10">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                 {{ "GLOBAL.medidoresami.MedOtroOtr_9_10" | translate }}
+              </mat-label>
+              <input type="text" id="MedOtroOtr_9_10" placeholder='{{ "GLOBAL.medidoresami.placeholder_MedOtroOtr_9_10" | translate }}' class="form-control" formControlName="MedOtroOtr_9_10" 
+                     matTooltip="Ver Contraseña" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['MedOtroOtr_9_10'].errors && (registroForm.controls['MedOtroOtr_9_10'].dirty || registroForm.controls['MedOtroOtr_9_10'].touched)"  >
+                <p  *ngIf="registroForm.controls['MedOtroOtr_9_10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['MedOtroOtr_9_10'].errors.minlength">Se requieren mínimo {{registroForm.controls['MedOtroOtr_9_10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['MedOtroOtr_9_10'].errors.maxlength">Máximo {{registroForm.controls['MedOtroOtr_9_10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['MedOtroOtr_9_10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+          <div class="col-lg-3">
+              <span style="color:orange;">{{ "GLOBAL.medidoresami.tooltip_MedOtro" | translate }} </span>
+          </div>          
+
+        </div> 
+      </nb-card-body>  
+    </nb-card>    
+
+    <nb-card>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <mat-label for="Observacion">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.compartomienergia.observacion" | translate }}
+              </mat-label>
+              <!--input type="text" id="Observacion" placeholder='{{ "GLOBAL.compartomienergia.placeholder_observacion" | translate }}' class="form-control" formControlName="Observacion" /-->
+
+              <textarea rows="5" cols="120"  id="Observacion" placeholder='{{ "GLOBAL.compartomienergia.placeholder_observacion" | translate }}' class="form-control" formControlName="Observacion" >
+              </textarea>
+
+
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Observacion'].errors && (registroForm.controls['Observacion'].dirty || registroForm.controls['Observacion'].touched)"  >
+                <p *ngIf="registroForm.controls['Observacion'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Observacion'].errors.minlength">Se requieren mínimo {{registroForm.controls['Observacion'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Observacion'].errors.maxlength">Máximo {{registroForm.controls['Observacion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Observacion'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+      </nb-card-body>  
+    </nb-card>   
+
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

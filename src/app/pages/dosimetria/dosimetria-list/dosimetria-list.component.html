@@ -1,0 +1,244 @@
+<div class="col-md-12 col-lg-12 ">
+    <nb-card>
+      <nb-card-header>
+        {{ 'GLOBAL.dosimetria.titulo' | translate }}
+      </nb-card-header>
+      <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+
+        <div class="row">
+          <div class="col-md-7" *ngIf="isAdmin">
+            <nb-card>
+              <nb-card-header>
+                <div> {{ 'GLOBAL.filtrar_titulo' | translate }}</div>
+              </nb-card-header>
+              <nb-card-body>
+
+                <div >
+                  <form [formGroup]="filtrarForm" (ngSubmit)="buscar()" method="post" enctype="multipart/form-data" >
+
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group" >
+                          <mat-label for="Operador" >
+                             {{ "GLOBAL.medidoresami.operador" | translate }}
+                          </mat-label>
+                          <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" >
+                            <option *ngFor="let item of Operador"
+                                    [ngValue]="item">{{item.Nombres}}</option>
+                          </select>
+                          <div class="form-control-feedback" style="color:Red;"
+                          *ngIf="filtrarForm.controls['Operador'].errors"  >
+                            <p *ngIf="filtrarForm.controls['Operador'].errors.required">Este campo es requerido.</p>
+                         </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="form-group" >
+                          <mat-label for="Departamento" >
+                             {{ "GLOBAL.departamento" | translate }}
+                          </mat-label>
+                          <select id="Departamento" class="form-control" formControlName="Departamento"
+                                 [compareWith]="compareById" (change)="selectMunicipio()"  >
+                            <!--option [ngValue]="null" >{{ "GLOBAL.medidoresami.placeholder_tipoidentificacion" | translate }}</option-->
+                            <option *ngFor="let item of Departamento"
+                                    [ngValue]="item">{{item.Id}} - {{item.NombreDepartamento}}</option>
+                          </select>
+                          <div class="form-control-feedback" style="color:Red;"
+                          *ngIf="filtrarForm.controls['Departamento'].errors"  >
+                            <p *ngIf="filtrarForm.controls['Departamento'].errors.required">Este campo es requerido.</p>
+                         </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="form-group" >
+                          <mat-label for="Municipio" >
+                             {{ "GLOBAL.municipio" | translate }}
+                          </mat-label>
+                          <select id="Municipio" class="form-control" formControlName="Municipio" [compareWith]="compareById" disabled >
+                            <option [ngValue]="0" >Todos </option>
+                            <option *ngFor="let item of Municipio"
+                                    [ngValue]="item">{{item.Id}} - {{item.NombreMunicipio}}</option>
+                          </select>
+                          <div class="form-control-feedback" style="color:Red;"
+                          *ngIf="filtrarForm.controls['Municipio'].errors"  >
+                            <p *ngIf="filtrarForm.controls['Municipio'].errors.required">Este campo es requerido.</p>
+                         </div>
+                        </div> 
+                      </div>
+
+                    </div>
+                    <div class="row">
+
+                      <div class="col-lg-6">
+                        <div class="form-group"  >
+                          <mat-label for="Identificacion_empleado">
+                             {{ "GLOBAL.dosimetria.identificacion_empleado" | translate }}
+                          </mat-label>
+                          <input type="text" id="Identificacion_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_identificacion_empleado" | translate }}' class="form-control" formControlName="Identificacion_empleado" />
+                            <div style="color:Red;"
+                             *ngIf="filtrarForm.controls['Identificacion_empleado'].errors && (filtrarForm.controls['Identificacion_empleado'].dirty || filtrarForm.controls['Identificacion_empleado'].touched)"  >
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.required">Este campo es requerido.</p>
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.minlength">Se requieren mínimo {{filtrarForm.controls['Identificacion_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.maxlength">Máximo {{filtrarForm.controls['Identificacion_empleado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="form-group" >
+                          <mat-label for="Periodo" >
+                             {{ "GLOBAL.medidoresami.periodo" | translate }}
+                          </mat-label>
+                          <select id="Periodo" class="form-control" formControlName="Periodo" [compareWith]="compareById" >
+                            <option *ngFor="let item of Periodo"
+                                    [ngValue]="item">{{item.Periodo}}</option>
+                          </select>
+                          <div class="form-control-feedback" style="color:Red;"
+                          *ngIf="filtrarForm.controls['Periodo'].errors"  >
+                            <p *ngIf="filtrarForm.controls['Periodo'].errors.required">Este campo es requerido.</p>
+                         </div>
+                        </div> 
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="form-group" >
+                          <mat-label for="Ciclo" >
+                             {{ "GLOBAL.dosimetria.ciclo" | translate }}
+                          </mat-label>
+                          <select id="Ciclo" class="form-control" formControlName="Ciclo" [compareWith]="compareById" >
+                            <option *ngFor="let item of Ciclo"
+                                    [ngValue]="item">{{item.Nombre}}</option>
+                          </select>
+                          <div class="form-control-feedback" style="color:Red;"
+                          *ngIf="filtrarForm.controls['Ciclo'].errors"  >
+                            <p *ngIf="filtrarForm.controls['Ciclo'].errors.required">Este campo es requerido.</p>
+                         </div>
+                        </div> 
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-success btn-sm" type="button" (click)="Limpiar()" [disabled]="loading">{{ "GLOBAL.limpiar" | translate }}</button>
+                  <button class="btn btn-success btn-sm" type="button" (click)="buscar()" [disabled]="loading">
+                    <span *ngIf="!loading">{{ "GLOBAL.buscar" | translate }}</span>
+                    <span *ngIf="loading">Cargando...</span>
+                  </button>
+                </div>
+
+              </nb-card-body> 
+            </nb-card> 
+          </div>   
+
+
+
+        </div>
+
+        <div class="row" *ngIf="!isAdmin">
+          <div class="col-md-5">
+            <nb-card>
+              <nb-card-header>
+                <div>Plantilla & Instrucciones</div>
+              </nb-card-header>
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-md-3">
+                    <button (click)="download()" class="btn btn-success btn-sm fo mb-4 mt-2" ><img src="assets/images/spreadsheet.png"/><br>Descargar Formato</button>
+                    <button (click)="downloadInstrucciones()" class="btn btn-success btn-sm fo mb-4 mt-2" ><img src="assets/images/pdf.png"/><br>Descargue de Instrucciones</button>
+                  </div>
+                  <div class="col-md-9">
+                    <div style="color:#b8790c;" >
+                      <p>Para realizar el cargue masivo de datos:</p>
+                      <p>- Paso 1. Descargue el formato: Haga clic en "Descargar Formato Excel" para obtener la plantilla Formato_Reporte_Dosimetria.</p>
+                      <p>- Paso 2. Diligencie el formato: Lea los encabezados de cada columna, los cuales indican el dato requerido y su formato. Use las listas desplegables cuando estén disponibles. Para valores decimales, emplee el punto (.) como separador.</p>
+                      <p>- Paso 3. Cargue y valide: Arrastre el archivo o haga clic en la zona de carga. El sistema verificará los datos automáticamente. Si hay inconsistencias, se generará un reporte de errores para que pueda corregirlos antes de continuar.</p>
+                      <p>- Paso 4. Confirme el cargue: Una vez el sistema no detecte errores, haga clic en "Cargar Datos Masivos" para registrar la información definitivamente.</p>
+                      <p>Nota: Antes de diligenciar, consulte el documento de instrucciones disponible en el botón "Descargue de Instrucciones"</p>
+                    </div>
+                  </div>
+                </div>
+              </nb-card-body> 
+            </nb-card> 
+          </div>   
+
+          <div class="col-md-7">
+            <app-dosimetria-upload (fileDropped)="onFileDropped($event)">
+            </app-dosimetria-upload>
+          </div>
+        </div>
+
+        <div class="row margin15 dosimetria-toolbar-row" *ngIf="isAdmin">
+          <div class="col-12">
+            <form [formGroup]="registroForm">
+              <div class="dosimetria-table-header">
+                <div class="search-block" *ngIf="!cambiotab">
+                  <div class="search-input-wrap">
+                    <input id="q" type="text" class="form-control form-control-sm search-input" formControlName="Q"
+                           placeholder="Buscar por NIT, entidad, documento o nombre"
+                           [disabled]="loading" />
+                    <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                  </div>
+                </div>
+
+                <button type="button" (click)="exportAsXLSX()" class="btn btn-success btn-sm toolbar-download"
+                        [disabled]="loading || totalRows === 0">
+                  Descargar resumen
+                </button>
+              </div>
+
+              <div class="dosimetria-pager-bar">
+                <div *ngIf="loading" class="toolbar-loading">Cargando...</div>
+
+                <div class="toolbar-pager" *ngIf="totalRows > 0">
+                  <label for="paginas" class="pager-label">Mostrar</label>
+                  <select id="paginas" class="form-control form-control-sm pager-size" formControlName="Rowspage"
+                          (change)="paginas()" [disabled]="loading">
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                    <option [ngValue]="200">200</option>
+                  </select>
+
+                  <span class="pager-sep">|</span>
+                  <span class="pager-meta">{{ totalRows }} reg.</span>
+                  <span class="pager-sep">|</span>
+
+                  <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Primera página"
+                          (click)="firstPage()" [disabled]="loading || currentPage <= 1">«</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Anterior"
+                          (click)="prevPage()" [disabled]="loading || currentPage <= 1">‹</button>
+
+                  <span class="pager-label">Pág.</span>
+                  <input type="number" class="form-control form-control-sm pager-page-input"
+                         [value]="currentPage" [min]="1" [max]="totalPagesDisplay"
+                         (keyup.enter)="goToPageFromInput($event)" (blur)="goToPageFromInput($event)"
+                         [disabled]="loading" />
+                  <span class="pager-meta">de {{ totalPagesDisplay }}</span>
+
+                  <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Siguiente"
+                          (click)="nextPage()" [disabled]="loading || currentPage >= totalPagesDisplay">›</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Última página"
+                          (click)="lastPage()" [disabled]="loading || currentPage >= totalPagesDisplay">»</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="dosimetria-table-scroll" *ngIf="isAdmin">
+          <div class="dosimetria-table-wrap" [class.is-loading]="loading">
+            <ng2-smart-table [settings]="settings" [source]="source" (delete)="onDelete($event)"
+              (rowSelect)="itemselec($event)" (edit)="onEdit($event)" (create)="onCreate($event)">
+            </ng2-smart-table>
+            <div *ngIf="loading" class="dosimetria-table-loading-overlay">Consultando dosimetría...</div>
+          </div>
+        </div>
+
+      </nb-card-body>
+    </nb-card>
+  </div>

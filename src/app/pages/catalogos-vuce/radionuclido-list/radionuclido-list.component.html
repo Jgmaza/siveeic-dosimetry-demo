@@ -1,0 +1,102 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-27
+DESCRIPCIÓN: Vista principal de administración y tabla interactiva para Radionúclidos (HU-016 Fase 1)
+
+HISTORIAL DE CAMBIOS:
+- 2026-08-27 - CREACIÓN DEL ARCHIVO - Panel de administración, búsqueda, SmartTable y acciones CRUD (HU-016 Fase 1) - Johan Piñeres
+==============================================================================
+-->
+<div class="col-md-12 col-lg-12">
+  <toaster-container [toasterconfig]="config"></toaster-container>
+
+  <nb-card>
+    <nb-card-header class="d-flex justify-content-between align-items-center flex-wrap">
+      <div>
+        <i class="fa fa-radiation mr-2 text-warning"></i>
+        <strong>Administración de Catálogos VUCE — Radionúclidos</strong>
+      </div>
+      <div>
+        <button class="btn btn-primary btn-sm" (click)="onCreate()">
+          <i class="fa fa-plus-circle mr-1"></i> Nuevo Radionúclido
+        </button>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <!-- Barra de Filtros Rápidos -->
+      <div class="row mb-3 align-items-end">
+        <div class="col-md-4">
+          <div class="form-group mb-0">
+            <label for="searchFilter" class="font-weight-bold"><small>Buscar por Nombre / ID:</small></label>
+            <div class="input-group input-group-sm">
+              <input
+                type="text"
+                id="searchFilter"
+                class="form-control"
+                placeholder="ej: Cesio, Cobalto, 137..."
+                [(ngModel)]="searchQuery"
+                (keyup.enter)="loadData()"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="loadData()">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group mb-0">
+            <label for="tipoFuenteFilter" class="font-weight-bold"><small>Filtrar por Tipo de Fuente:</small></label>
+            <select
+              id="tipoFuenteFilter"
+              class="form-control form-control-sm"
+              [(ngModel)]="selectedTipoFuente"
+              (change)="loadData()"
+            >
+              <option [ngValue]="null">Todos los tipos de fuente</option>
+              <option *ngFor="let tf of tiposFuente" [ngValue]="tf.id">
+                {{ tf.id }} - {{ tf.descripcion }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4 d-flex justify-content-end align-items-center mt-2 mt-md-0">
+          <label for="pageSizeSelect" class="mb-0 mr-2"><small>Registros por página:</small></label>
+          <select
+            id="pageSizeSelect"
+            class="form-control form-control-sm"
+            style="width: auto;"
+            [(ngModel)]="pageSize"
+            (change)="onPageSizeChange($event.target.value)"
+          >
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+          <button class="btn btn-outline-secondary btn-sm ml-2" (click)="limpiarFiltros()" title="Limpiar Filtros">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grilla Smart Table -->
+      <div class="table-responsive">
+        <ng2-smart-table
+          [settings]="settings"
+          [source]="source"
+          (edit)="onEdit($event)"
+          (delete)="onDelete($event)"
+        ></ng2-smart-table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

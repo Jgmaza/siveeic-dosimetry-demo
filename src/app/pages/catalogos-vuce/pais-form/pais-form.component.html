@@ -1,0 +1,109 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-31
+DESCRIPCIÓN: Formulario modal reactivo para creación y edición de Países (PaisCompra y PaisOrigen - HU-016 Fase 4)
+
+HISTORIAL DE CAMBIOS:
+- 2026-08-29 - ANÁLISIS Y ESTRUCTURACIÓN - Diseño de vista modal para catálogo de países - Johan Piñeres
+- 2026-08-31 - CREACIÓN DEL ARCHIVO - Modal reactivo con validación de nombre, código y estado Activo/Inactivo (HU-016 Fase 4) - Johan Piñeres
+==============================================================================
+-->
+<div class="modal-header">
+  <h4 class="modal-title font-weight-bold">
+    <i class="fa" [ngClass]="createMode ? 'fa-plus-circle text-primary' : 'fa-edit text-info'"></i>
+    {{ createMode ? 'Crear País' : 'Editar País' }}
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="formPais" (ngSubmit)="guardar()">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="id_var" class="font-weight-bold">Código del País:</label>
+          <input
+            type="text"
+            id="id_var"
+            class="form-control text-uppercase"
+            placeholder="ej: COL, USA, 01"
+            maxlength="6"
+            formControlName="id_var"
+            [readonly]="!createMode"
+          />
+          <small class="form-text text-muted">Máx 6 caracteres.</small>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="nombre_var" class="font-weight-bold">
+            Nombre del País <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="nombre_var"
+            class="form-control"
+            placeholder="ej: COLOMBIA, ESTADOS UNIDOS..."
+            maxlength="100"
+            formControlName="nombre_var"
+            [class.is-invalid]="formPais.get('nombre_var').invalid && formPais.get('nombre_var').touched"
+          />
+          <div class="invalid-feedback" *ngIf="formPais.get('nombre_var').hasError('required')">
+            El nombre del país es obligatorio.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="desc_var" class="font-weight-bold">Descripción / Nombre Oficial:</label>
+          <input
+            type="text"
+            id="desc_var"
+            class="form-control"
+            placeholder="ej: REPÚBLICA DE COLOMBIA"
+            maxlength="256"
+            formControlName="desc_var"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="id_estado_var" class="font-weight-bold">
+            Estado del País (Vigencia para Importaciones) <span class="text-danger">*</span>
+          </label>
+          <select id="id_estado_var" class="form-control" formControlName="id_estado_var">
+            <option [ngValue]="1">Activo (Disponible para compras y origen VUCE)</option>
+            <option [ngValue]="0">Inactivo (No disponible para nuevas importaciones)</option>
+          </select>
+          <small class="form-text text-muted">
+            Regla RN04: Solo países activos son validados en ingestas de compra y origen.
+          </small>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')" [disabled]="guardando">
+    <i class="fa fa-times mr-1"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="guardar()"
+    [disabled]="formPais.invalid || guardando"
+  >
+    <i class="fa" [ngClass]="guardando ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+    {{ guardando ? 'Guardando...' : (createMode ? 'Guardar' : 'Actualizar') }}
+  </button>
+</div>

@@ -1,0 +1,27 @@
+.table-responsive {
+  margin-top: 1rem;
+}
+
+nb-card-header {
+  font-size: 1.1rem;
+  padding: 0.8rem 1.25rem;
+}
+
+.input-group-sm > .form-control, .input-group-sm > .input-group-append > .btn {
+  height: calc(1.8125rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+::ng-deep ng2-smart-table table {
+  thead {
+    tr {
+      background-color: #f8f9fa;
+      th {
+        font-weight: 600;
+        color: #495057;
+      }
+    }
+  }
+}

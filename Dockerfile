@@ -1,0 +1,43 @@
+FROM node:14.21.3-bullseye AS dev-siveeic
+ARG APP_ENV=production
+
+# Instala librerias de compilacion
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends python3 python-is-python3 make g++; \
+	rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /app
+
+RUN npm install -g @angular/cli@7.3.10
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Segunda etapa - Build
+FROM dev-siveeic AS build-siveeic
+ARG APP_ENV=prod
+
+# Instalar dependencias
+RUN npm ci
+
+# Copia codigo fuente de la applicaion
+COPY . .
+
+RUN echo "Building ${APP_ENV}" && ng build --aot --configuration=${APP_ENV}
+
+RUN rm -rf node_modules
+
+# Segunda etapa
+FROM nginx:1.30.2-alpine
+
+# Definiendo valor por defecto
+ARG APP_ENV=prod
+
+COPY --from=build-siveeic /app/dist /usr/share/nginx/html
+
+COPY ./nginx/${APP_ENV}/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Iniciando Nginx
+CMD ["nginx", "-g", "daemon off;"]

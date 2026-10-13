@@ -1,0 +1,28 @@
+<nb-card>
+  <nb-card-header>
+    {{ 'GLOBAL.conectores.titulo' | translate }}  
+          <ng-container *ngIf="punto">
+            | Cargador: {{punto.name}}
+          </ng-container>  
+          <ng-container *ngIf="estacion">
+            | Estación : {{estacion.name}}
+          </ng-container>
+          <ng-container *ngIf="operador">
+            | Operador : {{operador.name}}
+          </ng-container>
+  </nb-card-header>
+  <nb-card-body>
+    <!--ng2-smart-table [settings]="settings" [source]="source"  (delete)="onDelete($event)"
+    (rowSelect)="itemselec($event)"  >
+    </ng2-smart-table-->
+    
+    <a routerLink="" (click)="onReturn()"> <button *ngIf="!cambiotab" class="btn btn-link btn-sm"  ghost> <i class="nb-arrow-dropleft"></i>
+      {{ 'GLOBAL.regresar' | translate }}</button> </a>
+
+    <button *ngIf="cambiotab" (click)="activetab()" class="btn btn-link btn-sm"  ghost> <i class="nb-arrow-dropleft"></i>
+      {{ 'GLOBAL.regresar' | translate }}</button>
+    <ng2-smart-table *ngIf="!cambiotab" [settings]="settings" [source]="source" (delete)="onDelete($event)"
+    (rowSelect)="itemselec($event)" (edit)="onEdit($event)" (create)="onCreate($event)">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

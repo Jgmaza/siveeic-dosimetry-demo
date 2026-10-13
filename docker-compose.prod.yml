@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  frontend:
+    container_name: siveeic_frontend_prod
+    image: siveeic_frontend-prod
+    build:
+      context: .
+      dockerfile: ./Dockerfile_prod
+      args:
+        APP_ENV: ${APP_ENV}
+    restart: always
+    ports:
+      - '0.0.0.0:81:80'
+    networks:
+      - siveeic-network
+
+networks:
+  siveeic-network:
+    name: siveeic-network
+    driver: bridge

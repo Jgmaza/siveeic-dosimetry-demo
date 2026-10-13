@@ -1,0 +1,65 @@
+<nb-layout>
+  <nb-layout-column> 
+   <nb-card>     
+     <nb-card-header>         
+       
+      </nb-card-header>
+      <nb-card-body>          
+
+            <div class="row">      
+                  <div class="col-md-4 col-lg-4" > </div>
+                  <div class="col-md-4 col-lg-4" >
+                    <h1 id="title" class="title form "><img [src]="'assets/images/logoSiveeic2.png'" class="img-fluid" alt="Sin imagen"  width="350" height="300" ></h1>  
+                  </div>
+                  <div class="col-md-4 col-lg-4" > </div>
+            </div>
+
+            <div class="row"  >      
+              <div class="col-md-4 col-lg-4" > </div>
+              <div class="col-md-4 col-lg-4" >
+              <nb-card class="form" >
+                <nb-card-header>
+                  Solicitud restaurar contraseña
+                </nb-card-header>
+                <nb-card-body>
+                    <div >
+                      <h2 class="title" >Cuenta</h2>
+                    </div>
+                    <div>
+                      <form [formGroup]="passForm" (ngSubmit)="saveRegistro()" novalidate >
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="form-group" >
+                              <mat-label for="Usuario">
+                                Usuario
+                              </mat-label>
+                              <div class="input-group">
+                                <input type="text" id="Usuario"
+                                class="form-control" formControlName="Usuario" placeholder="Ingrese el nombre de usuario" />
+                              </div>
+                              <div style="color:Red;"
+                              *ngIf="passForm.controls['Usuario'].errors && (passForm.controls['Usuario'].dirty || passForm.controls['Usuario'].touched)"  >
+                              <p *ngIf="passForm.controls['Usuario'].errors.required">Este campo es requerido.</p>
+                              <p *ngIf="passForm.controls['Usuario'].errors.minlength">Se requieren minimo {{passForm.controls['Usuario'].errors.minlength.requiredLength}} caracteres. </p>
+                              <p *ngIf="passForm.controls['Usuario'].errors.maxlength">Máximo {{passForm.controls['Usuario'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                              </div>
+                            </div>  
+                          </div>  
+                        </div>  
+                      </form>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="passForm.invalid">Enviar</button>
+                    </div>
+                  </nb-card-body>
+                </nb-card>
+            
+              </div>
+              <div class="col-md-4 col-lg-4" > </div>
+            </div>
+           
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

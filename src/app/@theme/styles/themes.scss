@@ -1,0 +1,162 @@
+// @nebular theming framework
+@import '~@nebular/theme/styles/theming';
+// @nebular out of the box themes
+@import '~@nebular/theme/styles/themes';
+// import angular material theme
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+$nb-enabled-themes: (corporate, corporate);
+$primary-color-theme: #669966;
+$secundary-color-theme: #f2f2f2;
+$nb-enabled-themes: (default);
+
+$nb-themes: nb-register-theme((
+    //font-family: Roboto,
+    font-main: Roboto,
+    //font-secondary: RobotoCondensed,
+    switcher-background: $primary-color-theme,
+    switcher-background-percentage: 14%,
+    drops-icon-line-gadient: -webkit-linear-gradient(#0bbb79, #669966),
+    //btn-success btn-full-width,
+    //font-family-secondary: 'OpenSans',
+
+    color-fg: #669966,
+    //link-color: #669966,
+    //color-fg-text: #669966,
+
+    scrollbar-fg: #212121,
+    scrollbar-bg: #fff,
+ // VARIABLES MENU
+    sidebar-bg: #f2f2f2, //fondo del slide del menu
+    //sidebar-fg: $secundary-color-theme, //color fente del slide
+    menu-bg: #f2f2f2,
+ // menu-fg: $secundary-color-theme,
+    menu-active-bg: #669966, // fondo de celda del menu
+    menu-active-fg: #fff,
+ // menu-active-fg: #212121,
+ // menu-font-size: 0.9rem,
+    menu-item-separator: #669966,
+
+ // menu-submenu-bg: #f2f2f2,
+ // menu-submenu-fg: $secundary-color-theme,
+    menu-submenu-active-bg: #fff, // fondo de celda del submenu
+    menu-submenu-active-fg: #669966, // color letra de celda de submenu
+    menu-submenu-active-border-color:#669966, // color bode de la celda del submenu
+//  menu-submenu-item-border-width: 0,
+//  menu-submenu-item-padding: none,
+//  menu-submenu-item-container-padding: none,
+//  menu-submenu-padding: none,
+//  menu-submenu-item-border-radius: 0,5,
+
+    menu-icon-font-size: 1.5rem, // tamaño del icono
+
+    //smart-table
+    //smart-table-border-radius: 0.1rem	,
+    //smart-table-header-font-size: 0.8rem,
+    //smart-table-font-size: 0.65rem,
+    //smart-table-font-weight: 400,
+    //smart-table-padding: 0.275rem 0.725rem,
+    //smart-table-paging-border-width: 0.5,
+    //smart-table-filter-padding: 0.1rem 0.1rem,
+
+
+
+    // footer
+    //footer-fg: #fff, //Fuente pie
+    footer-bg: #f2f2f2, //Fondo pie
+    footer-height: auto,
+
+     actions-icon-color:#faad0b,
+
+), default, default);
+
+$nb-themes: nb-register-theme((
+  //footer
+  footer-height: auto,
+  // app wise variables for each theme
+  sidebar-header-gap: 2rem,
+  sidebar-header-height: initial,
+  layout-content-width: 1400px,
+
+  //smart-table
+  smart-table-border-radius: 0.1rem	,
+  smart-table-header-font-size: 0.8rem,
+  smart-table-font-size: 0.65rem,
+  smart-table-font-weight: 400,
+  smart-table-padding: 0.275rem 0.725rem,
+  smart-table-paging-border-width: 0.5,
+  smart-table-filter-padding: 0.1rem 0.1rem,
+  //form-control
+  form-control-placeholder-font-size: 0.8rem,
+  form-control-font-size: 0.8rem,
+  form-control-border-width: 1px,
+  form-control-border-radius: 0.1rem,
+
+  header-height: 5.5rem,
+
+  //fonts
+  font-weight-thin: 100,
+  font-weight-light: 200,
+  font-weight-normal: 300,
+  font-weight-bolder: 400,
+  font-weight-bold: 500,
+  font-weight-ultra-bold: 600,
+  //general
+  padding: 1rem,
+  font-size: 0.9rem,
+  margin: 1rem,
+
+  switcher-background: #554db3,
+  switcher-background-percentage: 14%,
+  drops-icon-line-gadient: -webkit-linear-gradient(#a258fe, #7958fa),
+), cosmic, cosmic);
+
+$nb-themes: nb-register-theme((
+    // footer
+    footer-fg: #fff,
+    footer-bg: #252525,
+    footer-height: auto,
+  // app wise variables for each theme
+  sidebar-header-gap: 2rem,
+  sidebar-header-height: initial,
+  layout-content-width: 1400px,
+
+  font-secondary: Roboto,
+  font-main: Roboto,
+
+  switcher-background: #000,
+  switcher-background-percentage: 14%,
+  drops-icon-line-gadient: -webkit-linear-gradient(#e9e8eb, #a7a2be),
+  sidebar-bg: #212121,
+  sidebar-fg: $secundary-color-theme,
+  sidebar-shadow: none,
+  sidebar-padding: 0.3rem,
+  sidebar-margin-top: 0,
+  tabs-fg: gray,
+
+  color-fg: #777777,
+  menu-icon-color: $secundary-color-theme,
+  card-shadow: 0 2px 8px 0 rgba(43, 43, 43, 0.494),
+
+  header-height: 5.5rem,
+
+  menu-bg: #000,
+  menu-fg: $secundary-color-theme,
+  menu-active-bg: #f2f2f2,
+  menu-active-fg: #212121,
+  menu-font-size: 0.8rem,
+  menu-item-separator: #212121,
+
+  menu-submenu-bg: #000,
+  menu-submenu-fg: $secundary-color-theme,
+  menu-submenu-active-bg: #f2f2f2,
+  menu-submenu-active-fg: $primary-color-theme,
+  menu-submenu-item-border-width: 0,
+  menu-submenu-item-padding: none,
+  menu-submenu-item-container-padding: none,
+  menu-submenu-padding: none,
+  menu-submenu-item-border-radius: 0,
+  menu-icon-font-size: 1.5rem,
+  scrollbar-fg: #212121,
+  scrollbar-bg: #fff,
+), corporate, corporate);

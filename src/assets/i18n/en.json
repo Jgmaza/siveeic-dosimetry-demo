@@ -1,0 +1,111 @@
+{
+  "HOME": {
+    "TITLE": "USUARIOS",
+    "SELECT": "Cambiar idioma",
+    "LOGIN": "Iniciar sesión",
+    "LOGOUT": "Cerrar sesión"
+  },
+  "MENU": {
+    "dashboard": "Inicio",
+    "tipo_identificacion": {
+      "tipo_identificacion": "tipo_identificacion",
+      "lista_tipo_identificacion": "lista tipo_identificacion",
+      "crud_tipo_identificacion": "Crud tipo_identificacion"
+    },
+    "tipo_estado": {
+      "tipo_estado": "tipo_estado",
+      "lista_tipo_estado": "lista tipo_estado",
+      "crud_tipo_estado": "Crud tipo_estado"
+    },
+    "tipo_usuario": {
+      "tipo_usuario": "tipo_usuario",
+      "lista_tipo_usuario": "lista tipo_usuario",
+      "crud_tipo_usuario": "Crud tipo_usuario"
+    },
+    "supervisor": {
+      "supervisor": "supervisor",
+      "lista_supervisor": "lista supervisor",
+      "crud_supervisor": "Crud supervisor"
+    },
+    "usuario": {
+      "usuario": "usuario",
+      "lista_usuario": "lista usuario",
+      "crud_usuario": "Crud usuario"
+    },
+  
+    "auth": {
+      "auth": "Autenticacion",
+      "login": "Login",
+      "register": "Registro",
+      "request-password": "Recuperar Password",
+      "reset-password": "Reiniciar Password"
+    }
+  },
+  "GLOBAL": {
+    "tipo_identificacion": "tipo_identificacion",
+    "placeholder_tipo_identificacion": "ej: tipo_identificacion",
+    "id": "id",
+    "placeholder_id": "ej: id",
+    "nombre_identificacion": "nombre_identificacion",
+    "placeholder_nombre_identificacion": "ej: nombre_identificacion",
+    "tipo_estado": "tipo_estado",
+    "placeholder_tipo_estado": "ej: tipo_estado",
+    "nombre_estado": "nombre_estado",
+    "placeholder_nombre_estado": "ej: nombre_estado",
+    "tipo_usuario": "tipo_usuario",
+    "placeholder_tipo_usuario": "ej: tipo_usuario",
+    "nombre_tipo": "nombre_tipo",
+    "placeholder_nombre_tipo": "ej: nombre_tipo",
+    "desc_tipo": "desc_tipo",
+    "placeholder_desc_tipo": "ej: desc_tipo",
+    "supervisor": "supervisor",
+    "placeholder_supervisor": "ej: supervisor",
+    "nombresupervisor": "nombresupervisor",
+    "placeholder_nombresupervisor": "ej: nombresupervisor",
+    "apellidosupervisor": "apellidosupervisor",
+    "placeholder_apellidosupervisor": "ej: apellidosupervisor",
+    "tipoidentsupervisor": "tipoidentsupervisor",
+    "placeholder_tipoidentsupervisor": "ej: tipoidentsupervisor",
+    "nroidentsupervisor": "nroidentsupervisor",
+    "placeholder_nroidentsupervisor": "ej: nroidentsupervisor",
+    "usuario": "usuario",
+    "placeholder_usuario": "ej: usuario",
+    "nombres": "nombres",
+    "placeholder_nombres": "ej: nombres",
+    "apellidos": "apellidos",
+    "placeholder_apellidos": "ej: apellidos",
+    "tipoidentificacion": "tipoidentificacion",
+    "placeholder_tipoidentificacion": "ej: tipoidentificacion",
+    "nroidentificacion": "nroidentificacion",
+    "placeholder_nroidentificacion": "ej: nroidentificacion",
+    "clave": "clave",
+    "placeholder_clave": "ej: clave",
+    "tipousuario": "tipousuario",
+    "placeholder_tipousuario": "ej: tipousuario",
+    "estadousuario": "estadousuario",
+    "placeholder_estadousuario": "ej: estadousuario",
+    "fechacreacion": "fechacreacion",
+    "placeholder_fechacreacion": "ej: fechacreacion",
+    "fechaexpira": "fechaexpira",
+    "placeholder_fechaexpira": "ej: fechaexpira",
+    "indicativo": "indicativo",
+    "placeholder_indicativo": "ej: indicativo",
+    "telefonofijo": "telefonofijo",
+    "placeholder_telefonofijo": "ej: telefonofijo",
+    "celular": "celular",
+    "placeholder_celular": "ej: celular",
+    "usuariosupervisa": "usuariosupervisa",
+    "placeholder_usuariosupervisa": "ej: usuariosupervisa",
+    "aceptar": "aceptar",
+    "cancelar": "cancelar",
+    "salir": "salir",
+    "eliminar": "eliminar",
+    "actualizar": "actualizar",
+    "crear": "crear",
+    "registrar": "registrar",
+    "guardar" : "Guardar",
+    "formulario": "formulario",
+    "lista": "lista",
+    "regresar": "regresar"
+  }
+}

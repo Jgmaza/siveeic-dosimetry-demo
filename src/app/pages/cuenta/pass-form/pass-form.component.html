@@ -1,0 +1,97 @@
+<div class="col-md-12 col-lg-12 ">
+  <nb-card>
+    <nb-card-header>
+      {{ 'MENU.cuenta.password' | translate }}
+    </nb-card-header>
+    <nb-card-body>
+
+    <div class="modal-header">
+      <h4 class="modal-title">{{'Cambiar'}} {{ "GLOBAL.cuenta.password" | translate }}</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="passForm" (ngSubmit)="saveRegistro()">
+
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="passActual">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.cuenta.passwordactual" | translate }}
+              </mat-label>
+              <input type="password" id="passActual" placeholder='{{ "GLOBAL.cuenta.placeholder_passwordactual" | translate }}' class="form-control" formControlName="passActual" />
+                <div style="color:Red;"
+                *ngIf="passForm.controls['passActual'].errors && (passForm.controls['passActual'].dirty || passForm.controls['passActual'].touched)"  >
+                <p *ngIf="passForm.controls['passActual'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="passForm.controls['passActual'].errors.minlength">Se requieren minimo {{passForm.controls['passActual'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="passForm.controls['passActual'].errors.maxlength">Máximo {{passForm.controls['passActual'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="passForm.controls['passActual'].errors.pattern">Formato de teléfono no permitiodo.  Ej: (1234567 ext. 8910)</p>
+                </div>
+            </div>  
+          </div>  
+        </div>     
+
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="passNuevo">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.cuenta.passwordnuevo" | translate }}
+              </mat-label>
+              <div class="input-group">
+                <input type="password" id="passNuevo" placeholder='{{ "GLOBAL.cuenta.placeholder_passwordnuevo" | translate }}'
+                 class="form-control" formControlName="passNuevo" matTooltip= '{{ "GLOBAL.cuenta.placeholder_passwordnuevo" | translate }}' />
+                <!--div class="input-group-append">
+                    <button id="show_password" class="btn btn-primary" type="button" (click)="mostrarPassword()" matTooltip="Ver Contraseña" >
+                       <span class="fa fa-eye-slash icon"></span> </button>
+                </div-->
+              </div>
+  
+              <div style="color:Red;"
+              *ngIf="passForm.controls['passNuevo'].errors && (passForm.controls['passNuevo'].dirty || passForm.controls['passNuevo'].touched)"  >
+              <p *ngIf="passForm.controls['passNuevo'].errors.required">Este campo es requerido.</p>
+              <p *ngIf="passForm.controls['passNuevo'].errors.minlength">Se requieren minimo {{passForm.controls['passNuevo'].errors.minlength.requiredLength}} caracteres. </p>
+              <p *ngIf="passForm.controls['passNuevo'].errors.maxlength">Máximo {{passForm.controls['passNuevo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+              <p *ngIf="passForm.controls['passNuevo'].errors.pattern">Debe contener al menos 1 letra mayúscula. 1 letra minúscula y un número</p>
+              </div>
+            </div>  
+          </div>  
+        </div>     
+
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="passReiterar">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.cuenta.passwordreiterar" | translate }}
+              </mat-label>
+              <div class="input-group">
+                <input type="password" id="passReiterar" placeholder='{{ "GLOBAL.cuenta.placeholder_passwordreiterar" | translate }}' class="form-control" formControlName="passReiterar" />
+                <!--div class="input-group-append">
+                    <button id="show_password" class="btn btn-primary" type="button" (click)="mostrarPassword()" matTooltip="Ver Contraseña" >
+                       <span class="fa fa-eye-slash icon"></span> </button>
+                </div-->
+              </div>
+              <div style="color:Red;"
+              *ngIf="passForm.controls['passReiterar'].errors && (passForm.controls['passReiterar'].dirty || passForm.controls['passReiterar'].touched)  && (passForm.controls['passNuevo'].dirty || passForm.controls['passNuevo'].touched)"  >
+              <p *ngIf="passForm.controls['passReiterar'].errors.required">Este campo es requerido.</p>
+              <p *ngIf="passForm.controls['passReiterar'].errors.minlength">Se requieren minimo {{passForm.controls['passReiterar'].errors.minlength.requiredLength}} caracteres. </p>
+              <p *ngIf="passForm.controls['passReiterar'].errors.maxlength">Máximo {{passForm.controls['passReiterar'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+              <p *ngIf="passForm.controls['passReiterar'].errors.pattern">Debe contener al menos 1 letra mayúscula. 1 letra minúscula y un número</p>
+              </div>
+              <mat-error *ngIf="checarSiSonIguales()">Las contraseñas no coinciden</mat-error>
+            </div>  
+          </div>  
+        </div> 
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="passForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+    </div>
+      
+</nb-card-body>
+</nb-card>
+</div>

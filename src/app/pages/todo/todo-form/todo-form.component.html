@@ -1,0 +1,184 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.operador.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()">
+    <div class="row">
+      
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Tipoidentificacion" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.tipoidentificacion" | translate }}
+          </mat-label>
+          <select id="Tipoidentificacion" class="form-control" formControlName="Tipoidentificacion" 
+          [(ngModel)]="selected_Tipoidentificacion" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Tipoidentificacion" 
+                    [ngValue]="item">{{item.NombreIdentificacion}}</option>
+          </select>
+          <!--p *ngIf="selected_Tipoidentificacion">  {{selected_Tipoidentificacion | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Tipoidentificacion'].errors"  >
+            <p *ngIf="registroForm.controls['Tipoidentificacion'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group"  >
+          <mat-label for="Nroidentificacion">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.nroidentificacion" | translate }}
+          </mat-label>
+          <input type="text" id="Nroidentificacion" placeholder='{{ "GLOBAL.operador.placeholder_nroidentificacion" | translate }}' class="form-control" formControlName="Nroidentificacion" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Nroidentificacion'].errors && (registroForm.controls['Nroidentificacion'].dirty || registroForm.controls['Nroidentificacion'].touched)"  >
+            <p *ngIf="registroForm.controls['Nroidentificacion'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Nroidentificacion'].errors.minlength">Se requieren minimo {{registroForm.controls['Nroidentificacion'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Nroidentificacion'].errors.maxlength">Máximo {{registroForm.controls['Nroidentificacion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Nroidentificacion'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+    </div> 
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Nombres">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.nombres" | translate }}
+          </mat-label>
+          <input type="text" id="Nombres" placeholder='{{ "GLOBAL.operador.nombres" | translate }}' class="form-control" formControlName="Nombres" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Nombres'].errors && (registroForm.controls['Nombres'].dirty || registroForm.controls['Nombres'].touched)"  >
+            <p *ngIf="registroForm.controls['Nombres'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Nombres'].errors.minlength">Se requieren minimo {{registroForm.controls['Nombres'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Nombres'].errors.maxlength">Máximo {{registroForm.controls['Nombres'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Nombres'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+    </div> 
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Tipooperador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.tipooperador" | translate }}
+          </mat-label>
+          <select id="Tipooperador" class="form-control" formControlName="Tipooperador" 
+          [(ngModel)]="selected_Tipooperador" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipooperador" | translate }}</option-->
+            <option *ngFor="let item of Tipooperador" 
+                    [ngValue]="item">{{item.TipoOperador}}</option>
+          </select>
+          <!--p *ngIf="selected_Tipooperador">  {{selected_Tipoidentificacion | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Tipooperador'].errors"  >
+            <p *ngIf="registroForm.controls['Tipooperador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Estadooperador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.estadooperador" | translate }}
+          </mat-label>
+          <select id="Estadooperador" class="form-control" formControlName="Estadooperador" 
+          [(ngModel)]="selected_Tipoestado" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_estadooperador" | translate }}</option-->
+            <option *ngFor="let item of Estadooperador" 
+                    [ngValue]="item">{{item.NombreEstado}}</option>
+          </select>
+          <!--p *ngIf="selected_Estadooperador">  {{selected_Estadooperador | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Estadooperador'].errors"  >
+            <p *ngIf="registroForm.controls['Estadooperador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Correo" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.correo" | translate }}
+          </mat-label>
+          <input type="email" id="Correo" placeholder='{{ "GLOBAL.operador.placeholder_correo" | translate }}' class="form-control" formControlName="Correo" />
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Correo'].errors && (registroForm.controls['Correo'].dirty || registroForm.controls['Correo'].touched)"  >
+         <p *ngIf="registroForm.controls['Correo'].errors.required">Este campo es requerido.</p>
+         <p *ngIf="registroForm.controls['Correo'].errors.pattern">Ingrese un correo valido.</p>
+         </div>
+        </div>  
+      </div>  
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Indicativo">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.indicativo" | translate }}
+          </mat-label>
+          <input type="text" id="Indicativo" placeholder='{{ "GLOBAL.operador.placeholder_indicativo" | translate }}' class="form-control" formControlName="Indicativo" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Indicativo'].errors && (registroForm.controls['Indicativo'].dirty || registroForm.controls['Indicativo'].touched)"  >
+            <p *ngIf="registroForm.controls['Indicativo'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Indicativo'].errors.minlength">Se requieren minimo {{registroForm.controls['Indicativo'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Indicativo'].errors.maxlength">Máximo {{registroForm.controls['Indicativo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Indicativo'].errors.pattern">Sólo se permiten números.</p>
+            </div>
+        </div>  
+      </div>    
+    </div> 
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Telefonofijo">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.operador.telefonofijo" | translate }}
+          </mat-label>
+          <input type="text" id="Telefonofijo" placeholder='{{ "GLOBAL.operador.placeholder_telefonofijo" | translate }}' class="form-control" formControlName="Telefonofijo" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Telefonofijo'].errors && (registroForm.controls['Telefonofijo'].dirty || registroForm.controls['Telefonofijo'].touched)"  >
+            <p *ngIf="registroForm.controls['Telefonofijo'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Telefonofijo'].errors.minlength">Se requieren minimo {{registroForm.controls['Telefonofijo'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Telefonofijo'].errors.maxlength">Máximo {{registroForm.controls['Telefonofijo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Telefonofijo'].errors.pattern">Formato de teléfono no permitiodo.  Ej: (1234567 ext. 8910)</p>
+            </div>
+        </div>  
+      </div>  
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Celular">
+            <!--span style="color:Red;">{{'*'}} </span-->
+             {{ "GLOBAL.operador.celular" | translate }}
+          </mat-label>
+          <input type="text" id="Celular" placeholder='{{ "GLOBAL.operador.placeholder_celular" | translate }}' class="form-control" formControlName="Celular" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Celular'].errors && (registroForm.controls['Celular'].dirty || registroForm.controls['Celular'].touched)"  >
+            <p *ngIf="registroForm.controls['Celular'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Celular'].errors.minlength">Se requieren minimo {{registroForm.controls['Celular'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Celular'].errors.maxlength">Máximo {{registroForm.controls['Celular'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Celular'].errors.pattern">Sólo se permiten números.</p>
+            </div>
+        </div>  
+      </div>  
+
+    </div>     
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

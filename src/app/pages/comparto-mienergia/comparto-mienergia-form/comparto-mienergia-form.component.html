@@ -1,0 +1,211 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.compartomienergia.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body"  style="z-index:1000">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()" method="post" enctype="multipart/form-data" >
+    <div class="row">
+      
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Operador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.compartomienergia.operador" | translate }}
+          </mat-label>
+          <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Operador" 
+                    [ngValue]="item">{{item.Nombres}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Operador'].errors"  >
+            <p *ngIf="registroForm.controls['Operador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.compartomienergia.TituloDetalle" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Periodo" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.compartomienergia.periodo" | translate }}
+              </mat-label>
+              <select id="Periodo" class="form-control" formControlName="Periodo" [compareWith]="compareById" >
+                <option *ngFor="let item of Periodo" 
+                        [ngValue]="item">{{item.Periodo}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Periodo'].errors"  >
+                <p *ngIf="registroForm.controls['Periodo'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>          
+
+          <div class="col-lg-8">
+            <div class="form-group" >
+              <mat-label for="Servicio_publico" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.compartomienergia.servicio" | translate }}
+              </mat-label>
+              <select id="Servicio_publico" class="form-control" formControlName="Servicio_publico" [compareWith]="compareById" >
+                <option *ngFor="let item of Servicio_publico" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Servicio_publico'].errors"  >
+                <p *ngIf="registroForm.controls['Servicio_publico'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+
+          
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Total_recaudo">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.compartomienergia.aportes" | translate }}
+              </mat-label>
+              <input type="text" id="Total_recaudo" placeholder='{{ "GLOBAL.compartomienergia.placeholder_aportes" | translate }}' class="form-control" formControlName="Total_recaudo" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Total_recaudo'].errors && (registroForm.controls['Total_recaudo'].dirty || registroForm.controls['Total_recaudo'].touched)"  >
+                <p  *ngIf="registroForm.controls['Total_recaudo'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Total_recaudo'].errors.minlength">Se requieren mínimo {{registroForm.controls['Total_Recaudo'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Total_recaudo'].errors.maxlength">Máximo {{registroForm.controls['Total_Recaudo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Total_recaudo'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-8">
+            <div class="form-group" >
+              <mat-label for="Fuente_aportes">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.compartomienergia.fuente" | translate }}
+              </mat-label>
+              <input type="text" id="Fuente_aportes" placeholder='{{ "GLOBAL.compartomienergia.placeholder_fuente" | translate }}' class="form-control" formControlName="Fuente_aportes" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Fuente_aportes'].errors && (registroForm.controls['Fuente_aportes'].dirty || registroForm.controls['Fuente_aportes'].touched)"  >
+                <p *ngIf="registroForm.controls['Fuente_aportes'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Fuente_aportes'].errors.minlength">Se requieren mínimo {{registroForm.controls['Fuente_aportes'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Fuente_aportes'].errors.maxlength">Máximo {{registroForm.controls['Fuente_aportes'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Fuente_aportes'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+
+         
+        </div>
+
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.compartomienergia.TituloBeneficiarios" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+           <div class="row">
+
+              <div class="col-lg-4">
+                <div class="form-group" >
+                  <mat-label for="Ciclo_facturacion" >
+                    <span style="color:Red;">{{'*'}} </span>
+                     {{ "GLOBAL.compartomienergia.facturacion" | translate }}
+                  </mat-label>
+                  <select id="Ciclo_facturacion" class="form-control" formControlName="Ciclo_facturacion" [compareWith]="compareById" >
+                    <option *ngFor="let item of Ciclo_facturacion" 
+                            [ngValue]="item">{{item.Nombre}}</option>
+                  </select>
+                  <div class="form-control-feedback" style="color:Red;"
+                  *ngIf="registroForm.controls['Ciclo_facturacion'].errors"  >
+                    <p *ngIf="registroForm.controls['Ciclo_facturacion'].errors.required">Este campo es requerido.</p>
+                 </div>
+                </div>  
+              </div>         
+    
+              <div class="col-lg-4">
+                <div class="form-group" >
+                  <mat-label for="Cantidad_beneficiarios_estrato1">
+                    <span style="color:Red;">{{'*'}} </span>
+                     {{ "GLOBAL.compartomienergia.beneficiarios_estrato1" | translate }}
+                  </mat-label>
+                  <input type="text" id="Cantidad_beneficiarios_estrato1" placeholder='{{ "GLOBAL.compartomienergia.placeholder_beneficiarios_estrato1" | translate }}' class="form-control" formControlName="Cantidad_beneficiarios_estrato1" />
+                    <div style="color:Red;"
+                     *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato1'].errors && (registroForm.controls['Cantidad_beneficiarios_estrato1'].dirty || registroForm.controls['Cantidad_beneficiarios_estrato1'].touched)"  >
+                    <p  *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato1'].errors.required">Este campo es requerido.</p>
+                    <p  *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato1'].errors.minlength">Se requieren mínimo {{registroForm.controls['Cantidad_beneficiarios_estrato1'].errors.minlength.requiredLength}} caracteres. </p>
+                    <p *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato1'].errors.maxlength">Máximo {{registroForm.controls['Total_Recaudo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                    <p *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato1'].errors.pattern">Sólo se permiten números.</p>
+                    </div>
+                </div>  
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group" >
+                  <mat-label for="Cantidad_beneficiarios_estrato2">
+                    <span style="color:Red;">{{'*'}} </span>
+                     {{ "GLOBAL.compartomienergia.beneficiarios_estrato2" | translate }}
+                  </mat-label>
+                  <input type="text" id="Cantidad_beneficiarios_estrato2" placeholder='{{ "GLOBAL.compartomienergia.placeholder_beneficiarios_estrato2" | translate }}' class="form-control" formControlName="Cantidad_beneficiarios_estrato2" />
+                    <div style="color:Red;"
+                     *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato2'].errors && (registroForm.controls['Cantidad_beneficiarios_estrato1'].dirty || registroForm.controls['Cantidad_beneficiarios_estrato1'].touched)"  >
+                    <p  *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato2'].errors.required">Este campo es requerido.</p>
+                    <p  *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato2'].errors.minlength">Se requieren mínimo {{registroForm.controls['Cantidad_beneficiarios_estrato2'].errors.minlength.requiredLength}} caracteres. </p>
+                    <p *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato2'].errors.maxlength">Máximo {{registroForm.controls['Total_Recaudo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                    <p *ngIf="registroForm.controls['Cantidad_beneficiarios_estrato2'].errors.pattern">Sólo se permiten números.</p>
+                    </div>
+                </div>  
+              </div>
+
+        </div>
+      </nb-card-body>  
+    </nb-card>  
+
+    <nb-card>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <mat-label for="Observacion">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.compartomienergia.observacion" | translate }}
+              </mat-label>
+              <input type="text" id="Observacion" placeholder='{{ "GLOBAL.compartomienergia.placeholder_observacion" | translate }}' class="form-control" formControlName="Observacion" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Observacion'].errors && (registroForm.controls['Observacion'].dirty || registroForm.controls['Observacion'].touched)"  >
+                <p *ngIf="registroForm.controls['Observacion'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Observacion'].errors.minlength">Se requieren mínimo {{registroForm.controls['Observacion'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Observacion'].errors.maxlength">Máximo {{registroForm.controls['Observacion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Observacion'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+      </nb-card-body>  
+    </nb-card>      
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

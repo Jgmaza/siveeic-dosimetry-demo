@@ -1,0 +1,296 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.usuariosrural.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body"  style="z-index:1000">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()" method="post" enctype="multipart/form-data" >
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="form-group" >
+          <mat-label for="Periodo" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.usuariosrural.periodo" | translate }}
+          </mat-label>
+          <select id="Periodo" class="form-control" formControlName="Periodo" [compareWith]="compareById" >
+            <option *ngFor="let item of Periodo" 
+                    [ngValue]="item">{{item.Periodo}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Periodo'].errors"  >
+            <p *ngIf="registroForm.controls['Periodo'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+      <div class="col-lg-10">
+        <div class="form-group" >
+          <mat-label for="Operador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.usuariosrural.operador" | translate }}
+          </mat-label>
+          <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Operador" 
+                    [ngValue]="item">{{item.Nombres}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Operador'].errors"  >
+            <p *ngIf="registroForm.controls['Operador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+    <nb-card>
+      <nb-card-body>  
+        <div class="row">
+          <div class="col-lg-12">
+            <span style="color:#6498fe;"><b>{{ "GLOBAL.usuariosrural.tooltip_Mess_Reportar" | translate }}</b><br></span>
+          </div> 
+        </div> 
+      </nb-card-body>   
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.usuariosrural.TituloDetalle" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Fuente" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.fuente" | translate }}
+              </mat-label>
+              <select id="Fuente_Financiacion" class="form-control" formControlName="Fuente_Financiacion" [compareWith]="compareById"  (change)="selectFuente()"  >
+                <option *ngFor="let item of Fuente_Financiacion" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Fuente_Financiacion'].errors"  >
+                <p *ngIf="registroForm.controls['Fuente_Financiacion'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-8">
+            <div class="form-group" >
+              <mat-label for="Otra_Fuente">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.otra_fuente" | translate }}
+              </mat-label>
+              <input type="text" id="Otra_Fuente" placeholder='{{ "GLOBAL.usuariosrural.placeholder_otra_fuente" | translate }}' class="form-control" formControlName="Otra_Fuente" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Otra_Fuente'].errors && (registroForm.controls['Otra_Fuente'].dirty || registroForm.controls['Otra_Fuente'].touched)"  >
+                <p *ngIf="registroForm.controls['Otra_Fuente'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Otra_Fuente'].errors.minlength">Se requieren minimo {{registroForm.controls['Otra_Fuente'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Otra_Fuente'].errors.maxlength">Máximo {{registroForm.controls['Otra_Fuente'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Otra_Fuente'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+
+
+          
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Cantidad_Usuarios">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.usuarios" | translate }}
+              </mat-label>
+              <input type="text" id="Cantidad_Usuarios" placeholder='{{ "GLOBAL.usuariosrural.placeholder_usuarios" | translate }}' class="form-control" formControlName="Cantidad_Usuarios" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Cantidad_Usuarios'].errors && (registroForm.controls['Cantidad_Usuarios'].dirty || registroForm.controls['Cantidad_Usuarios'].touched)"  >
+                <p  *ngIf="registroForm.controls['Cantidad_Usuarios'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Cantidad_Usuarios'].errors.minlength">Se requieren minimo {{registroForm.controls['Cantidad_Usuarios'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Cantidad_Usuarios'].errors.maxlength">Máximo {{registroForm.controls['Cantidad_Usuarios'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Cantidad_Usuarios'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Tipo_Solucion" >
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.usuariosrural.solucion" | translate }}
+              </mat-label>
+              <select id="Tipo_Solucion" class="form-control" formControlName="Tipo_Solucion" [compareWith]="compareById" >
+                <option *ngFor="let item of Tipo_Solucion" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Tipo_Solucion'].errors"  >
+                <p *ngIf="registroForm.controls['Tipo_Solucion'].errors.required">Este campo es requerido.</p>
+            </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Fecha_inicio">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.fechaini" | translate }}
+              </mat-label>
+                
+              <input type="text" id="Fecha_inicio" placeholder='{{ "GLOBAL.usuariosrural.placeholder_fechaini" | translate }}' class="form-control" formControlName="Fecha_inicio" />
+                <!--input type="text" id="Fecha_inicio" [matDatepicker] = "Fecha_inicio" placeholder='{{ "GLOBAL.usuariosrural.placeholder_fechaini" | translate }}' class="form-control" formControlName="Fecha_inicio" /-->
+                <!--mat-datepicker-toggle matSuffix [for]="Fecha_inicio"></mat-datepicker-toggle>
+                <mat-datepicker #Fecha_inicio></mat-datepicker-->
+
+                  <!--mat-form-field>
+                    <input matInput formControlName="Fecha_inicio" [matDatepicker]="Fecha_inicio" placeholder="Choose a date">
+                   <mat-datepicker-toggle matSuffix [for]="Fecha_inicio"></mat-datepicker-toggle>
+                   <mat-datepicker #Fecha_inicio></mat-datepicker>
+                  </mat-form-field-->
+                
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Fecha_inicio'].errors && (registroForm.controls['Cantidad_Usuarios'].dirty || registroForm.controls['Fecha_inicio'].touched)"  >
+                <p  *ngIf="registroForm.controls['Fecha_inicio'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Fecha_inicio'].errors.pattern">Sólo se permiten números.</p>
+                <p *ngIf="registroForm.controls['Fecha_inicio'].hasError('dateInvalid')">Fecha invalida. ingrese en formato "mm/dd/aaaa" </p>
+                </div>
+            </div>  
+          </div>
+
+   
+        </div> 
+      </nb-card-body>  
+    </nb-card>      
+
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.usuariosrural.TituloUbicacion" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Departamento" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.departamento" | translate }}
+              </mat-label>
+              <select id="Departamento" class="form-control" formControlName="Departamento"
+                     [compareWith]="compareById" (change)="selectMunicipio()"  >
+                <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+                <option *ngFor="let item of Departamento" 
+                        [ngValue]="item">{{item.Id}} - {{item.NombreDepartamento}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Departamento'].errors"  >
+                <p *ngIf="registroForm.controls['Departamento'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Municipio" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.municipio" | translate }}
+              </mat-label>
+              <select id="Municipio" class="form-control" formControlName="Municipio" [compareWith]="compareById" [disabled] >
+                <option [ngValue]="0" >Todos </option>
+                <option *ngFor="let item of Municipio" 
+                        [ngValue]="item">{{item.Id}} - {{item.NombreMunicipio}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Municipio'].errors"  >
+                <p *ngIf="registroForm.controls['Municipio'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+        </div> 
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <mat-label for="Vereda">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.usuariosrural.vereda" | translate }}
+              </mat-label>
+              <input type="text" id="Vereda" placeholder='{{ "GLOBAL.usuariosrural.placeholder_vereda" | translate }}' class="form-control" formControlName="Vereda" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Vereda'].errors && (registroForm.controls['Vereda'].dirty || registroForm.controls['Vereda'].touched)"  >
+                <p *ngIf="registroForm.controls['Vereda'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Vereda'].errors.minlength">Se requieren minimo {{registroForm.controls['Vereda'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Vereda'].errors.maxlength">Máximo {{registroForm.controls['Vereda'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Vereda'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>   
+        
+        <div class="row">
+          
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Latitud">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.usuariosrural.latitud" | translate }}
+              </mat-label>
+              <input type="text" id="Latitud" placeholder='{{ "GLOBAL.usuariosrural.placeholder_latitud" | translate }}' class="form-control" formControlName="Latitud" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Latitud'].errors && (registroForm.controls['Latitud'].dirty || registroForm.controls['Latitud'].touched)"  >
+                <p  *ngIf="registroForm.controls['Latitud'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Latitud'].errors.minlength">Se requieren minimo {{registroForm.controls['Latitud'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Latitud'].errors.maxlength">Máximo {{registroForm.controls['Latitud'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Latitud'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Longitud">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.usuariosrural.longitud" | translate }}
+              </mat-label>
+              <input type="text" id="Longitud" placeholder='{{ "GLOBAL.usuariosrural.placeholder_longitud" | translate }}' class="form-control" formControlName="Longitud" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Longitud'].errors && (registroForm.controls['Longitud'].dirty || registroForm.controls['Longitud'].touched)"  >
+                <p  *ngIf="registroForm.controls['Longitud'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Longitud'].errors.minlength">Se requieren minimo {{registroForm.controls['Longitud'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Longitud'].errors.maxlength">Máximo {{registroForm.controls['Longitud'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Longitud'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Altitud">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.usuariosrural.altitud" | translate }}
+              </mat-label>
+              <input type="text" id="Altitud" placeholder='{{ "GLOBAL.usuariosrural.placeholder_altitud" | translate }}' class="form-control" formControlName="Altitud" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Altitud'].errors && (registroForm.controls['Altitud'].dirty || registroForm.controls['Altitud'].touched)"  >
+                <p  *ngIf="registroForm.controls['Altitud'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Altitud'].errors.minlength">Se requieren minimo {{registroForm.controls['Altitud'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Altitud'].errors.maxlength">Máximo {{registroForm.controls['Altitud'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Altitud'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+
+        </div>
+
+      </nb-card-body>  
+    </nb-card> 
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

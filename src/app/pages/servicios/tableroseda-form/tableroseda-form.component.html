@@ -1,0 +1,302 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.tableroseda.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()">
+    
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Nombre">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.tableroseda.nombre" | translate }}
+          </mat-label>
+          <input type="text" id="Nombre" placeholder='{{ "GLOBAL.tableroseda.placeholder_nombre" | translate }}' class="form-control" formControlName="Nombre" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Nombre'].errors && (registroForm.controls['Nombre'].dirty || registroForm.controls['Nombre'].touched)"  >
+            <p *ngIf="registroForm.controls['Nombre'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Nombre'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.maxlength">Máximo {{registroForm.controls['Nombre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Nombre'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Descripcion">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.tableroseda.descripcion" | translate }}
+          </mat-label>
+          <input type="text" id="Descripcion" placeholder='{{ "GLOBAL.tableroseda.placeholder_descripcion" | translate }}' class="form-control" formControlName="Descripcion" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Descripcion'].errors && (registroForm.controls['Descripcion'].dirty || registroForm.controls['Descripcion'].touched)"  >
+            <p *ngIf="registroForm.controls['Descripcion'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Descripcion'].errors.minlength">Se requieren mínimo {{registroForm.controls['Descripcion'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Descripcion'].errors.maxlength">Máximo {{registroForm.controls['Descripcion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Descripcion'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+    </div>   
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Puntoacceso">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.tableroseda.puntoacceso" | translate }}
+          </mat-label>
+          <input type="text" id="Puntoacceso" placeholder='{{ "GLOBAL.tableroseda.placeholder_puntoacceso" | translate }}' class="form-control" formControlName="Puntoacceso" />
+            <div style="color:Red;"
+             *ngIf="registroForm.controls['Puntoacceso'].errors && (registroForm.controls['Puntoacceso'].dirty || registroForm.controls['Puntoacceso'].touched)"  >
+            <p *ngIf="registroForm.controls['Puntoacceso'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="registroForm.controls['Puntoacceso'].errors.minlength">Se requieren mínimo {{registroForm.controls['Puntoacceso'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="registroForm.controls['Puntoacceso'].errors.maxlength">Máximo {{registroForm.controls['Puntoacceso'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="registroForm.controls['Puntoacceso'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>  
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Estado" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.tableroseda.estado" | translate }}
+          </mat-label>
+          <select id="Estado" class="form-control" formControlName="Estado" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.tableroseda.placeholder_estadorol" | translate }}</option-->
+            <option *ngFor="let item of Estado" 
+                    [ngValue]="item">{{item.NombreEstado}}</option>
+          </select>
+          <!--p *ngIf="selected_Estadorol">  {{selected_Estadorol | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Estado'].errors"  >
+            <p *ngIf="registroForm.controls['Estado'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+
+
+    </div>   
+
+    <nb-card>
+      <nb-card-header>{{ "GLOBAL.tableroseda.titulo_servicioweb" | translate }}</nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <mat-label for="Servidor">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.tableroseda.servidor" | translate }}
+              </mat-label>
+              <input type="text" id="Servidor" placeholder='{{ "GLOBAL.tableroseda.placeholder_servidor" | translate }}' class="form-control" formControlName="Servidor" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Servidor'].errors && (registroForm.controls['Servidor'].dirty || registroForm.controls['Servidor'].touched)"  >
+                <p *ngIf="registroForm.controls['Servidor'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Servidor'].errors.minlength">Se requieren mínimo {{registroForm.controls['Servidor'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Servidor'].errors.maxlength">Máximo {{registroForm.controls['Servidor'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Servidor'].errors.pattern">Sólo se permiten letras y números. Valide que el formato del dato ingresado sea correcto</p>
+                </div>
+            </div>  
+          </div>   
+         
+        </div>   
+            
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Pagina">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.tableroseda.pagina" | translate }}
+              </mat-label>
+              <input type="text" id="Pagina" placeholder='{{ "GLOBAL.tableroseda.placeholder_pagina" | translate }}' class="form-control" formControlName="Pagina" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Pagina'].errors && (registroForm.controls['Pagina'].dirty || registroForm.controls['Pagina'].touched)"  >
+                <p *ngIf="registroForm.controls['Pagina'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Pagina'].errors.minlength">Se requieren mínimo {{registroForm.controls['Pagina'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Pagina'].errors.maxlength">Máximo {{registroForm.controls['Pagina'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Pagina'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+    
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Servicio">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.tableroseda.servicio" | translate }}
+              </mat-label>
+              <input type="text" id="Servicio" placeholder='{{ "GLOBAL.tableroseda.placeholder_servicio" | translate }}' class="form-control" formControlName="Servicio" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Servicio'].errors && (registroForm.controls['Servicio'].dirty || registroForm.controls['Servicio'].touched)"  >
+                <p *ngIf="registroForm.controls['Servicio'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Servicio'].errors.minlength">Se requieren mínimo {{registroForm.controls['Servicio'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Servicio'].errors.maxlength">Máximo {{registroForm.controls['Servicio'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Servicio'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+      </nb-card-body>  
+    </nb-card>     
+
+    <nb-card>
+      <nb-card-header>{{ "GLOBAL.tableroseda.titulo_estrutura" | translate }}</nb-card-header>
+      <nb-card-body>   
+            
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Titulo">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.tableroseda.tituloami" | translate }}
+              </mat-label>
+              <input type="text" id="Titulo" placeholder='{{ "GLOBAL.tableroseda.placeholder_tituloami" | translate }}' class="form-control" formControlName="Titulo" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Titulo'].errors && (registroForm.controls['Titulo'].dirty || registroForm.controls['Titulo'].touched)"  >
+                <p *ngIf="registroForm.controls['Titulo'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Titulo'].errors.minlength">Se requieren mínimo {{registroForm.controls['Titulo'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Titulo'].errors.maxlength">Máximo {{registroForm.controls['Titulo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Titulo'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+    
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Nombredatos">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.tableroseda.nombredatos" | translate }}
+              </mat-label>
+              <input type="text" id="Nombredatos" placeholder='{{ "GLOBAL.tableroseda.placeholder_nombredatos" | translate }}' class="form-control" formControlName="Nombredatos" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Nombredatos'].errors && (registroForm.controls['Nombredatos'].dirty || registroForm.controls['Nombredatos'].touched)"  >
+                <p *ngIf="registroForm.controls['Nombredatos'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Nombredatos'].errors.minlength">Se requieren mínimo {{registroForm.controls['Nombredatos'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Nombredatos'].errors.maxlength">Máximo {{registroForm.controls['Nombredatos'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Nombredatos'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+    
+
+
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="columnasnumericas" class="label col-form-label">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.tableroseda.columnasnumericas" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Columnasnumericas" placeholder='{{ "GLOBAL.tableroseda.placeholder_columnasnumericas" | translate }}' class="form-control" formControlName="Columnasnumericas" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Columnasnumericas'].errors && (registroForm.controls['Columnasnumericas'].dirty || registroForm.controls['Columnasnumericas'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasnumericas'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasnumericas'].errors.minlength">Se requieren mínimo {{registroForm.controls['Columnasnumericas'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasnumericas'].errors.maxlength">Máximo {{registroForm.controls['Columnasnumericas'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasnumericas'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide que los datos esten separados por comas.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="columnascategoricas" class="label col-form-label">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.tableroseda.columnascategoricas" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Columnascategoricas" placeholder='{{ "GLOBAL.tableroseda.placeholder_columnascategoricas" | translate }}' class="form-control" formControlName="Columnascategoricas" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Columnascategoricas'].errors && (registroForm.controls['Columnascategoricas'].dirty || registroForm.controls['Columnascategoricas'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnascategoricas'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnascategoricas'].errors.minlength">Se requieren mínimo {{registroForm.controls['Columnascategoricas'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnascategoricas'].errors.maxlength">Máximo {{registroForm.controls['Columnascategoricas'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnascategoricas'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide que los datos esten separados por comas.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="columnasfecha" class="label col-form-label">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                {{ "GLOBAL.tableroseda.columnasfecha" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Columnasfecha" placeholder='{{ "GLOBAL.tableroseda.placeholder_columnasfecha" | translate }}' class="form-control" formControlName="Columnasfecha" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Columnasfecha'].errors && (registroForm.controls['Columnasfecha'].dirty || registroForm.controls['Columnasfecha'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasfecha'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasfecha'].errors.minlength">Se requieren mínimo {{registroForm.controls['Columnasfecha'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasfecha'].errors.maxlength">Máximo {{registroForm.controls['Columnasfecha'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Columnasfecha'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide que los datos esten separados por comas.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="cajasnumeros" class="label col-form-label">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                {{ "GLOBAL.tableroseda.cajasnumeros" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Cajasnumeros" placeholder='{{ "GLOBAL.tableroseda.placeholder_cajasnumeros" | translate }}' class="form-control" formControlName="Cajasnumeros" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Cajasnumeros'].errors && (registroForm.controls['Cajasnumeros'].dirty || registroForm.controls['Cajasnumeros'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Cajasnumeros'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Cajasnumeros'].errors.minlength">Se requieren mínimo {{registroForm.controls['Cajasnumeros'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Cajasnumeros'].errors.maxlength">Máximo {{registroForm.controls['Cajasnumeros'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Cajasnumeros'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide el formato de los datos.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <label for="graficos" class="label col-form-label">
+                <!--span style="color:Red;">{{'*'}} </span-->
+                {{ "GLOBAL.tableroseda.graficos" | translate }}
+              </label>
+              <textarea rows="2" cols="120"  id="Graficos" placeholder='{{ "GLOBAL.tableroseda.placeholder_graficos" | translate }}' class="form-control" formControlName="Graficos" >
+              </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Graficos'].errors && (registroForm.controls['Graficos'].dirty || registroForm.controls['Graficos'].touched)"  >
+                <p style="color:Red;" *ngIf="registroForm.controls['Graficos'].errors.required">Este campo es requerido.</p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Graficos'].errors.minlength">Se requieren mínimo {{registroForm.controls['Graficos'].errors.minlength.requiredLength}} caracteres. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Graficos'].errors.maxlength">Máximo {{registroForm.controls['Graficos'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p style="color:Red;" *ngIf="registroForm.controls['Graficos'].errors.pattern">Sólo se permiten letras y números; No se permiten caracteres especiales; Valide el formato de los datos.</p>
+                </div>
+            </div>  
+          </div>   
+        </div>
+
+      </nb-card-body>  
+    </nb-card>  
+
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

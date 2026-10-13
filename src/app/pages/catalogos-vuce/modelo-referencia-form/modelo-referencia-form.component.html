@@ -1,0 +1,77 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-27
+DESCRIPCIÓN: Formulario modal reactivo para creación y edición de Modelos o Referencias (HU-016 Fase 2)
+
+HISTORIAL DE CAMBIOS:
+- 2026-08-27 - CREACIÓN DEL ARCHIVO - Modal reactivo con límite estricto de 40 caracteres y validaciones (HU-016 Fase 2) - Johan Piñeres
+==============================================================================
+-->
+<div class="modal-header">
+  <h4 class="modal-title font-weight-bold">
+    <i class="fa" [ngClass]="createMode ? 'fa-plus-circle text-primary' : 'fa-edit text-info'"></i>
+    {{ createMode ? 'Crear Modelo o Referencia' : 'Editar Modelo o Referencia' }}
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="formModelo" (ngSubmit)="guardar()">
+    <div class="row">
+      <div class="col-12" *ngIf="!createMode">
+        <div class="form-group">
+          <label class="font-weight-bold">ID:</label>
+          <input type="text" class="form-control" [value]="modeloId" disabled />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="descripcion" class="font-weight-bold">
+            Descripción del Modelo o Referencia <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="descripcion"
+            class="form-control"
+            placeholder="ej: MODEL-REF-400X"
+            maxlength="40"
+            formControlName="descripcion"
+            [class.is-invalid]="formModelo.get('descripcion').invalid && formModelo.get('descripcion').touched"
+          />
+          <small class="form-text text-muted d-flex justify-content-between">
+            <span>Máximo 40 caracteres (Regla HU-016 / CA06).</span>
+            <span>{{ formModelo.get('descripcion').value ? formModelo.get('descripcion').value.length : 0 }}/40</span>
+          </small>
+          <div class="invalid-feedback" *ngIf="formModelo.get('descripcion').hasError('required')">
+            La descripción del modelo o referencia es obligatoria.
+          </div>
+          <div class="invalid-feedback" *ngIf="formModelo.get('descripcion').hasError('maxlength')">
+            La descripción no puede exceder los 40 caracteres.
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')" [disabled]="guardando">
+    <i class="fa fa-times mr-1"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="guardar()"
+    [disabled]="formModelo.invalid || guardando"
+  >
+    <i class="fa" [ngClass]="guardando ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+    {{ guardando ? 'Guardando...' : (createMode ? 'Guardar' : 'Actualizar') }}
+  </button>
+</div>

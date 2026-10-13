@@ -1,0 +1,119 @@
+<div class="col-md-12 col-lg-12">
+  <nb-card>
+    <nb-card-header class="hu10-header">
+      <div class="hu10-title">REGISTRO NACIONAL DE DOSIS</div>
+      <div class="hu10-subtitle">Consulta de datos — Reportes Dosimetría</div>
+    </nb-card-header>
+    <nb-card-body>
+      <toaster-container [toasterconfig]="config"></toaster-container>
+
+      <form [formGroup]="filtrarForm" class="hu10-filters">
+        <div class="row">
+          <div class="col-lg-6">
+            <label class="hu10-label">Empresa de dosimetría (multiselección)</label>
+            <input type="text" class="form-control form-control-sm mb-1" placeholder="Buscar empresa..."
+                   [(ngModel)]="operadorSearch" [ngModelOptions]="{standalone: true}" (input)="filterOperadores()" />
+            <div class="hu10-chip-list mb-1" *ngIf="selectedOperadores.length">
+              <span class="hu10-chip" *ngFor="let op of selectedOperadores">
+                {{ op.Nombres }}
+                <button type="button" class="hu10-chip-remove" (click)="removeOperador(op)">&times;</button>
+              </span>
+            </div>
+            <div class="hu10-operador-list">
+              <button type="button" class="hu10-operador-item" *ngFor="let op of OperadoresFiltrados"
+                      [class.selected]="isOperadorSelected(op)" (click)="toggleOperador(op)">
+                {{ op.Nombres }}
+              </button>
+            </div>
+            <small class="text-muted">Sin selección = todas las empresas</small>
+          </div>
+
+          <div class="col-lg-6">
+            <label class="hu10-label">Periodo / Año (multiselección)</label>
+            <div class="mb-1">
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="toggleAllAnios()">
+                {{ selectedPeriodos.length >= Anios.length ? 'Deseleccionar todos' : 'Todos los años' }}
+              </button>
+            </div>
+            <div class="hu10-chip-list mb-1" *ngIf="selectedPeriodos.length">
+              <span class="hu10-chip" *ngFor="let anio of selectedPeriodos">
+                {{ anio.Periodo }}
+                <button type="button" class="hu10-chip-remove" (click)="removeAnio(anio)">&times;</button>
+              </span>
+            </div>
+            <div class="hu10-anio-list">
+              <button type="button" class="hu10-anio-item" *ngFor="let anio of Anios"
+                      [class.selected]="isAnioSelected(anio)" (click)="toggleAnio(anio)">
+                {{ anio.Periodo }}
+              </button>
+            </div>
+            <small class="text-muted">Sin selección = todos los años</small>
+          </div>
+        </div>
+
+        <hr class="hu10-divider" />
+        <h6 class="hu10-label">Búsqueda por trabajador</h6>
+        <div class="row">
+          <div class="col-lg-4">
+            <label class="hu10-label">Número de documento</label>
+            <input type="text" class="form-control" formControlName="Identificacion_empleado"
+                   placeholder="Completar" (input)="onDocumentoChange()" />
+          </div>
+          <div class="col-lg-4">
+            <label class="hu10-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="Nombre_empleado" placeholder="Completar" />
+          </div>
+          <div class="col-lg-4">
+            <label class="hu10-label">Apellido</label>
+            <input type="text" class="form-control" formControlName="Apellido_empleado" placeholder="Completar" />
+          </div>
+        </div>
+
+        <div class="hu10-actions mt-3">
+          <button type="button" class="btn btn-success btn-sm hu10-btn-primary" (click)="consultar()" [disabled]="loading">
+            Consultar
+          </button>
+          <button type="button" class="btn btn-success btn-sm hu10-btn-primary" (click)="exportResumen()"
+                  [disabled]="loading || !hasSearched || totalRows === 0">
+            Descargar Resumen de Reportes
+          </button>
+          <button type="button" class="btn btn-outline-success btn-sm" (click)="downloadHistorial()"
+                  [disabled]="!workerSearchMode || !hasSearched">
+            Descargar Historial Dosimétrico
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="limpiar()">Limpiar</button>
+        </div>
+      </form>
+
+      <div class="hu10-results mt-4" *ngIf="hasSearched">
+        <div class="hu10-pager-bar">
+          <div *ngIf="loading" class="hu10-loading">Cargando...</div>
+          <form [formGroup]="pagerForm" class="d-flex align-items-center flex-wrap">
+            <label class="mr-2 mb-0">Mostrar</label>
+            <select class="form-control form-control-sm mr-2 pager-size" formControlName="Rowspage"
+                    (change)="paginas()" [disabled]="loading">
+              <option [ngValue]="10">10</option>
+              <option [ngValue]="20">20</option>
+              <option [ngValue]="50">50</option>
+            </select>
+            <span class="mr-2">{{ totalRows }} reg.</span>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-1" (click)="firstPage()" [disabled]="loading || currentPage <= 1">«</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-1" (click)="prevPage()" [disabled]="loading || currentPage <= 1">‹</button>
+            <span class="mr-2">Pág. {{ currentPage }} de {{ totalPagesDisplay }}</span>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-1" (click)="nextPage()" [disabled]="loading || currentPage >= totalPagesDisplay">›</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="lastPage()" [disabled]="loading || currentPage >= totalPagesDisplay">»</button>
+          </form>
+        </div>
+
+        <div class="hu10-table-scroll">
+          <div class="hu10-table-wrap" [class.is-loading]="loading">
+            <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onRowSelect($event)">
+            </ng2-smart-table>
+            <div *ngIf="loading" class="hu10-table-loading">Consultando dosimetría...</div>
+          </div>
+        </div>
+        <p class="text-muted mt-2 mb-0"><small>Haga clic en una fila para ver el detalle del registro.</small></p>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

@@ -1,0 +1,77 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-28
+DESCRIPCIÓN: Formulario modal reactivo para creación y edición de Fabricantes (HU-016 Fase 3)
+
+HISTORIAL DE CAMBIOS:
+- 2026-08-28 - CREACIÓN DEL ARCHIVO - Modal reactivo con validación de 100 caracteres y alertas (HU-016 Fase 3) - Johan Piñeres
+==============================================================================
+-->
+<div class="modal-header">
+  <h4 class="modal-title font-weight-bold">
+    <i class="fa" [ngClass]="createMode ? 'fa-plus-circle text-primary' : 'fa-edit text-info'"></i>
+    {{ createMode ? 'Crear Fabricante' : 'Editar Fabricante' }}
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="formFabricante" (ngSubmit)="guardar()">
+    <div class="row">
+      <div class="col-12" *ngIf="!createMode">
+        <div class="form-group">
+          <label class="font-weight-bold">ID:</label>
+          <input type="text" class="form-control" [value]="fabricanteId" disabled />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="descripcion" class="font-weight-bold">
+            Descripción del Fabricante <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="descripcion"
+            class="form-control"
+            placeholder="ej: GE HEALTHCARE, SIEMENS..."
+            maxlength="100"
+            formControlName="descripcion"
+            [class.is-invalid]="formFabricante.get('descripcion').invalid && formFabricante.get('descripcion').touched"
+          />
+          <small class="form-text text-muted d-flex justify-content-between">
+            <span>Máximo 100 caracteres (Regla HU-016 / CA07).</span>
+            <span>{{ formFabricante.get('descripcion').value ? formFabricante.get('descripcion').value.length : 0 }}/100</span>
+          </small>
+          <div class="invalid-feedback" *ngIf="formFabricante.get('descripcion').hasError('required')">
+            La descripción del fabricante es obligatoria.
+          </div>
+          <div class="invalid-feedback" *ngIf="formFabricante.get('descripcion').hasError('maxlength')">
+            La descripción no puede exceder los 100 caracteres.
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')" [disabled]="guardando">
+    <i class="fa fa-times mr-1"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="guardar()"
+    [disabled]="formFabricante.invalid || guardando"
+  >
+    <i class="fa" [ngClass]="guardando ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+    {{ guardando ? 'Guardando...' : (createMode ? 'Guardar' : 'Actualizar') }}
+  </button>
+</div>

@@ -1,0 +1,32 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+// alinear campos 
+:host /deep/ ng2-smart-table tbody > tr > td{
+  text-align: center;
+}
+//alinear titulos
+:host /deep/ ng2-smart-table thead th{
+  text-align: center;
+}
+// alinear filtros
+:host /deep/ ng2-smart-table thead input-filter input{
+    text-align: center;
+}
+// permite alinear los iconos en una misma linea
+::ng-deep {
+  ng2-st-tbody-edit-delete {
+    display: none;
+    height: 0 !important;
+  }
+
+  ng2-st-tbody-custom {
+    display: flex;
+    text-align: center;
+    height: 0 !important;
+  }
+}

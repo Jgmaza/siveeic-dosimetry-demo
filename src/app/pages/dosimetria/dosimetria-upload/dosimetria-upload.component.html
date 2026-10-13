@@ -1,0 +1,64 @@
+<nb-card *ngIf="state==='default'">
+  <nb-card-header>
+    <div>Cargar archivo de datos</div>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="registroForm" class="mb-3" *ngIf="selectorPeriodoManual">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="Periodo"><span style="color:Red;">*</span> Periodo (año)</label>
+            <select id="Periodo" class="form-control" formControlName="Periodo" [compareWith]="compareById">
+              <option [ngValue]="null">Seleccione año</option>
+              <option *ngFor="let item of Periodo" [ngValue]="item">{{ item.Periodo }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md-9">
+        <div class="file-drop-content">
+          Arrastre el archivo aquí o haga clic para seleccionar
+        </div>
+        <div class="col-md-9">
+          <button (click)="openFileSelector()" class="btn btn-success btn-sm fo mb-4 mt-2"><img src="assets/images/guardar.png"/><br><b>Cargar datos masivos</b></button> 
+        </div>
+        <div *ngIf="showProgressBar" class="mb-4">
+          <ngx-interactive-progress-bar #progress ></ngx-interactive-progress-bar>
+        </div>
+        <div class="col-md-9">
+          <ng-template [ngIf]="errorFileUrl">
+            <button type="button" class="btn btn-outline-warning" (click)="downloadErrorFile(); $event.preventDefault()">Descargar archivo de errores</button>
+          </ng-template>
+          <button class="btn btn-success" (click)="saveRegistro()" *ngIf="enableSaveButtonFlag" [disabled]="!enableSaveButton">{{ "GLOBAL.guardar" | translate }}</button>
+        </div>
+        <form [formGroup]="cargaArchivo" method="post" enctype="multipart/form-data">
+          <input (change)="fileChange($event)"  type="file"   id="Archivo" class="form-control" formControlName="Archivo"
+                accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                style="display: none;"
+                > 
+        </form>
+      </div>
+    </div>
+  </nb-card-body> 
+</nb-card>
+<div *ngIf="state==='completed'" class="row">
+  <div class="col-md-3 text-center">
+    <img src="assets/images/success.png" alt="Success" class="mb-4" style="width: 150px;">
+  </div>
+  <div class="col-md-4 text-center">
+    <h3 class="mb-4">¡El reporte de datos ha sido cargado con exito! Gracias por su colaboración.</h3>
+    <p>Los datos han sido validados e ingresados al sistema.</p>
+    <p *ngIf="lastSaveSummary">
+      Registros insertados: {{ lastSaveSummary.totalInsertados || lastSaveSummary.totalRecibidos || 0 }}.
+      Archivos cargados (operador/periodo): {{ lastSaveSummary.totalArchivosOperadorPeriodo != null ? lastSaveSummary.totalArchivosOperadorPeriodo : '—' }}.
+      Total archivos en sistema: {{ lastSaveSummary.totalArchivosCargados != null ? lastSaveSummary.totalArchivosCargados : '—' }}.
+    </p>
+  </div>
+</div>
+<div *ngIf="state==='completed'" class="row">
+  <div class="col-md-7 text-center">
+    <button class="btn btn-primary" (click)="goToHome()">Volver al inicio</button>
+  </div>
+</div>

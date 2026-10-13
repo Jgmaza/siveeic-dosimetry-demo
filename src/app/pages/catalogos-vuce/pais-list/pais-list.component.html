@@ -1,0 +1,102 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-31
+DESCRIPCIÓN: Vista principal de administración y tabla interactiva para Países (PaisCompra y PaisOrigen - HU-016 Fase 4)
+
+HISTORIAL DE CAMBIOS:
+- 2026-08-29 - ANÁLISIS Y ESTRUCTURACIÓN - Grilla interactiva y badges de estado para países - Johan Piñeres
+- 2026-08-31 - CREACIÓN DEL ARCHIVO - Panel de administración, búsqueda, filtro por estado y acciones CRUD (HU-016 Fase 4) - Johan Piñeres
+==============================================================================
+-->
+<div class="col-md-12 col-lg-12">
+  <toaster-container [toasterconfig]="config"></toaster-container>
+
+  <nb-card>
+    <nb-card-header class="d-flex justify-content-between align-items-center flex-wrap">
+      <div>
+        <i class="fa fa-globe-americas mr-2 text-primary"></i>
+        <strong>Administración de Catálogos VUCE — Países (Compra y Origen)</strong>
+      </div>
+      <div>
+        <button class="btn btn-primary btn-sm" (click)="onCreate()">
+          <i class="fa fa-plus-circle mr-1"></i> Nuevo País
+        </button>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <!-- Barra de Filtros Rápidos -->
+      <div class="row mb-3 align-items-end">
+        <div class="col-md-5">
+          <div class="form-group mb-0">
+            <label for="searchFilter" class="font-weight-bold"><small>Buscar por Nombre / Código:</small></label>
+            <div class="input-group input-group-sm">
+              <input
+                type="text"
+                id="searchFilter"
+                class="form-control"
+                placeholder="ej: Colombia, USA, Alemania, COL..."
+                [(ngModel)]="searchQuery"
+                (keyup.enter)="loadData()"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="loadData()">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group mb-0">
+            <label for="estadoFilter" class="font-weight-bold"><small>Filtrar por Estado:</small></label>
+            <select
+              id="estadoFilter"
+              class="form-control form-control-sm"
+              [(ngModel)]="selectedEstado"
+              (change)="loadData()"
+            >
+              <option [ngValue]="null">Todos los estados</option>
+              <option [ngValue]="1">Solo Activos</option>
+              <option [ngValue]="0">Solo Inactivos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4 d-flex justify-content-end align-items-center mt-2 mt-md-0">
+          <label for="pageSizeSelect" class="mb-0 mr-2"><small>Registros por página:</small></label>
+          <select
+            id="pageSizeSelect"
+            class="form-control form-control-sm"
+            style="width: auto;"
+            [(ngModel)]="pageSize"
+            (change)="onPageSizeChange($event.target.value)"
+          >
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+          <button class="btn btn-outline-secondary btn-sm ml-2" (click)="limpiarFiltros()" title="Limpiar Filtros">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grilla Smart Table -->
+      <div class="table-responsive">
+        <ng2-smart-table
+          [settings]="settings"
+          [source]="source"
+          (edit)="onEdit($event)"
+          (delete)="onDelete($event)"
+        ></ng2-smart-table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

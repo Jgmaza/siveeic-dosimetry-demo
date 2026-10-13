@@ -1,0 +1,145 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.enlace.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="enlaceForm" (ngSubmit)="saveRegistro()">
+    
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Grupo" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.enlace.grupo" | translate }}
+          </mat-label>
+          <select id="Grupo" class="form-control" formControlName="Grupo" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.enlace.placeholder_tipoenlace" | translate }}</option-->
+            <option *ngFor="let item of Grupo" 
+                    [ngValue]="item">{{item.Nombre}}</option>
+          </select>
+          <!--p *ngIf="selected_Grupo">  {{selected_Tipoidentificacion | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="enlaceForm.controls['Grupo'].errors"  >
+            <p *ngIf="enlaceForm.controls['Grupo'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Estado" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.enlace.estado" | translate }}
+          </mat-label>
+          <select id="Estado" class="form-control" formControlName="Estado" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.enlace.placeholder_estadoenlace" | translate }}</option-->
+            <option *ngFor="let item of Estado" 
+                    [ngValue]="item">{{item.NombreEstado}}</option>
+          </select>
+          <!--p *ngIf="selected_Estadoenlace">  {{selected_Estadoenlace | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="enlaceForm.controls['Estado'].errors"  >
+            <p *ngIf="enlaceForm.controls['Estado'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Nombre">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.enlace.nombre" | translate }}
+          </mat-label>
+          <input type="text" id="Nombre" placeholder='{{ "GLOBAL.enlace.placeholder_nombre" | translate }}' class="form-control" formControlName="Nombre" />
+            <div style="color:Red;"
+             *ngIf="enlaceForm.controls['Nombre'].errors && (enlaceForm.controls['Nombre'].dirty || enlaceForm.controls['Nombre'].touched)"  >
+            <p *ngIf="enlaceForm.controls['Nombre'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="enlaceForm.controls['Nombre'].errors.minlength">Se requieren mínimo {{enlaceForm.controls['Nombre'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="enlaceForm.controls['Nombre'].errors.maxlength">Máximo {{enlaceForm.controls['Nombre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="enlaceForm.controls['Nombre'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Titulo">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.enlace.titulo_enlace" | translate }}
+          </mat-label>
+          <input type="text" id="Titulo" placeholder='{{ "GLOBAL.enlace.placeholder_titulo_enlace" | translate }}' class="form-control" formControlName="Titulo" />
+            <div style="color:Red;"
+             *ngIf="enlaceForm.controls['Titulo'].errors && (enlaceForm.controls['Titulo'].dirty || enlaceForm.controls['Titulo'].touched)"  >
+            <p *ngIf="enlaceForm.controls['Titulo'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="enlaceForm.controls['Titulo'].errors.minlength">Se requieren mínimo {{enlaceForm.controls['Titulo'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="enlaceForm.controls['Titulo'].errors.maxlength">Máximo {{enlaceForm.controls['Titulo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="enlaceForm.controls['Titulo'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+    </div>   
+
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Posicion">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.enlace.posicion" | translate }}
+          </mat-label>
+          <input type="text" id="Posicion" placeholder='{{ "GLOBAL.enlace.placeholder_posicion" | translate }}' class="form-control" formControlName="Posicion" />
+            <div style="color:Red;"
+             *ngIf="enlaceForm.controls['Posicion'].errors && (enlaceForm.controls['Posicion'].dirty || enlaceForm.controls['Posicion'].touched)"  >
+            <p *ngIf="enlaceForm.controls['Posicion'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="enlaceForm.controls['Posicion'].errors.minlength">Se requieren mínimo {{enlaceForm.controls['Posicion'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="enlaceForm.controls['Posicion'].errors.maxlength">Máximo {{enlaceForm.controls['Posicion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="enlaceForm.controls['Posicion'].errors.pattern">Sólo se permiten números</p>
+            </div>
+        </div>  
+      </div>   
+      <div class="col-lg-6">
+        <div class="form-group" >
+          <mat-label for="Key">
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.enlace.key" | translate }}
+          </mat-label>
+          <input type="text" id="Key" placeholder='{{ "GLOBAL.enlace.placeholder_key" | translate }}' class="form-control" formControlName="Key" />
+            <div style="color:Red;"
+             *ngIf="enlaceForm.controls['Key'].errors && (enlaceForm.controls['Key'].dirty || enlaceForm.controls['Key'].touched)"  >
+            <p *ngIf="enlaceForm.controls['Key'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="enlaceForm.controls['Key'].errors.minlength">Se requieren mínimo {{enlaceForm.controls['Key'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="enlaceForm.controls['Key'].errors.maxlength">Máximo {{enlaceForm.controls['Key'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="enlaceForm.controls['Key'].errors.pattern">Sólo se permiten letras y números.</p>
+            </div>
+        </div>  
+      </div>   
+    </div>   
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Enlace">
+            <span style="color:Red;">{{'*'}}</span>
+             {{ "GLOBAL.enlace.ruta_enlace" | translate }}
+          </mat-label>
+          <input type="text" id="Enlace" placeholder='{{ "GLOBAL.enlace.placeholder_ruta_enlace" | translate }}' class="form-control" formControlName="Enlace" />
+            <div style="color:Red;"
+             *ngIf="enlaceForm.controls['Enlace'].errors && (enlaceForm.controls['Enlace'].dirty || enlaceForm.controls['Enlace'].touched)"  >
+            <p *ngIf="enlaceForm.controls['Enlace'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="enlaceForm.controls['Enlace'].errors.minlength">Se requieren mínimo {{enlaceForm.controls['Enlace'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="enlaceForm.controls['Enlace'].errors.maxlength">Máximo {{enlaceForm.controls['Enlace'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="enlaceForm.controls['Enlace'].errors.pattern">Fomato de enlace no valido, Ej: "/pages/admin/list-page" .</p>
+            </div>
+        </div>  
+      </div>   
+    </div>     
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="enlaceForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

@@ -1,0 +1,14 @@
+:host /deep/ .nb-theme-default ng2-smart-table table tr td {
+    font-size: 0.85rem;
+  }
+  
+::ng-deep .my-class .modal-dialog { 
+  max-width: 80%; 
+  width: 80%;
+  
+ }
+
+ img {
+  width: 35px;
+  height: 35px;
+}  

@@ -1,0 +1,46 @@
+<nb-card>
+    <nb-card-header>
+      <div class="tablero_titulo" align="left">
+      Rendimiento Programado
+      </div>
+      <ngx-filtro (eventChange)="filtro($event)" [campos]="campos"></ngx-filtro>
+    </nb-card-header>
+    <nb-card-body>
+
+  <div class="row">
+    <div class="col-2">
+        <nb-card >
+            <nb-card-body>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" >Rendimiento Esperado</th>
+                            <th scope="col">color</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of demarcacion">
+                            <td>{{ item.name }}</td>
+                            <td><div class="square" [ngStyle]="{'background-color':item.lineStyle.color}"></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-lg-8">
+      <nb-card >
+              <nb-card-header>
+                 Porcentaje Acumulado Manzanas Transmitidas
+              </nb-card-header>
+              <nb-card-body style="overflow:hidden">
+                  <ngx-echarts-largesize [serviceGraph]="'rendimiento'"  [demarcacion]="demarcacion"  [labeldemarcacion]="labeldemarcacion"  >
+                  </ngx-echarts-largesize>
+              </nb-card-body>
+      </nb-card>
+    </div>
+</div>
+
+  </nb-card-body>
+  </nb-card>

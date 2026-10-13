@@ -1,0 +1,235 @@
+<div class="col-md-12 col-lg-12 ">
+  <nb-card>
+    <nb-card-header>
+      {{ 'GLOBAL.dosimetria.titulo_unificado' | translate }}
+    </nb-card-header>
+    <nb-card-body>
+      <toaster-container [toasterconfig]="config"></toaster-container>
+
+      <div class="row">
+        <div class="col-md-12" *ngIf="isAdmin">
+          <nb-card>
+            <nb-card-header>
+              <div>{{ 'GLOBAL.filtrar_titulo' | translate }}</div>
+            </nb-card-header>
+            <nb-card-body>
+              <div>
+                <form [formGroup]="filtrarForm" (ngSubmit)="buscar()" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group operador-multi">
+                        <mat-label for="OperadorSearch">
+                          {{ 'GLOBAL.medidoresami.operador' | translate }}
+                        </mat-label>
+                        <mat-form-field appearance="outline" class="w-100 form-field-plain filtro-compacto">
+                          <input
+                            id="OperadorSearch"
+                            type="text"
+                            matInput
+                            [formControl]="operadorSearchCtrl"
+                            [matAutocomplete]="autoOperador"
+                            placeholder="Seleccione"
+                          />
+                          <mat-autocomplete
+                            #autoOperador="matAutocomplete"
+                            [displayWith]="displayOperadorFn"
+                            (optionSelected)="onOperadorSelected($event)"
+                          >
+                            <mat-option *ngFor="let item of filteredOperadores" [value]="item" class="filtro-option">
+                              {{ item.Nombres }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-chip-list *ngIf="selectedOperadores.length" class="operador-chips" aria-label="Empresas seleccionadas">
+                          <mat-chip
+                            *ngFor="let item of selectedOperadores"
+                            class="operador-chip"
+                            [removable]="user_operador === 0"
+                            (removed)="removeOperador(item)"
+                          >
+                            {{ item.Nombres }}
+                            <span matChipRemove *ngIf="user_operador === 0" class="chip-remove" aria-label="Quitar">&times;</span>
+                          </mat-chip>
+                        </mat-chip-list>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <mat-label for="Identificacion_empleado">
+                          {{ 'GLOBAL.dosimetria.identificacion_empleado' | translate }}
+                        </mat-label>
+                        <input type="text" id="Identificacion_empleado"
+                               placeholder="{{ 'GLOBAL.dosimetria.placeholder_identificacion_empleado' | translate }}"
+                               class="form-control" formControlName="Identificacion_empleado" />
+                        <div style="color:Red;"
+                             *ngIf="filtrarForm.controls['Identificacion_empleado'].errors && (filtrarForm.controls['Identificacion_empleado'].dirty || filtrarForm.controls['Identificacion_empleado'].touched || workerSubmitted)">
+                          <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.required">
+                            Este campo es requerido.
+                          </p>
+                          <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.minlength">
+                            Se requieren mínimo {{ filtrarForm.controls['Identificacion_empleado'].errors.minlength.requiredLength }} caracteres.
+                          </p>
+                          <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.maxlength">
+                            Máximo {{ filtrarForm.controls['Identificacion_empleado'].errors.maxlength.requiredLength }} caracteres permitidos.
+                          </p>
+                          <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.pattern">
+                            Sólo se permiten números.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <mat-label for="Periodo" class="form-label">
+                          {{ 'GLOBAL.medidoresami.periodo' | translate }}
+                        </mat-label>
+                        <mat-form-field appearance="outline" class="w-100 form-field-plain filtro-periodo" style="padding-top: 0 !important; padding-bottom: 0 !important;">
+                          <mat-select
+                            id="Periodo"
+                            formControlName="Periodo"
+                            [compareWith]="compareById"
+                            multiple
+                            style="padding-top: 0 !important; padding-bottom: 0 !important;"
+                          >
+                            <mat-select-trigger style="padding-top: 0 !important; padding-bottom: 0 !important;">
+                              {{ periodoTriggerLabel }}
+                            </mat-select-trigger>
+                            <mat-option
+                              (click)="toggleSelectAllPeriodos(); $event.stopPropagation()"
+                              style="padding-top: 0 !important; padding-bottom: 0 !important;">
+                              Todos
+                            </mat-option>
+                            <mat-divider></mat-divider>
+                            <mat-option *ngFor="let item of Periodo" [value]="item" style="padding-top: 0 !important; padding-bottom: 0 !important;">
+                              {{ item.Periodo }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <mat-label for="Nombre_empleado">
+                          {{ 'GLOBAL.dosimetria.nombre_empleado' | translate }}
+                        </mat-label>
+                        <input type="text" id="Nombre_empleado" class="form-control" formControlName="Nombre_empleado"
+                               placeholder="{{ 'GLOBAL.dosimetria.placeholder_nombre_empleado' | translate }}" />
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <mat-label for="Apellido_empleado">
+                          {{ 'GLOBAL.dosimetria.apellido_empleado' | translate }}
+                        </mat-label>
+                        <input type="text" id="Apellido_empleado" class="form-control" formControlName="Apellido_empleado"
+                               placeholder="{{ 'GLOBAL.dosimetria.placeholder_apellido_empleado' | translate }}" />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <button class="btn btn-success btn-sm" type="button" (click)="buscar()" [disabled]="loading">
+                  <span *ngIf="!loading">{{ 'GLOBAL.dosimetria.consultar' | translate }}</span>
+                  <span *ngIf="loading">Cargando...</span>
+                </button>
+                <button class="btn btn-success btn-sm" type="button" (click)="Limpiar()" [disabled]="loading">
+                  {{ 'GLOBAL.limpiar' | translate }}
+                </button>
+                <button class="btn btn-success btn-sm btn-filtro-accion" type="button" (click)="descargarResumen()"
+                        [disabled]="loading || !hasSearched || (workerComunicadoMode ? selectedCount === 0 : totalRows === 0)">
+                  {{ 'GLOBAL.dosimetria.descargar_resumen_reportes' | translate }}
+                </button>
+                <button class="btn btn-success btn-sm btn-filtro-accion" type="button" (click)="descargarHistorialDosimetrico()"
+                        [disabled]="loading || !workerComunicadoMode || selectedCount === 0">
+                  {{ 'GLOBAL.dosimetria.descargar_historial_dosimetrico' | translate }}
+                </button>
+              </div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+
+      <div class="row margin15 dosimetria-toolbar-row" *ngIf="isAdmin && hasSearched">
+        <div class="col-12">
+          <form [formGroup]="registroForm">
+            <!-- Búsqueda en resultados: oculta por ahora (showResultSearch); no borrar. -->
+            <div class="dosimetria-table-header" *ngIf="showResultSearch">
+              <div class="search-block">
+                <div class="search-input-wrap">
+                  <input id="q" type="text" class="form-control form-control-sm search-input" formControlName="Q"
+                         placeholder="Buscar"
+                         [disabled]="loading || workerComunicadoMode" />
+                  <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="dosimetria-pager-bar">
+              <div class="toolbar-left" *ngIf="workerComunicadoMode && totalRows > 0">
+                <button type="button" class="btn btn-primary btn-sm" (click)="toggleAllRows()" [disabled]="loading">
+                  <i class="fa fa-check-square"></i> Seleccionar/Deseleccionar Todos
+                </button>
+                <span class="text-muted pager-meta">Seleccionados: <strong>{{ selectedCount }}</strong></span>
+              </div>
+
+              <div *ngIf="loading" class="toolbar-loading">Cargando...</div>
+
+              <div class="toolbar-pager" *ngIf="totalRows > 0">
+                <label for="paginas" class="pager-label">Mostrar</label>
+                <select id="paginas" class="form-control form-control-sm pager-size" formControlName="Rowspage"
+                        (change)="paginas()" [disabled]="loading">
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                  <option [ngValue]="100">100</option>
+                  <option [ngValue]="200">200</option>
+                </select>
+
+                <span class="pager-sep">|</span>
+                <span class="pager-meta">{{ totalRows }} reg.</span>
+                <span class="pager-sep">|</span>
+
+                <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Primera página"
+                        (click)="firstPage()" [disabled]="loading || currentPage <= 1">«</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Anterior"
+                        (click)="prevPage()" [disabled]="loading || currentPage <= 1">‹</button>
+
+                <span class="pager-label">Pág.</span>
+                <input type="number" class="form-control form-control-sm pager-page-input"
+                       [value]="currentPage" [min]="1" [max]="totalPagesDisplay"
+                       (keyup.enter)="goToPageFromInput($event)" (blur)="goToPageFromInput($event)"
+                       [disabled]="loading" />
+                <span class="pager-meta">de {{ totalPagesDisplay }}</span>
+
+                <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Siguiente"
+                        (click)="nextPage()" [disabled]="loading || currentPage >= totalPagesDisplay">›</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm pager-btn" title="Última página"
+                        (click)="lastPage()" [disabled]="loading || currentPage >= totalPagesDisplay">»</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="dosimetria-table-scroll" *ngIf="isAdmin && hasSearched">
+        <div class="dosimetria-table-wrap" [class.is-loading]="loading">
+          <ng2-smart-table [settings]="settings" [source]="source"
+                           (userRowSelect)="onRowSelect($event)"></ng2-smart-table>
+          <div *ngIf="loading" class="dosimetria-table-loading-overlay">Consultando...</div>
+        </div>
+        <p class="text-muted mt-2 mb-0" *ngIf="!loading && totalRows > 0">
+          <small>Haga clic en una fila para ver el detalle completo del registro.</small>
+        </p>
+      </div>
+
+    </nb-card-body>
+  </nb-card>
+</div>

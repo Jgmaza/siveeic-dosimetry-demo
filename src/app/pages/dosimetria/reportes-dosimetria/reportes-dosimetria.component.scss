@@ -1,0 +1,191 @@
+.hu10-header {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+}
+
+.hu10-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.hu10-subtitle {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.hu10-label {
+  color: #1b5e20;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.hu10-divider {
+  border-color: #c8e6c9;
+  margin: 1.25rem 0;
+}
+
+.hu10-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hu10-btn-primary {
+  background-color: #1b5e20;
+  border-color: #1b5e20;
+
+  &:hover {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+  }
+}
+
+.hu10-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.hu10-chip {
+  display: inline-flex;
+  align-items: center;
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 16px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.hu10-chip-remove {
+  border: none;
+  background: transparent;
+  margin-left: 0.25rem;
+  cursor: pointer;
+  line-height: 1;
+  color: #666;
+}
+
+.hu10-operador-list {
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0.25rem;
+}
+
+.hu10-operador-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover,
+  &.selected {
+    background: #e8f5e9;
+    color: #1b5e20;
+  }
+}
+
+.hu10-anio-list {
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.hu10-anio-item {
+  border: 1px solid #dee2e6;
+  background: #fff;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-radius: 4px;
+  min-width: 3.25rem;
+
+  &:hover,
+  &.selected {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+    color: #1b5e20;
+    font-weight: 600;
+  }
+}
+
+.hu10-pager-bar {
+  margin-bottom: 0.75rem;
+}
+
+.pager-size {
+  width: auto;
+  min-width: 4rem;
+}
+
+.hu10-table-scroll {
+  width: 100%;
+  max-height: calc(100vh - 420px);
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hu10-table-wrap {
+  position: relative;
+  min-height: 6rem;
+}
+
+.hu10-table-wrap.is-loading ng2-smart-table {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.hu10-table-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  color: #1b5e20;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.hu10-loading {
+  color: #1b5e20;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+::ng-deep .hu10-table-scroll ng2-smart-table table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #1b5e20 !important;
+  color: #fff !important;
+}
+
+::ng-deep .hu10-table-scroll ng2-smart-table table thead th a,
+::ng-deep .hu10-table-scroll ng2-smart-table table thead th .ng2-smart-title,
+::ng-deep .hu10-table-scroll ng2-smart-table table thead th .ng2-smart-sort-link {
+  color: #fff !important;
+}
+
+::ng-deep .hu10-row-clickable {
+  cursor: pointer;
+}
+
+::ng-deep .hu10-row-clickable:hover td {
+  background-color: #f1f8e9 !important;
+}

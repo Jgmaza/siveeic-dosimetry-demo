@@ -1,0 +1,31 @@
+import { ContactoRoutingModule, routedComponents } from './contacto-routing.module';
+import { NgModule } from '@angular/core';
+import { ThemeModule } from '../../@theme/theme.module';
+import { UsuariosService } from '../../@core/data/usuarios.service';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ToasterModule } from 'angular2-toaster';
+import { SharedModule } from '../../shared/shared.module';
+import { ContactoFormComponent } from './contacto-form/contacto-form.component';
+import { ToasterService} from 'angular2-toaster';
+
+@NgModule({
+  imports: [
+    ThemeModule,
+    ContactoRoutingModule,
+    Ng2SmartTableModule,
+    ToasterModule,
+    SharedModule,
+    
+  ],
+  declarations: [
+    ...routedComponents,
+  ],
+  providers: [
+    UsuariosService,
+    ToasterService,
+  ],
+  exports: [
+    ContactoFormComponent,
+  ],
+})
+export class ContactoModule { }

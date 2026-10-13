@@ -1,0 +1,171 @@
+<div class="col-md-12 col-lg-12 ">
+    <nb-card>
+      <nb-card-header>
+        {{ 'GLOBAL.dosimetria.titulo_historico' | translate }}
+      </nb-card-header>
+      <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nb-card>
+              <nb-card-header>
+                <div> {{ 'GLOBAL.dosimetria.titulo_historico_filtro' | translate }}</div>
+              </nb-card-header>
+              <nb-card-body>
+
+                <div>
+                  <form [formGroup]="filtrarForm" (ngSubmit)="loadData()" method="post" enctype="multipart/form-data" >
+
+                    <div class="row">
+
+                      <div class="col-lg-6">
+                        <div class="form-group"  >
+                          <mat-label for="Identificacion_empleado">
+                             {{ "GLOBAL.dosimetria.identificacion_empleado" | translate }}
+                          </mat-label>
+                          <input type="text" id="Identificacion_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_identificacion_empleado" | translate }}' class="form-control" formControlName="Identificacion_empleado" />
+                            <div style="color:Red;"
+                              *ngIf="filtrarForm.controls['Identificacion_empleado'].errors
+                                      && (filtrarForm.controls['Identificacion_empleado'].dirty
+                                          || filtrarForm.controls['Identificacion_empleado'].touched
+                                          || submitted)">
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.required">Este campo es requerido.</p>
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.minlength">
+                              Se requieren mínimo {{filtrarForm.controls['Identificacion_empleado'].errors.minlength.requiredLength}} caracteres.
+                            </p>
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.maxlength">
+                              Máximo {{filtrarForm.controls['Identificacion_empleado'].errors.maxlength.requiredLength}} caracteres permitidos.
+                            </p>
+                            <p *ngIf="filtrarForm.controls['Identificacion_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                          </div>
+                        </div>
+                      </div>
+
+<div class="col-lg-6">
+  <div class="form-group">
+    <mat-label for="Periodo" class="form-label">
+      {{ "GLOBAL.medidoresami.periodo" | translate }}
+    </mat-label>
+
+    <mat-form-field appearance="outline" class="w-100 form-field-plain" style="padding-top: 0 !important; padding-bottom: 0 !important;">
+      <mat-select
+        id="Periodo"
+        formControlName="Periodo"
+        [compareWith]="compareById"
+        multiple
+        style="padding-top: 0 !important; padding-bottom: 0 !important;"
+      >
+        <!-- texto-resumen para mantener alto de un input -->
+        <mat-select-trigger style="padding-top: 0 !important; padding-bottom: 0 !important;">
+          {{ periodoTriggerLabel }}
+        </mat-select-trigger>
+
+        <!-- Opción "Todos" - sin value para que no interfiera con el select -->
+        <mat-option 
+          (click)="toggleSelectAll(); $event.stopPropagation()"
+          style="padding-top: 0 !important; padding-bottom: 0 !important;">
+          Todos
+        </mat-option>
+
+        <mat-divider></mat-divider>
+
+        <!-- Opciones individuales -->
+        <mat-option *ngFor="let item of Periodo" [value]="item" style="padding-top: 0 !important; padding-bottom: 0 !important;">
+          {{ item.Periodo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+                    </div>
+                    <div class="row">
+
+                      <div class="col-lg-6">
+                        <div class="form-group"  >
+                          <mat-label for="Nombre_empleado">
+                             {{ "GLOBAL.dosimetria.nombre_empleado" | translate }}
+                          </mat-label>
+                          <input type="text" id="Nombre_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_nombre_empleado" | translate }}' class="form-control" formControlName="Nombre_empleado" />
+                            <div style="color:Red;"
+                             *ngIf="filtrarForm.controls['Nombre_empleado'].errors && (filtrarForm.controls['Nombre_empleado'].dirty || filtrarForm.controls['Nombre_empleado'].touched)"  >
+                            <p *ngIf="filtrarForm.controls['Nombre_empleado'].errors.required">Este campo es requerido.</p>
+                            <p *ngIf="filtrarForm.controls['Nombre_empleado'].errors.minlength">Se requieren mínimo {{filtrarForm.controls['Nombre_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                            <p *ngIf="filtrarForm.controls['Nombre_empleado'].errors.maxlength">Máximo {{filtrarForm.controls['Nombre_empleado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                            <p *ngIf="filtrarForm.controls['Nombre_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group"  >
+                          <mat-label for="Apellido_empleado">
+                             {{ "GLOBAL.dosimetria.apellido_empleado" | translate }}
+                          </mat-label>
+                          <input type="text" id="Apellido_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_apellido_empleado" | translate }}' class="form-control" formControlName="Apellido_empleado" />
+                            <div style="color:Red;"
+                             *ngIf="filtrarForm.controls['Apellido_empleado'].errors && (filtrarForm.controls['Apellido_empleado'].dirty || filtrarForm.controls['Apellido_empleado'].touched)"  >
+                            <p *ngIf="filtrarForm.controls['Apellido_empleado'].errors.required">Este campo es requerido.</p>
+                            <p *ngIf="filtrarForm.controls['Apellido_empleado'].errors.minlength">Se requieren mínimo {{filtrarForm.controls['Apellido_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                            <p *ngIf="filtrarForm.controls['Apellido_empleado'].errors.maxlength">Máximo {{filtrarForm.controls['Apellido_empleado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                            <p *ngIf="filtrarForm.controls['Apellido_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                            </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </form>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success btn-sm" (click)="loadData()" >{{ "GLOBAL.dosimetria.consultar" | translate }}</button>
+                  <button type="button" class="btn btn-success btn-sm" (click)="Limpiar()" title="Reinicia filtros, cédula anclada y selección">{{ "GLOBAL.limpiar" | translate }}</button>
+                  <button type="button" class="btn btn-success btn-sm" (click)="downloadData()" [disabled]="selectedCount === 0">{{ "GLOBAL.dosimetria.descargar_historial_dosimetrico" | translate }}</button>
+                  <button type="button" class="btn btn-success btn-sm" (click)="downloadWordData()" [disabled]="selectedCount === 0">{{ "GLOBAL.descargar_comunicado" | translate }}</button>
+                </div>
+
+              </nb-card-body> 
+            </nb-card> 
+          </div>   
+        </div>
+
+
+        <div class="row margin15">
+         
+          <div class="col-lg-2" *ngIf="!cambiotab">
+            <form [formGroup]="registroForm">
+               <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group" >
+                    <label for="paginas" class="label col-form-label">
+                      Registros por página
+                    </label>
+                    <select id="paginas" class="form-control" formControlName="Rowspage"  (change)="paginas()"  >
+                      <option [ngValue]="5" >5</option>
+                      <option [ngValue]="10" >10</option>
+                      <option [ngValue]="25" >25</option>
+                      <option [ngValue]="50" >50</option>
+                      <option [ngValue]="100" >100</option>
+                      <option [ngValue]="200" >200</option>
+                      </select>
+                    </div> 
+                  </div>  
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="mb-3 d-flex align-items-center" style="gap: 12px;">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="toggleAllRows()">
+            <i class="fa fa-check-square"></i> Seleccionar/Deseleccionar Todos
+          </button>
+          <span class="text-muted">Seleccionados: <strong>{{ selectedCount }}</strong></span>
+        </div>
+        <ng2-smart-table [settings]="settings" [source]="source" (rowSelect)="itemselec($event)">
+        </ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>

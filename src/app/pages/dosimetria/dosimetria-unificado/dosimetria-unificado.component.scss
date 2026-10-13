@@ -1,0 +1,385 @@
+:host {
+  display: block;
+  max-width: 100%;
+}
+
+:host nb-card-body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.margin15 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.dosimetria-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(100vh - 280px);
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dosimetria-table-wrap {
+  position: relative;
+  min-height: 8rem;
+}
+
+.dosimetria-table-wrap.is-loading ng2-smart-table {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.dosimetria-table-loading-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8790c;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.55);
+  z-index: 2;
+}
+
+::ng-deep .dosimetria-table-scroll ng2-smart-table {
+  display: block;
+}
+
+.dosimetria-toolbar-row,
+.dosimetria-toolbar-row .col-12 {
+  max-width: 100%;
+}
+
+:host /deep/ .nb-theme-default ng2-smart-table table tr td {
+  font-size: 0.85rem;
+}
+
+.dosimetria-toolbar-row {
+  align-items: center;
+}
+
+.dosimetria-table-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.search-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1 1 16rem;
+  min-width: 12rem;
+}
+
+.search-input-wrap {
+  position: relative;
+  flex: 1 1 12rem;
+  max-width: 28rem;
+  min-width: 10rem;
+}
+
+.search-input {
+  width: 100%;
+  padding-right: 2rem;
+}
+
+.search-icon {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8f9bb3;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.toolbar-download {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.dosimetria-pager-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  min-height: 1.75rem;
+}
+
+.toolbar-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: auto;
+}
+
+.toolbar-loading {
+  color: #b8790c;
+  font-size: 0.85rem;
+}
+
+.toolbar-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.pager-label {
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.pager-meta {
+  font-size: 0.8rem;
+  color: #666;
+  white-space: nowrap;
+}
+
+.pager-size {
+  width: 4.2rem;
+  display: inline-block;
+  padding: 0.15rem 0.35rem;
+  height: calc(1.5em + 0.35rem);
+  font-size: 0.8rem;
+}
+
+.pager-page-input {
+  width: 3.2rem;
+  text-align: center;
+  padding: 0.15rem 0.25rem;
+  height: calc(1.5em + 0.35rem);
+  font-size: 0.8rem;
+  -moz-appearance: textfield;
+}
+
+.pager-page-input::-webkit-outer-spin-button,
+.pager-page-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pager-btn {
+  padding: 0.15rem 0.45rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  min-width: 1.75rem;
+}
+
+.pager-sep {
+  color: #ccc;
+  font-size: 0.85rem;
+  margin: 0 0.1rem;
+}
+
+/* Alinear mat-form-field con .form-control nativo (Nebular: font 0.8rem) */
+$filtro-h: calc(1.5em + 0.75rem + 2px);
+
+:host ::ng-deep .filtro-compacto.mat-form-field {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  width: 100%;
+  display: block;
+  height: $filtro-h;
+}
+
+:host ::ng-deep .filtro-compacto .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+  margin: 0 !important;
+  height: 100%;
+}
+
+:host ::ng-deep .filtro-compacto .mat-form-field-subscript-wrapper {
+  display: none !important;
+  height: 0 !important;
+}
+
+:host ::ng-deep .filtro-compacto .mat-form-field-flex {
+  align-items: center;
+  height: $filtro-h !important;
+  min-height: $filtro-h !important;
+  max-height: $filtro-h !important;
+  padding: 0 0.75rem !important;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .filtro-compacto .mat-form-field-infix {
+  padding: 0 !important;
+  border-top: 0 !important;
+  width: auto;
+  top: 0 !important;
+}
+
+:host ::ng-deep .filtro-compacto.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0 !important;
+  margin: 0;
+}
+
+/* Sin hueco de label flotante (el label va fuera, como los otros filtros) */
+:host ::ng-deep .filtro-compacto.mat-form-field-appearance-outline .mat-form-field-outline-gap {
+  border-top-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+:host ::ng-deep .filtro-compacto.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  opacity: 0;
+}
+
+:host ::ng-deep .filtro-compacto.mat-form-field-appearance-outline .mat-form-field-outline {
+  top: 0;
+  bottom: 0;
+  color: #ced4da;
+}
+
+:host ::ng-deep .filtro-compacto.mat-form-field-appearance-outline .mat-form-field-outline-start,
+:host ::ng-deep .filtro-compacto.mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-width: 1px !important;
+}
+
+:host ::ng-deep .filtro-compacto.mat-focused.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #80bdff;
+}
+
+:host ::ng-deep .filtro-compacto .mat-input-element,
+:host ::ng-deep .filtro-compacto .mat-select-value,
+:host ::ng-deep .filtro-compacto .mat-select-placeholder,
+:host ::ng-deep .filtro-compacto .mat-select-value-text {
+  font-size: 0.8rem !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+:host ::ng-deep .filtro-compacto .mat-select-trigger {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .filtro-compacto .mat-select-arrow-wrapper {
+  transform: none !important;
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .filtro-compacto .mat-form-field-prefix,
+:host ::ng-deep .filtro-compacto .mat-form-field-suffix {
+  top: 0;
+}
+
+.form-field-plain {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Periodo = mismos estilos que Dosimetría Histórico (sin filtro-compacto, que oculta el preview) */
+:host ::ng-deep .filtro-periodo.form-field-plain .mat-mdc-form-field-infix {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: 0 !important;
+}
+
+:host ::ng-deep .filtro-periodo.form-field-plain .mat-form-field-infix {
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
+  border-top: 0 !important;
+}
+
+:host ::ng-deep .filtro-periodo.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em !important;
+}
+
+:host ::ng-deep .filtro-periodo .mat-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+:host ::ng-deep .filtro-periodo .mat-select-value,
+:host ::ng-deep .filtro-periodo .mat-select-value-text {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap;
+  opacity: 1 !important;
+  color: inherit !important;
+  max-width: none !important;
+}
+
+.operador-multi .operador-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.35rem;
+}
+
+:host ::ng-deep .operador-multi .operador-chip.mat-chip {
+  font-size: 0.75rem;
+  min-height: 1.35rem;
+  height: auto;
+  padding: 0.1rem 0.35rem 0.1rem 0.5rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+:host ::ng-deep .operador-multi .chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  font-weight: 700;
+}
+
+:host ::ng-deep .operador-multi .chip-remove:hover {
+  opacity: 1;
+}
+
+::ng-deep .filtro-periodo-panel .mat-option,
+::ng-deep .filtro-option.mat-option {
+  font-size: 0.8rem;
+  min-height: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+}
+
+/* Botones de acción: deshabilitado con tono muted claro (sigue visible) */
+:host .btn-filtro-accion:disabled,
+:host .btn-filtro-accion.disabled {
+  opacity: 1;
+  background-color: #a8d5b5 !important;
+  border-color: #a8d5b5 !important;
+  color: #f4faf6 !important;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+:host .btn-filtro-accion:not(:disabled):not(.disabled) {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+::ng-deep .hu10-row-clickable {
+  cursor: pointer;
+}
+
+::ng-deep .hu10-row-clickable:hover td {
+  background-color: #f1f8e9 !important;
+}

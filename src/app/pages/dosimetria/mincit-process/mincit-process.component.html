@@ -1,0 +1,283 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Carlos Díaz
+MODIFICADO POR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-24
+DESCRIPCIÓN: Plantilla HTML para la ingesta, panel de filtros, validación y sincronización de solicitudes VUCE/MinCIT (HU-009)
+
+HISTORIAL DE CAMBIOS:
+- 2025-12-06 - CREACIÓN DEL ARCHIVO: Formulario cargue mincit - Carlos Díaz
+- 2026-03-27 - MODIFICACIÓN: Ajuste componente visual cargue solicitudes - Paulo César Guillén Rojas
+- 2026-08-05 - MODIFICACIÓN: Implementación de filtros de búsqueda, grilla SmartTable y trazabilidad VUCE - Johan Piñeres
+- 2026-08-06 - MODIFICACIÓN: Rediseño de filtros VUCE reales y selector de paginación parametrizable - Johan Piñeres
+- 2026-08-24 - MODIFICACIÓN: Inclusión de panel de sincronización SOAP y solicitudes finalizadas MinCIT (HU-009) - Johan Piñeres
+==============================================================================
+-->
+<div class="col-md-12 col-lg-12">
+      <toaster-container [toasterconfig]="config"></toaster-container>
+
+      <!-- [2026-08-24] ADD: Panel de Sincronización e Información Final SOAP MinCIT (HU-009) - Johan Piñeres -->
+      <nb-card status="success">
+        <nb-card-header class="d-flex justify-content-between align-items-center">
+          <div>
+            <i class="fa fa-exchange-alt mr-2"></i><strong>Información Final del Proceso — Integración SOAP MinCIT (HU-009)</strong>
+          </div>
+          <div>
+            <button class="btn btn-primary btn-sm mr-2" (click)="sincronizarSoapDiario()" [disabled]="sincronizandoSoap">
+              <i class="fa fa-sync-alt" [class.fa-spin]="sincronizandoSoap"></i> Sincronizar Hoy (SOAP MinCIT)
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" (click)="loadSolicitudesFinales()" [disabled]="cargandoFinales">
+              <i class="fa fa-redo"></i> Refrescar
+            </button>
+          </div>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <small class="text-muted">Registro de solicitudes cerradas consumidas automáticamente desde el Web Service SOAP de MinCIT/VUCE.</small>
+            </div>
+            <div class="d-flex align-items-center">
+              <label for="pageSizeFinalesSelect" class="mb-0 mr-2 font-weight-normal"><small>Registros por página:</small></label>
+              <select id="pageSizeFinalesSelect" class="form-control form-control-sm" style="width: auto;" [(ngModel)]="pageSizeFinales" (change)="onPageSizeFinalesChange($event.target.value)">
+                <option [value]="10">10</option>
+                <option [value]="25">25</option>
+                <option [value]="50">50</option>
+                <option [value]="100">100</option>
+              </select>
+            </div>
+          </div>
+          <ng2-smart-table [settings]="settingsFinales" [source]="sourceFinales"></ng2-smart-table>
+        </nb-card-body>
+      </nb-card>
+
+      <!-- [2026-08-05] ADD: Panel de Filtros de Búsqueda VUCE (T-2.1) - Johan Piñeres -->
+      <nb-card>
+        <nb-card-header>
+          <div>Filtros de Búsqueda VUCE</div>
+        </nb-card-header>
+        <nb-card-body>
+          <form [formGroup]="filtrarForm" (ngSubmit)="loadData()">
+            <div class="row">
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label for="Operador">Empresa / Importador</label>
+                  <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" (focus)="loadOptionsOperador()" (click)="loadOptionsOperador()">
+                    <option [ngValue]="null">Todas las empresas</option>
+                    <option *ngFor="let item of Operador" [ngValue]="item">{{ item.Nombres }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label for="Radionuclido">Radionúclido</label>
+                  <select id="Radionuclido" class="form-control" formControlName="Radionuclido">
+                    <option [ngValue]="null">Todos los radionúclidos</option>
+                    <option *ngFor="let item of Radionuclido" [ngValue]="item.descripcion || item">{{ item.descripcion || item }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label for="NumeroAutorizacion">No. Autorización MME</label>
+                  <input type="text" id="NumeroAutorizacion" class="form-control" placeholder="ej: LI-MME-0100" formControlName="NumeroAutorizacion" />
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label for="FormaFisica">Forma Física</label>
+                  <select id="FormaFisica" class="form-control" formControlName="FormaFisica">
+                    <option [ngValue]="null">Todas las formas físicas</option>
+                    <option value="Sólido">Sólido</option>
+                    <option value="Líquido">Líquido</option>
+                    <option value="Gaseoso">Gaseoso</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label for="Subpartida">Subpartida Arancelaria</label>
+                  <input type="text" id="Subpartida" class="form-control" placeholder="ej: 9022290000" formControlName="Subpartida" />
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label for="NumeroSolicitud">Número Solicitud (RAN)</label>
+                  <input type="text" id="NumeroSolicitud" class="form-control" placeholder="ej: RAN100" formControlName="NumeroSolicitud" />
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 d-flex align-items-end mb-3">
+                <!-- [2026-08-06] MOD: Se deja únicamente el botón Buscar y se elimina el botón no solicitado 'Exportar Resumen' - Johan Piñeres -->
+                <button type="submit" class="btn btn-primary btn-md" [disabled]="cargandoGrilla">
+                  <i class="fa fa-search"></i> Buscar
+                </button>
+              </div>
+            </div>
+          </form>
+        </nb-card-body>
+      </nb-card>
+
+      <!-- Panel de Carga Mincit Excel -->
+      <nb-card>
+        <nb-card-header>
+          <div>Carga Masiva Excel VUCE (MINCIT)</div>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+            <div class="col-md-3 mincit-actions">
+              <button (click)="download()" class="btn btn-success btn-sm fo mb-4 mt-2 mincit-action-btn" ><img src="assets/images/spreadsheet.png"/><br>Descargar Formato</button>
+              <button (click)="fileInput.click();" class="btn btn-success btn-sm fo mb-4 mt-2 mincit-action-btn" [disabled]="cargando"><img src="assets/images/guardar.png"/><br><b>Cargar datos</b></button>               
+            </div>
+            <div class="col-md-9">
+              <p><strong>Instrucciones:</strong></p>
+              <ul>
+                <li>Descargue el formato de Excel para conocer la estructura requerida.</li>
+                <li>Complete el archivo con los datos de importación siguiendo el formato proporcionado.</li>
+                <li>Seleccione el archivo completado para cargar los datos al sistema.</li>
+                <li>Asegúrese de que el archivo no contenga errores de formato o validación para una carga exitosa.</li>
+              </ul>
+            </div>
+          </div>
+          <input 
+                #fileInput
+                type="file" 
+                id="fileInput"
+                accept=".xlsx,.xls"
+                (change)="onFileSelected($event)"
+                [disabled]="cargando"
+                style="display: none;"
+              />
+
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngIf="nombreArchivo" class="ml-3">
+                Archivo: <strong>{{ nombreArchivo }}</strong>
+              </span>
+            </div>
+          </div>
+
+          <!-- Respuesta exitosa sin errores -->
+          <div *ngIf="respuesta && !tieneErrores" class="row">
+            <div class="col-md-12">
+              <div class="alert alert-success">
+                <strong>{{ respuesta.message }}</strong>
+                <p class="mb-0">Filas leídas: {{ respuesta.rowsRead }} | Filas insertadas: {{ respuesta.inserted }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error general -->
+          <div *ngIf="respuesta && tieneErrores && respuesta.error" class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger">
+                <strong>Ocurrió un error al procesar la información. Por favor verifique el archivo de carga.</strong>
+                <div *ngIf="respuesta.missingColumns && respuesta.missingColumns.length > 0" class="mt-2">
+                  <strong>Columnas faltantes:</strong>
+                  <ul class="mb-0">
+                    <li *ngFor="let col of respuesta.missingColumns">{{ col }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Errores de validación -->
+          <div *ngIf="respuesta && respuesta.validationErrors && respuesta.validationErrors.length > 0" class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger">
+                <strong>Errores de Validación - No se insertó ningún registro</strong>
+                <p class="mb-0">
+                  Filas leídas: {{ respuesta.rowsRead }} | 
+                  Filas con errores de validación: {{ respuesta.validationErrors.length }}
+                </p>
+              </div>
+              
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Fila</th>
+                    <th>Número Solicitud</th>
+                    <th>Errores</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let error of respuesta.validationErrors">
+                    <td>{{ error.row }}</td>
+                    <td><strong>{{ error.NumeroSolicitud }}</strong></td>
+                    <td>
+                      <ul class="mb-0">
+                        <li *ngFor="let err of error.errors">{{ err }}</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Errores de inserción -->
+          <div *ngIf="respuesta && respuesta.insertErrors && respuesta.insertErrors.length > 0" class="row">
+            <div class="col-md-12">
+              <div class="alert alert-warning">
+                <strong>{{ respuesta.message }}</strong>
+                <p class="mb-0">
+                  Filas leídas: {{ respuesta.rowsRead }} | 
+                  Filas insertadas: {{ respuesta.inserted }} | 
+                  Filas con errores de inserción: {{ respuesta.insertErrors.length }}
+                </p>
+              </div>
+              
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Fila</th>
+                    <th>Número Solicitud</th>
+                    <th>Error de Inserción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let error of respuesta.insertErrors">
+                    <td>{{ error.row }}</td>
+                    <td><strong>{{ error.NumeroSolicitud }}</strong></td>
+                    <td>
+                      <ul class="mb-0">
+                        <li *ngFor="let err of error.errors">{{ err }}</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+
+      <!-- [2026-08-05] ADD: Grilla de Solicitudes VUCE Consultadas con Paginación Parametrizable (T-2.2) - Johan Piñeres -->
+      <nb-card>
+        <nb-card-header class="d-flex justify-content-between align-items-center">
+          <div>Solicitudes VUCE Registradas</div>
+          <div class="d-flex align-items-center">
+            <label for="pageSizeSelect" class="mb-0 mr-2 font-weight-normal"><small>Registros por página:</small></label>
+            <select id="pageSizeSelect" class="form-control form-control-sm" style="width: auto;" [(ngModel)]="pageSize" (change)="onPageSizeChange($event.target.value)">
+              <option [value]="10">10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+              <option [value]="100">100</option>
+              <option [value]="200">200</option>
+            </select>
+          </div>
+        </nb-card-header>
+        <nb-card-body>
+          <ng2-smart-table [settings]="settings" [source]="source">
+          </ng2-smart-table>
+        </nb-card-body>
+      </nb-card>
+</div>

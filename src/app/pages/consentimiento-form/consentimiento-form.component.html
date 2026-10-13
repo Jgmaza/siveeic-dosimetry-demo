@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ "GLOBAL.consentimiento.titulo" | translate }}</h4>
+</div>
+<div class="modal-body"  style="z-index:1000">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()" method="post" enctype="multipart/form-data" >
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Operador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.consentimiento.operador" | translate }}
+          </mat-label>
+          <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.operador.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Operador" 
+                    [ngValue]="item">{{item.Nombres}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Operador'].errors"  >
+            <p *ngIf="registroForm.controls['Operador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+
+    <div class="row">
+            <div class="col-lg-12">
+              <span >
+                <p>{{ "GLOBAL.consentimiento.texto_titulo" | translate }}</p>
+                <p style="text-align: justify;" >{{ "GLOBAL.consentimiento.texto_informado" | translate }}</p>
+                <p style="text-align: justify;">{{ "GLOBAL.consentimiento.texto_informado2" | translate }}</p>
+                <p style="text-align: justify;">{{ "GLOBAL.consentimiento.texto_informado3" | translate }}
+                <a href='{{ "GLOBAL.consentimiento.enlace_informado" | translate }}' target="_blank" >{{ "GLOBAL.consentimiento.enlace_informado" | translate }} </a></p>
+              </span>
+              <br>
+            </div> 
+      <div class="col-lg-5">
+      </div> 
+      <div class="col-lg-2">
+        <div class="form-group" >
+          <mat-checkbox id="Autoriza" class="form-control" formControlName="Autoriza"><b>{{ "GLOBAL.consentimiento.consentimiento" | translate }}</b></mat-checkbox>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Autoriza'].errors"  >
+            <p *ngIf="registroForm.controls['Autoriza'].errors.required"></p>
+         </div>
+        </div>  
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.aceptar" | translate }}</button>
+</div>

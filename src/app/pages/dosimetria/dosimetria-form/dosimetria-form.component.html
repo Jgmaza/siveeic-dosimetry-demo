@@ -1,0 +1,918 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.dosimetria.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body"  style="z-index:1000">
+  <form [formGroup]="registroForm" (ngSubmit)="saveRegistro()" method="post" enctype="multipart/form-data" >
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="form-group" >
+          <mat-label for="Periodo" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.dosimetria.periodo" | translate }}
+          </mat-label>
+          <select id="Periodo" class="form-control" formControlName="Periodo" [compareWith]="compareById" >
+            <option *ngFor="let item of Periodo" 
+                    [ngValue]="item">{{item.Periodo}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Periodo'].errors"  >
+            <p *ngIf="registroForm.controls['Periodo'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+      <div class="col-lg-2">
+        <div class="form-group" >
+          <mat-label for="Ciclo" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.dosimetria.ciclo" | translate }}
+          </mat-label>
+          <select id="Ciclo" class="form-control" formControlName="Ciclo" [compareWith]="compareById" >
+            <option *ngFor="let item of Ciclo" 
+                    [ngValue]="item">{{item.Nombre}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Ciclo'].errors"  >
+            <p *ngIf="registroForm.controls['Ciclo'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+      <div class="col-lg-8">
+        <div class="form-group" >
+          <mat-label for="Operador" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.dosimetria.operador" | translate }}
+          </mat-label>
+          <select id="Operador" class="form-control" formControlName="Operador" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.dosimetria.placeholder_tipoidentificacion" | translate }}</option-->
+            <option *ngFor="let item of Operador" 
+                    [ngValue]="item">{{item.Nombres}}</option>
+          </select>
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="registroForm.controls['Operador'].errors"  >
+            <p *ngIf="registroForm.controls['Operador'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+    <nb-card>
+      <nb-card-body>  
+        <div class="row">
+          <div class="col-lg-12">
+            <span style="color:#6498fe;"><b>{{ "GLOBAL.dosimetria.tooltip_Mess_Reportar" | translate }}</b><br></span>
+          </div> 
+        </div> 
+      </nb-card-body>   
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.dosimetria.TituloEntidad" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="form-group"  >
+              <mat-label for="Identificacion_entidad">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.identificacion_entidad" | translate }}
+              </mat-label>
+              <input type="text" id="Identificacion_entidad" placeholder='{{ "GLOBAL.dosimetria.placeholder_identificacion_entidad" | translate }}' class="form-control" formControlName="Identificacion_entidad" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Identificacion_entidad'].errors && (registroForm.controls['Identificacion_entidad'].dirty || registroForm.controls['Identificacion_entidad'].touched)"  >
+                <p *ngIf="registroForm.controls['Identificacion_entidad'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Identificacion_entidad'].errors.minlength">Se requieren mínimo {{registroForm.controls['Identificacion_entidad'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Identificacion_entidad'].errors.maxlength">Máximo {{registroForm.controls['Identificacion_entidad'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Identificacion_entidad'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+          <div class="col-lg-9">
+            <div class="form-group" >
+              <mat-label for="Nombre_entidad">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.nombre_entidad" | translate }}
+              </mat-label>
+              <input type="text" id="Nombre_entidad" placeholder='{{ "GLOBAL.dosimetria.placeholder_nombre_entidad" | translate }}' class="form-control" formControlName="Nombre_entidad" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Nombre_entidad'].errors && (registroForm.controls['Nombre_entidad'].dirty || registroForm.controls['Nombre_entidad'].touched)"  >
+                <p *ngIf="registroForm.controls['Nombre_entidad'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Nombre_entidad'].errors.minlength">Se requieren mínimo {{registroForm.controls['Nombre_entidad'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Nombre_entidad'].errors.maxlength">Máximo {{registroForm.controls['Nombre_entidad'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Nombre_entidad'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>            
+        </div>         
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Direccion_entidad">
+                <span style="color:Red;">{{'*'}}</span>
+                 {{ "GLOBAL.dosimetria.direccion_entidad" | translate }}
+              </mat-label>
+              <input type="text" id="Direccion_entidad" placeholder='{{ "GLOBAL.dosimetria.placeholder_direccion_entidad" | translate }}' class="form-control" formControlName="Direccion_entidad" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Direccion_entidad'].errors && (registroForm.controls['Direccion_entidad'].dirty || registroForm.controls['Direccion_entidad'].touched)"  >
+                <p *ngIf="registroForm.controls['Direccion_entidad'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Direccion_entidad'].errors.minlength">Se requieren mínimo {{registroForm.controls['Direccion_entidad'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Direccion_entidad'].errors.maxlength">Máximo {{registroForm.controls['Direccion_entidad'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Direccion_entidad'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Correo_entidad" >
+                <span style="color:Red;">{{'*'}}</span>
+                 {{ "GLOBAL.dosimetria.correo_entidad" | translate }}
+              </mat-label>
+              <input type="email" id="Correo_entidad" placeholder='{{ "GLOBAL.dosimetria.placeholder_correo_entidad" | translate }}' class="form-control" formControlName="Correo_entidad" />
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Correo_entidad'].errors && (registroForm.controls['Correo_entidad'].dirty || registroForm.controls['Correo_entidad'].touched)"  >
+             <p *ngIf="registroForm.controls['Correo_entidad'].errors.required">Este campo es requerido.</p>
+             <p *ngIf="registroForm.controls['Correo_entidad'].errors.pattern">Ingrese un correo valido. Ej: (user@correo.co)</p>
+             </div>
+            </div>  
+          </div>  
+        </div>         
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Departamento" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.departamento" | translate }}
+              </mat-label>
+              <select id="Departamento" class="form-control" formControlName="Departamento"
+                     [compareWith]="compareById" (change)="selectMunicipio()"  >
+                <!--option [ngValue]="null" >{{ "GLOBAL.dosimetria.placeholder_tipoidentificacion" | translate }}</option-->
+                <option *ngFor="let item of Departamento" 
+                        [ngValue]="item">{{item.Id}} - {{item.NombreDepartamento}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Departamento'].errors"  >
+                <p *ngIf="registroForm.controls['Departamento'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Municipio" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.municipio" | translate }}
+              </mat-label>
+              <select id="Municipio" class="form-control" formControlName="Municipio" [compareWith]="compareById" [disabled] >
+                <option [ngValue]="0" >Todos </option>
+                <option *ngFor="let item of Municipio" 
+                        [ngValue]="item">{{item.Id}} - {{item.NombreMunicipio}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Municipio'].errors"  >
+                <p *ngIf="registroForm.controls['Municipio'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+        </div> 
+        
+        <!--div class="row">
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Latitud">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.latitud" | translate }}
+              </mat-label>
+              <input type="text" id="Latitud" placeholder='{{ "GLOBAL.dosimetria.placeholder_latitud" | translate }}' class="form-control" formControlName="Latitud" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Latitud'].errors && (registroForm.controls['Latitud'].dirty || registroForm.controls['Latitud'].touched)"  >
+                <p  *ngIf="registroForm.controls['Latitud'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Latitud'].errors.minlength">Se requieren mínimo {{registroForm.controls['Latitud'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Latitud'].errors.maxlength">Máximo {{registroForm.controls['Latitud'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Latitud'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group" >
+              <mat-label for="Longitud">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.longitud" | translate }}
+              </mat-label>
+              <input type="text" id="Longitud" placeholder='{{ "GLOBAL.dosimetria.placeholder_longitud" | translate }}' class="form-control" formControlName="Longitud" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Longitud'].errors && (registroForm.controls['Longitud'].dirty || registroForm.controls['Longitud'].touched)"  >
+                <p  *ngIf="registroForm.controls['Longitud'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Longitud'].errors.minlength">Se requieren mínimo {{registroForm.controls['Longitud'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Longitud'].errors.maxlength">Máximo {{registroForm.controls['Longitud'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Longitud'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+        </div-->
+
+      </nb-card-body>  
+    </nb-card> 
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.dosimetria.TituloEmpleado" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group"  >
+              <mat-label for="Identificacion_empleado">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.identificacion_empleado" | translate }}
+              </mat-label>
+              <input type="text" id="Identificacion_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_identificacion_empleado" | translate }}' class="form-control" formControlName="Identificacion_empleado" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Identificacion_empleado'].errors && (registroForm.controls['Identificacion_empleado'].dirty || registroForm.controls['Identificacion_empleado'].touched)"  >
+                <p *ngIf="registroForm.controls['Identificacion_empleado'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Identificacion_empleado'].errors.minlength">Se requieren mínimo {{registroForm.controls['Identificacion_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Identificacion_empleado'].errors.maxlength">Máximo {{registroForm.controls['Identificacion_empleado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Identificacion_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Nombre_empleado">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.nombre_empleado" | translate }}
+              </mat-label>
+              <input type="text" id="Nombre_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_nombre_empleado" | translate }}' class="form-control" formControlName="Nombre_empleado" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Nombre_empleado'].errors && (registroForm.controls['Nombre_empleado'].dirty || registroForm.controls['Nombre_empleado'].touched)"  >
+                <p *ngIf="registroForm.controls['Nombre_empleado'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Nombre_empleado'].errors.minlength">Se requieren mínimo {{registroForm.controls['Nombre_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Nombre_empleado'].errors.maxlength">Máximo {{registroForm.controls['Nombre_empleado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Nombre_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>     
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Apellido_empleado">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.apellido_empleado" | translate }}
+              </mat-label>
+              <input type="text" id="Apellido_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_apellido_empleado" | translate }}' class="form-control" formControlName="Apellido_empleado" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Apellido_empleado'].errors && (registroForm.controls['Apellido_empleado'].dirty || registroForm.controls['Apellido_empleado'].touched)"  >
+                <p *ngIf="registroForm.controls['Apellido_empleado'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Apellido_empleado'].errors.minlength">Se requieren mínimo {{registroForm.controls['Apellido_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Apellido_empleado'].errors.maxlength">Máximo {{registroForm.controls['Apellido_empleado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Apellido_empleado'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>     
+        </div>         
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Fecha_nacimiento">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.fecha_nacimiento" | translate }}
+              </mat-label>
+              <input type="text" id="Fecha_nacimiento" placeholder='{{ "GLOBAL.dosimetria.placeholder_fecha_nacimiento" | translate }}' class="form-control" formControlName="Fecha_nacimiento" />
+                <!--input type="text" id="Fecha_nacimiento" [matDatepicker] = "Fecha_nacimiento" placeholder='{{ "GLOBAL.dosimetria.placeholder_fechaini" | translate }}' class="form-control" formControlName="Fecha_nacimiento" /-->
+                <!--mat-datepicker-toggle matSuffix [for]="Fecha_nacimiento"></mat-datepicker-toggle>
+                <mat-datepicker #Fecha_nacimiento></mat-datepicker-->
+                  <!--mat-form-field>
+                    <input matInput formControlName="Fecha_nacimiento" [matDatepicker]="Fecha_nacimiento" placeholder="Choose a date">
+                   <mat-datepicker-toggle matSuffix [for]="Fecha_nacimiento"></mat-datepicker-toggle>
+                   <mat-datepicker #Fecha_nacimiento></mat-datepicker>
+                  </mat-form-field-->
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Fecha_nacimiento'].errors && (registroForm.controls['Fecha_nacimiento'].dirty || registroForm.controls['Fecha_nacimiento'].touched)"  >
+                <p  *ngIf="registroForm.controls['Fecha_nacimiento'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Fecha_nacimiento'].errors.minlength">Formato mínimo de {{registroForm.controls['Fecha_nacimiento'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Fecha_nacimiento'].errors.pattern">Sólo se permiten números.</p>
+                <p *ngIf="registroForm.controls['Fecha_nacimiento'].hasError('dateInvalid')">Fecha invalida. ingrese en formato "mm/dd/aaaa" </p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Genero_empleado" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.genero_empleado" | translate }}
+              </mat-label>
+              <select id="Genero_empleado" class="form-control" formControlName="Genero_empleado" [compareWith]="compareById"  (change)="selectGenero()" >
+                <option *ngFor="let item of Genero_empleado" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Genero_empleado'].errors"  >
+                <p *ngIf="registroForm.controls['Genero_empleado'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Otro_Genero">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.otro_genero" | translate }}
+              </mat-label>
+              <input type="text" id="Otro_Genero" placeholder='{{ "GLOBAL.dosimetria.placeholder_otro_genero" | translate }}' class="form-control" formControlName="Otro_Genero" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Otro_Genero'].errors && (registroForm.controls['Otro_Genero'].dirty || registroForm.controls['Otro_Genero'].touched)"  >
+                <p *ngIf="registroForm.controls['Otro_Genero'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Otro_Genero'].errors.minlength">Se requieren minimo {{registroForm.controls['Otro_Genero'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Otro_Genero'].errors.maxlength">Máximo {{registroForm.controls['Otro_Genero'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Otro_Genero'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>   
+
+        </div>           
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Nivel_educacion" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.nivel_educacion" | translate }}
+              </mat-label>
+              <select id="Genero_empleado" class="form-control" formControlName="Nivel_educacion" [compareWith]="compareById" >
+                <option *ngFor="let item of Nivel_educacion" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Nivel_educacion'].errors"  >
+                <p *ngIf="registroForm.controls['Nivel_educacion'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+          <div class="col-lg-8">
+            <div class="form-group" >
+              <mat-label for="Titulo">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.titulo_educacion" | translate }}
+              </mat-label>
+              <input type="text" id="Titulo" placeholder='{{ "GLOBAL.dosimetria.placeholder_titulo_educacion" | translate }}' class="form-control" formControlName="Titulo" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Titulo'].errors && (registroForm.controls['Titulo'].dirty || registroForm.controls['Titulo'].touched)"  >
+                <p *ngIf="registroForm.controls['Titulo'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Titulo'].errors.minlength">Se requieren mínimo {{registroForm.controls['Titulo'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Titulo'].errors.maxlength">Máximo {{registroForm.controls['Titulo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Titulo'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>     
+        </div>                 
+
+      </nb-card-body>  
+    </nb-card> 
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.dosimetria.TituloDetalle" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="frecuencia_medicion" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.frecuencia_medicion" | translate }}
+              </mat-label>
+              <select id="Frecuencia_cambio" class="form-control" formControlName="Frecuencia_medicion" [compareWith]="compareById" >
+                <option *ngFor="let item of Frecuencia_medicion" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Frecuencia_medicion'].errors"  >
+                <p *ngIf="registroForm.controls['Frecuencia_medicion'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="frecuencia_cambio" >
+                <span style="color:Red;">{{'*'}} </span>
+                  {{ "GLOBAL.dosimetria.frecuencia_cambio" | translate }}
+              </mat-label>
+              <select id="Frecuencia_cambio" class="form-control" formControlName="Frecuencia_cambio" [compareWith]="compareById" >
+                <option *ngFor="let item of Frecuencia_cambio" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Frecuencia_cambio'].errors"  >
+                <p *ngIf="registroForm.controls['Frecuencia_cambio'].errors.required">Este campo es requerido.</p>
+              </div>
+            </div>  
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Practica_ri" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.practica_ri" | translate }}
+              </mat-label>
+              <select id="Practica_ri" class="form-control" formControlName="Practica_ri" [compareWith]="compareById" >
+                <option *ngFor="let item of Practica_ri" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Practica_ri'].errors"  >
+                <p *ngIf="registroForm.controls['Practica_ri'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>          
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Tipo_dosimetro" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.tipo_dosimetro" | translate }}
+              </mat-label>
+              <select id="Tipo_dosimetro" class="form-control" formControlName="Tipo_dosimetro" [compareWith]="compareById" >
+                <option *ngFor="let item of Tipo_dosimetro" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Tipo_dosimetro'].errors"  >
+                <p *ngIf="registroForm.controls['Tipo_dosimetro'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>          
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Tecnologia_dosimetro" >
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.tecnologia_dosimetro" | translate }}
+              </mat-label>
+              <select id="Tecnologia_dosimetro" class="form-control" formControlName="Tecnologia_dosimetro" [compareWith]="compareById" >
+                <option *ngFor="let item of Tecnologia_dosimetro" 
+                        [ngValue]="item">{{item.Nombre}}</option>
+              </select>
+              <div class="form-control-feedback" style="color:Red;"
+              *ngIf="registroForm.controls['Tecnologia_dosimetro'].errors"  >
+                <p *ngIf="registroForm.controls['Tecnologia_dosimetro'].errors.required">Este campo es requerido.</p>
+             </div>
+            </div>  
+          </div>  
+        </div> 
+        
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Fecha_inicio_exposicion_empleado">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.fecha_inicio_exposicion_empleado" | translate }}
+              </mat-label>
+                <input type="text" id="Fecha_inicio_exposicion_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_fecha_inicio_exposicion_empleado" | translate }}' class="form-control" formControlName="Fecha_inicio_exposicion_empleado" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Fecha_inicio_exposicion_empleado'].errors && (registroForm.controls['Fecha_fin_exposicion_empleado'].dirty || registroForm.controls['Fecha_inicio_exposicion_empleado'].touched)"  >
+                <p  *ngIf="registroForm.controls['Fecha_inicio_exposicion_empleado'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Fecha_inicio_exposicion_empleado'].errors.minlength">Formato mínimo de {{registroForm.controls['Fecha_inicio_exposicion_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Fecha_inicio_exposicion_empleado'].errors.pattern">Sólo se permiten números.</p>
+                <p *ngIf="registroForm.controls['Fecha_inicio_exposicion_empleado'].hasError('dateInvalid')">Fecha invalida. ingrese en formato "mm/dd/aaaa" </p>
+                </div>
+            </div>  
+          </div>          
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Fecha_fin_exposicion_empleado">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.fecha_fin_exposicion_empleado" | translate }}
+              </mat-label>
+                <input type="text" id="Fecha_fin_exposicion_empleado" placeholder='{{ "GLOBAL.dosimetria.placeholder_fecha_fin_exposicion_empleado" | translate }}' class="form-control" formControlName="Fecha_fin_exposicion_empleado" />
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Fecha_fin_exposicion_empleado'].errors && (registroForm.controls['Fecha_fin_exposicion_empleado'].dirty || registroForm.controls['Fecha_fin_exposicion_empleado'].touched)"  >
+                <p  *ngIf="registroForm.controls['Fecha_fin_exposicion_empleado'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Fecha_fin_exposicion_empleado'].errors.minlength">Formato mínimo de {{registroForm.controls['Fecha_fin_exposicion_empleado'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Fecha_fin_exposicion_empleado'].errors.pattern">Sólo se permiten números.</p>
+                <p *ngIf="registroForm.controls['Fecha_fin_exposicion_empleado'].hasError('dateInvalid')">Fecha invalida. ingrese en formato "mm/dd/aaaa" </p>
+                </div>
+            </div>  
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_acumulado">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_acumulado" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_acumulado" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_acumulado" | translate }}'
+               class="form-control" formControlName="Hp_acumulado" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_acumulado'].errors && (registroForm.controls['Hp_acumulado'].dirty || registroForm.controls['Hp_acumulado'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_acumulado'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_acumulado'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_acumulado'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_acumulado'].errors.maxlength">Máximo {{registroForm.controls['Hp_acumulado'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_acumulado'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>           
+
+        </div> 
+
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Enero">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Enero" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Enero" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Enero" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Enero" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Enero'].errors && (registroForm.controls['Hp_mSv_Enero'].dirty || registroForm.controls['Hp_mSv_Enero'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Enero'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Enero'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Enero'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Enero'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Enero'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Enero'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Febrero">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Febrero" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Febrero" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Febrero" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Febrero" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Febrero'].errors && (registroForm.controls['Hp_mSv_Febrero'].dirty || registroForm.controls['Hp_mSv_Febrero'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Febrero'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Febrero'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Febrero'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Febrero'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Febrero'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Febrero'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Marzo">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Marzo" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Marzo" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Marzo" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Marzo" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Marzo'].errors && (registroForm.controls['Hp_mSv_Marzo'].dirty || registroForm.controls['Hp_mSv_Marzo'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Marzo'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Marzo'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Marzo'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Marzo'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Marzo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Marzo'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+        </div>         
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Abril">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Abril" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Abril" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Abril" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Abril" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Abril'].errors && (registroForm.controls['Hp_mSv_Abril'].dirty || registroForm.controls['Hp_mSv_Abril'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Abril'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Abril'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Abril'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Abril'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Abril'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Abril'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Mayo">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Mayo" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Mayo" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Mayo" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Mayo" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Mayo'].errors && (registroForm.controls['Hp_mSv_Mayo'].dirty || registroForm.controls['Hp_mSv_Mayo'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Mayo'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Mayo'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Mayo'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Mayo'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Mayo'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Mayo'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Junio">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Junio" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Junio" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Junio" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Junio" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Junio'].errors && (registroForm.controls['Hp_mSv_Junio'].dirty || registroForm.controls['Hp_mSv_Junio'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Junio'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Junio'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Junio'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Junio'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Junio'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Junio'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+        </div>   
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Julio">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Julio" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Julio" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Julio" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Julio" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Julio'].errors && (registroForm.controls['Hp_mSv_Julio'].dirty || registroForm.controls['Hp_mSv_Julio'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Julio'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Julio'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Julio'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Julio'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Julio'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Julio'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Agosto">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Agosto" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Agosto" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Agosto" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Agosto" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Agosto'].errors && (registroForm.controls['Hp_mSv_Agosto'].dirty || registroForm.controls['Hp_mSv_Agosto'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Agosto'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Agosto'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Agosto'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Agosto'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Agosto'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Agosto'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Septiembre">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Septiembre" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Septiembre" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Septiembre" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Septiembre" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Septiembre'].errors && (registroForm.controls['Hp_mSv_Septiembre'].dirty || registroForm.controls['Hp_mSv_Septiembre'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Septiembre'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Septiembre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Septiembre'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Septiembre'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Septiembre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Septiembre'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+        </div>           
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Octubre">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Octubre" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Octubre" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Octubre" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Octubre" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Octubre'].errors && (registroForm.controls['Hp_mSv_Octubre'].dirty || registroForm.controls['Hp_mSv_Octubre'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Octubre'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Octubre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Octubre'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Octubre'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Octubre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Octubre'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Noviembre">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Noviembre" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Noviembre" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Noviembre" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Noviembre" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Noviembre'].errors && (registroForm.controls['Hp_mSv_Noviembre'].dirty || registroForm.controls['Hp_mSv_Noviembre'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Noviembre'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Noviembre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Noviembre'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Noviembre'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Noviembre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Noviembre'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Hp_mSv_Diciembre">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.hp_mSv_Diciembre" | translate }}
+              </mat-label>
+              <input type="text" id="Hp_mSv_Diciembre" placeholder='{{ "GLOBAL.dosimetria.placeholder_hp_mSv_Diciembre" | translate }}'
+               class="form-control" formControlName="Hp_mSv_Diciembre" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Hp_mSv_Diciembre'].errors && (registroForm.controls['Hp_mSv_Diciembre'].dirty || registroForm.controls['Hp_mSv_Diciembre'].touched)"  >
+                <p  *ngIf="registroForm.controls['Hp_mSv_Diciembre'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Hp_mSv_Diciembre'].errors.minlength">Se requieren mínimo {{registroForm.controls['Hp_mSv_Diciembre'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Diciembre'].errors.maxlength">Máximo {{registroForm.controls['Hp_mSv_Diciembre'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Hp_mSv_Diciembre'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div> 
+        </div>           
+        
+      </nb-card-body>  
+    </nb-card>      
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.dosimetria.TituloIntervencion" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Intervencion_Tejido_Profundo_Hp10">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.frm-intervencion_tejido_profundo_Hp10" | translate }}
+              </mat-label>
+              <input type="text" id="Intervencion_Tejido_Profundo_Hp10" placeholder='{{ "GLOBAL.dosimetria.placeholder_intervencion_tejido_profundo_Hp10" | translate }}'
+               class="form-control" formControlName="Intervencion_Tejido_Profundo_Hp10" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors && (registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].dirty || registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].touched)"  >
+                <p  *ngIf="registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors.minlength">Se requieren mínimo {{registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors.maxlength">Máximo {{registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Tejido_Profundo_Hp10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Intervencion_Cristalino_Ojo_Hp3">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.frm-intervencion_cristalino_ojo_Hp3" | translate }}
+              </mat-label>
+              <input type="text" id="Intervencion_Cristalino_Ojo_Hp3" placeholder='{{ "GLOBAL.dosimetria.placeholder_intervencion_cristalino_ojo_Hp3" | translate }}'
+               class="form-control" formControlName="Intervencion_Cristalino_Ojo_Hp3" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors && (registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].dirty || registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].touched)"  >
+                <p  *ngIf="registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors.minlength">Se requieren mínimo {{registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors.maxlength">Máximo {{registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Cristalino_Ojo_Hp3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Intervencion_Extremidades_Piel_Hp007">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.frm-intervencion_extremidades_piel_Hp007" | translate }}
+              </mat-label>
+              <input type="text" id="Intervencion_Extremidades_Piel_Hp007" placeholder='{{ "GLOBAL.dosimetria.placeholder_intervencion_extremidades_piel_Hp007" | translate }}'
+               class="form-control" formControlName="Intervencion_Extremidades_Piel_Hp007" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors && (registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].dirty || registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].touched)"  >
+                <p  *ngIf="registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors.minlength">Se requieren mínimo {{registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors.maxlength">Máximo {{registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Extremidades_Piel_Hp007'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+        </div> 
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <mat-label for="Intervencion_Observacion">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.frm-intervencion_observacion" | translate }}
+              </mat-label>
+                <!--input type="text" id="Intervencion_Observacion" placeholder='{{ "GLOBAL.dosimetria.placeholder_intervencion_observacion" | translate }}' class="form-control" formControlName="Intervencion_Observacion" /-->
+                <textarea matInput id="Intervencion_Observacion" placeholder='{{ "GLOBAL.dosimetria.placeholder_intervencion_observacion" | translate }}' class="form-control" formControlName="Intervencion_Observacion" >
+                </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Intervencion_Observacion'].errors && (registroForm.controls['Intervencion_Observacion'].dirty || registroForm.controls['Intervencion_Observacion'].touched)"  >
+                <p *ngIf="registroForm.controls['Intervencion_Observacion'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Intervencion_Observacion'].errors.minlength">Se requieren mínimo {{registroForm.controls['Intervencion_Observacion'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Observacion'].errors.maxlength">Máximo {{registroForm.controls['Intervencion_Observacion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Intervencion_Observacion'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>     
+        </div>  
+
+      </nb-card-body>  
+    </nb-card>  
+
+
+    <nb-card>
+      <nb-card-header>
+        <div>{{ "GLOBAL.dosimetria.TituloInvestigacion" | translate }}</div>
+      </nb-card-header>
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Investigacion_Tejido_Profundo_Hp10">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.frm-investigacion_tejido_profundo_Hp10" | translate }}
+              </mat-label>
+              <input type="text" id="Investigacion_Tejido_Profundo_Hp10" placeholder='{{ "GLOBAL.dosimetria.placeholder_investigacion_tejido_profundo_Hp10" | translate }}'
+               class="form-control" formControlName="Investigacion_Tejido_Profundo_Hp10" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors && (registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].dirty || registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].touched)"  >
+                <p  *ngIf="registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors.minlength">Se requieren mínimo {{registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors.maxlength">Máximo {{registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Tejido_Profundo_Hp10'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Investigacion_Cristalino_Ojo_Hp3">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.frm-investigacion_cristalino_ojo_Hp3" | translate }}
+              </mat-label>
+              <input type="text" id="Investigacion_Cristalino_Ojo_Hp3" placeholder='{{ "GLOBAL.dosimetria.placeholder_investigacion_cristalino_ojo_Hp3" | translate }}'
+               class="form-control" formControlName="Investigacion_Cristalino_Ojo_Hp3" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors && (registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].dirty || registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].touched)"  >
+                <p  *ngIf="registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors.minlength">Se requieren mínimo {{registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors.maxlength">Máximo {{registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Cristalino_Ojo_Hp3'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+          <div class="col-lg-4">
+            <div class="form-group" >
+              <mat-label for="Investigacion_Extremidades_Piel_Hp007">
+                <span style="color:Red;">{{'*'}} </span>
+                {{ "GLOBAL.dosimetria.frm-investigacion_extremidades_piel_Hp007" | translate }}
+              </mat-label>
+              <input type="text" id="Investigacion_Extremidades_Piel_Hp007" placeholder='{{ "GLOBAL.dosimetria.placeholder_investigacion_extremidades_piel_Hp007" | translate }}'
+               class="form-control" formControlName="Investigacion_Extremidades_Piel_Hp007" (change)="validaValor($event.target)" />
+                <div style="color:Red;"
+                *ngIf="registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors && (registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].dirty || registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].touched)"  >
+                <p  *ngIf="registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors.required">Este campo es requerido.</p>
+                <p  *ngIf="registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors.minlength">Se requieren mínimo {{registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors.maxlength">Máximo {{registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Extremidades_Piel_Hp007'].errors.pattern">Sólo se permiten números.</p>
+                </div>
+            </div>  
+          </div>          
+        </div> 
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" >
+              <mat-label for="Investigacion_Observacion">
+                <span style="color:Red;">{{'*'}} </span>
+                 {{ "GLOBAL.dosimetria.frm-investigacion_observacion" | translate }}
+              </mat-label>
+                <!--input type="text" id="Investigacion_Observacion" placeholder='{{ "GLOBAL.dosimetria.placeholder_investigacion_observacion" | translate }}' class="form-control" formControlName="Investigacion_Observacion" /-->
+                <textarea matInput id="Investigacion_Observacion" placeholder='{{ "GLOBAL.dosimetria.placeholder_investigacion_observacion" | translate }}' class="form-control" formControlName="Investigacion_Observacion" >
+                </textarea>
+                <div style="color:Red;"
+                 *ngIf="registroForm.controls['Investigacion_Observacion'].errors && (registroForm.controls['Investigacion_Observacion'].dirty || registroForm.controls['Investigacion_Observacion'].touched)"  >
+                <p *ngIf="registroForm.controls['Investigacion_Observacion'].errors.required">Este campo es requerido.</p>
+                <p *ngIf="registroForm.controls['Investigacion_Observacion'].errors.minlength">Se requieren mínimo {{registroForm.controls['Investigacion_Observacion'].errors.minlength.requiredLength}} caracteres. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Observacion'].errors.maxlength">Máximo {{registroForm.controls['Investigacion_Observacion'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+                <p *ngIf="registroForm.controls['Investigacion_Observacion'].errors.pattern">Sólo se permiten letras y números.</p>
+                </div>
+            </div>  
+          </div>     
+        </div>  
+
+      </nb-card-body>  
+    </nb-card>  
+
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="registroForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

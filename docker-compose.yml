@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  frontend:
+    container_name: siveeic_frontend_dev
+    image: siveeic_frontend
+    build:
+      context: .
+    restart: always
+    ports:
+      - '0.0.0.0:4200:4200'
+    networks:
+      - siveeic-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+networks:
+  siveeic-network:
+    name: siveeic-network
+    driver: bridge

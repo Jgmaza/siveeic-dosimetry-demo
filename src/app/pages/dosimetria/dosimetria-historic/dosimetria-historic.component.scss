@@ -1,0 +1,44 @@
+:host /deep/ .nb-theme-default ng2-smart-table table tr td {
+    font-size: 0.85rem;
+  }
+  
+::ng-deep .my-class .modal-dialog { 
+  max-width: 80%; 
+  width: 80%;
+  
+ }
+
+ img {
+  width: 35px;
+  height: 35px;
+}  
+
+// Para Material 15+ (MDC)
+:host ::ng-deep .form-field-plain .mat-mdc-form-field-infix {
+  /*padding: 0 !important;*/
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: 0 !important;
+}
+
+// Para Material legacy (pre-15)
+:host ::ng-deep .form-field-plain .mat-form-field-infix {
+  /*padding: 0 !important;*/
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
+  border-top: 0 !important;
+}
+
+// Para outline appearance específicamente
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em !important;
+}
+
+// Si nada funciona, usa esto (nuclear option):
+::ng-deep .mat-form-field-infix {
+  padding: 0.5em !important;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  padding: 0.5em !important;
+}

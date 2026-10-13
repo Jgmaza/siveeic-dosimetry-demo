@@ -1,0 +1,99 @@
+<!--
+==============================================================================
+PROYECTO: SIVEEIC
+AUTOR: Johan Piñeres
+CONTACTO: johanpineres@gmail.com
+CELULAR: 3003241133
+FECHA: 2026-08-27
+DESCRIPCIÓN: Formulario modal reactivo para creación y edición de Radionúclidos (HU-016 Fase 1)
+
+HISTORIAL DE CAMBIOS:
+- 2026-08-27 - CREACIÓN DEL ARCHIVO - Modal reactivo con validación de 100 caracteres, tipo de fuente y alertas (HU-016 Fase 1) - Johan Piñeres
+==============================================================================
+-->
+<div class="modal-header">
+  <h4 class="modal-title font-weight-bold">
+    <i class="fa" [ngClass]="createMode ? 'fa-plus-circle text-primary' : 'fa-edit text-info'"></i>
+    {{ createMode ? 'Crear Radionúclido' : 'Editar Radionúclido' }}
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="formRadionuclido" (ngSubmit)="guardar()">
+    <div class="row">
+      <div class="col-12" *ngIf="!createMode">
+        <div class="form-group">
+          <label class="font-weight-bold">ID:</label>
+          <input type="text" class="form-control" [value]="radionuclidoId" disabled />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="descripcion" class="font-weight-bold">
+            Descripción del Radionúclido <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="descripcion"
+            class="form-control"
+            placeholder="ej: Cesio-137 (Cs-137)"
+            maxlength="100"
+            formControlName="descripcion"
+            [class.is-invalid]="formRadionuclido.get('descripcion').invalid && formRadionuclido.get('descripcion').touched"
+          />
+          <small class="form-text text-muted d-flex justify-content-between">
+            <span>Máximo 100 caracteres.</span>
+            <span>{{ formRadionuclido.get('descripcion').value ? formRadionuclido.get('descripcion').value.length : 0 }}/100</span>
+          </small>
+          <div class="invalid-feedback" *ngIf="formRadionuclido.get('descripcion').hasError('required')">
+            La descripción es obligatoria.
+          </div>
+          <div class="invalid-feedback" *ngIf="formRadionuclido.get('descripcion').hasError('maxlength')">
+            La descripción no puede exceder los 100 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="id_tipo_fuente" class="font-weight-bold">
+            Tipo de Fuente <span class="text-danger">*</span>
+          </label>
+          <select
+            id="id_tipo_fuente"
+            class="form-control"
+            formControlName="id_tipo_fuente"
+            [class.is-invalid]="formRadionuclido.get('id_tipo_fuente').invalid && formRadionuclido.get('id_tipo_fuente').touched"
+          >
+            <option [ngValue]="null" disabled>Seleccione un tipo de fuente...</option>
+            <option *ngFor="let tf of tiposFuente" [ngValue]="tf.id">
+              {{ tf.id }} - {{ tf.descripcion }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="formRadionuclido.get('id_tipo_fuente').hasError('required')">
+            Debe seleccionar un tipo de fuente válido.
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')" [disabled]="guardando">
+    <i class="fa fa-times mr-1"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="guardar()"
+    [disabled]="formRadionuclido.invalid || guardando"
+  >
+    <i class="fa" [ngClass]="guardando ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+    {{ guardando ? 'Guardando...' : (createMode ? 'Guardar' : 'Actualizar') }}
+  </button>
+</div>

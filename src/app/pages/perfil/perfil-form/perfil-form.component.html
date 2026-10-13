@@ -1,0 +1,96 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{createMode ? 'Registrar ' : 'Editar '}} {{ "GLOBAL.perfil.titulo" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="perfilForm" (ngSubmit)="saveRegistro()">
+    
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="form-group" >
+          <mat-label for="Rol" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.perfil.rol" | translate }}
+          </mat-label>
+          <select id="Rol" class="form-control" formControlName="Rol" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.perfil.placeholder_tipoperfil" | translate }}</option-->
+            <option *ngFor="let item of Rol" 
+                    [ngValue]="item">{{item.NombreTipo}}</option>
+          </select>
+          <!--p *ngIf="selected_Rol">  {{selected_Tipoidentificacion | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="perfilForm.controls['Rol'].errors"  >
+            <p *ngIf="perfilForm.controls['Rol'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+      <div class="col-lg-5">
+        <div class="form-group" >
+          <mat-label for="Enlace" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.perfil.enlace" | translate }}
+          </mat-label>
+          <select id="Enlace" class="form-control" formControlName="Enlace" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.perfil.placeholder_tipoperfil" | translate }}</option-->
+            <option *ngFor="let item of Enlace" 
+                    [ngValue]="item">{{item.Nombre}}</option>
+          </select>
+          <!--p *ngIf="selected_Rol">  {{selected_Tipoidentificacion | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="perfilForm.controls['Enlace'].errors"  >
+            <p *ngIf="perfilForm.controls['Enlace'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+
+      <div class="col-lg-2">
+        <div class="form-group" >
+          <mat-label for="Estado" >
+            <span style="color:Red;">{{'*'}} </span>
+             {{ "GLOBAL.perfil.estado" | translate }}
+          </mat-label>
+          <select id="Estado" class="form-control" formControlName="Estado" [compareWith]="compareById" >
+            <!--option [ngValue]="null" >{{ "GLOBAL.perfil.placeholder_estadoperfil" | translate }}</option-->
+            <option *ngFor="let item of Estado" 
+                    [ngValue]="item">{{item.NombreEstado}}</option>
+          </select>
+          <!--p *ngIf="selected_Estadoperfil">  {{selected_Estadoperfil | json}} </p-->
+          <div class="form-control-feedback" style="color:Red;"
+          *ngIf="perfilForm.controls['Estado'].errors"  >
+            <p *ngIf="perfilForm.controls['Estado'].errors.required">Este campo es requerido.</p>
+         </div>
+        </div>  
+      </div>
+    </div> 
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group" >
+          <mat-label for="Observacion">
+            <span style="color:Red;">{{'*'}}</span>
+             {{ "GLOBAL.perfil.observacion" | translate }}
+          </mat-label>
+          <!--input type="text" id="Observacion" placeholder='{{ "GLOBAL.perfil.placeholder_observacion" | translate }}' class="form-control" formControlName="Observacion" /-->
+          <textarea matInput id="Observacion" placeholder='{{ "GLOBAL.perfil.placeholder_observacion" | translate }}' class="form-control" formControlName="Observacion" >
+          </textarea>
+            <div style="color:Red;"
+               *ngIf="perfilForm.controls['Observacion'].errors && (perfilForm.controls['Enlace'].dirty || perfilForm.controls['Observacion'].touched)"  >
+            <p *ngIf="perfilForm.controls['Observacion'].errors.required">Este campo es requerido.</p>
+            <p *ngIf="perfilForm.controls['Observacion'].errors.minlength">Se requieren mínimo {{perfilForm.controls['Enlace'].errors.minlength.requiredLength}} caracteres. </p>
+            <p *ngIf="perfilForm.controls['Observacion'].errors.maxlength">Máximo {{perfilForm.controls['Enlace'].errors.maxlength.requiredLength}} caracteres permitidos. </p>
+            <p *ngIf="perfilForm.controls['Observacion'].errors.pattern">Fomato no valido .</p>
+            </div>
+        </div>  
+      </div>   
+    </div>     
+
+  </form>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">{{ "GLOBAL.cerrar" | translate }}</button>
+  <button class="btn btn-primary" (click)="saveRegistro()" [disabled]="perfilForm.invalid">{{ "GLOBAL.guardar" | translate }}</button>
+</div>

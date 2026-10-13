@@ -1,0 +1,51 @@
+<div class="col-md-12 col-lg-12 ">
+    <nb-card>
+      <nb-card-header>
+        {{ 'GLOBAL.apireportes.titulo_pagina' | translate }}
+      </nb-card-header>
+      <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div class="row margin15">
+          
+          <div class="col-lg-2" *ngIf="!cambiotab">
+            <form [formGroup]="registroForm">
+               <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group" >
+                    <label for="paginas" class="label col-form-label">
+                      Registros por página
+                    </label>
+                    <select id="paginas" class="form-control" formControlName="Rowspage"  (change)="paginas()"  >
+                      <option [ngValue]="5" >5</option>
+                      <option [ngValue]="10" >10</option>
+                      <option [ngValue]="25" >25</option>
+                      <option [ngValue]="50" >50</option>
+                      <option [ngValue]="100" >100</option>
+                      <option [ngValue]="200" >200</option>
+                      </select>
+                    </div>  
+                  </div>   
+                </div> 
+            </form>
+          </div> 
+          <div class="col-md-10"  >
+          </div>
+        </div>
+        <ng2-smart-table [settings]="settings" [source]="source" (delete)="onDelete($event)"
+          (rowSelect)="itemselec($event)" (edit)="onEdit($event)" (create)="onCreate($event)" (custom)="onCustomAction($event)">
+        </ng2-smart-table>
+  
+
+        <!--button *ngIf="cambiotab" (click)="activetab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+          {{ 'GLOBAL.regresar' | translate }}</button-->
+
+        <!--ng2-smart-table *ngIf="!cambiotab" [settings]="settings" [source]="source" (delete)="onDelete($event)"
+          (rowSelect)="itemselec($event)" (edit)="onEdit($event)" (create)="onCreate($event)">
+        </ng2-smart-table-->
+  
+        <!--ngx-crud-operador *ngIf="cambiotab" [operador_id]="uid" (eventChange)="onChange($event)"></ngx-crud-operador-->
+  
+  
+      </nb-card-body>
+    </nb-card>
+  </div>

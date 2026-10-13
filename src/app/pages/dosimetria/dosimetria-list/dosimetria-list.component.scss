@@ -1,0 +1,190 @@
+:host {
+  display: block;
+  max-width: 100%;
+}
+
+:host nb-card-body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.dosimetria-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(100vh - 280px);
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dosimetria-table-wrap {
+  position: relative;
+  min-height: 8rem;
+}
+
+.dosimetria-table-wrap.is-loading ng2-smart-table {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.dosimetria-table-loading-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8790c;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.55);
+  z-index: 2;
+}
+
+.dosimetria-table-loading {
+  color: #b8790c;
+}
+
+::ng-deep .dosimetria-table-scroll ng2-smart-table {
+  display: block;
+}
+
+.dosimetria-toolbar-row,
+.dosimetria-toolbar-row .col-12 {
+  max-width: 100%;
+}
+
+:host /deep/ .nb-theme-default ng2-smart-table table tr td {
+    font-size: 0.85rem;
+  }
+
+.dosimetria-toolbar-row {
+  align-items: center;
+}
+
+.dosimetria-table-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.search-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1 1 16rem;
+  min-width: 12rem;
+}
+
+.search-input-wrap {
+  position: relative;
+  flex: 1 1 12rem;
+  max-width: 28rem;
+  min-width: 10rem;
+}
+
+.search-input {
+  width: 100%;
+  padding-right: 2rem;
+}
+
+.search-icon {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8f9bb3;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.toolbar-download {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.dosimetria-pager-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  min-height: 1.75rem;
+}
+
+.toolbar-loading {
+  color: #b8790c;
+  font-size: 0.85rem;
+}
+
+.toolbar-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.pager-label {
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.pager-meta {
+  font-size: 0.8rem;
+  color: #666;
+  white-space: nowrap;
+}
+
+.pager-size {
+  width: 4.2rem;
+  display: inline-block;
+  padding: 0.15rem 0.35rem;
+  height: calc(1.5em + 0.35rem);
+  font-size: 0.8rem;
+}
+
+.pager-page-input {
+  width: 3.2rem;
+  text-align: center;
+  padding: 0.15rem 0.25rem;
+  height: calc(1.5em + 0.35rem);
+  font-size: 0.8rem;
+  -moz-appearance: textfield;
+}
+
+.pager-page-input::-webkit-outer-spin-button,
+.pager-page-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pager-btn {
+  padding: 0.15rem 0.45rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  min-width: 1.75rem;
+}
+
+.pager-sep {
+  color: #ccc;
+  font-size: 0.85rem;
+  margin: 0 0.1rem;
+}
+  
+::ng-deep .my-class .modal-dialog { 
+  max-width: 80%; 
+  width: 80%;
+  
+ }
+
+ img {
+  width: 35px;
+  height: 35px;
+}  

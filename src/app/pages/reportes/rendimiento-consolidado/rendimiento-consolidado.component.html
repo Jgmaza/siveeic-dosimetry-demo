@@ -1,0 +1,21 @@
+<nb-card>
+  <nb-card-header>
+    <div class="tablero_titulo" align="left">
+    Reporte Rendimiento Consolidado
+    </div>
+    <ngx-filtro (eventChange)="filtro($event)" [campos]="campos"></ngx-filtro>
+  </nb-card-header>
+  <nb-card-body>
+          <div class="row">
+            <div class="col-lg-12">
+              <nb-card>
+                <nb-card-body>
+                   <button (click)="exportAsXLSX()" class="btn btn-success btn-sm fo mb-4 mt-2">Descargar reporte en xlsx</button>
+                  <ng2-smart-table [settings]="settings" [source]="source"  >
+                  </ng2-smart-table>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+  </nb-card-body>
+</nb-card>
