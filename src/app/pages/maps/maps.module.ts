@@ -12,7 +12,8 @@ import { BubbleMapComponent } from './bubble-map/bubble-map.component';
   imports: [
     ThemeModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCpVhQiwAllg1RAFaxMWSpQruuGARy0Y1k',
+      // Demo portfolio: no Google Maps key (module unused). Never commit real API keys.
+      apiKey: '',
       libraries: ['places'],
     }),
     LeafletModule.forRoot(),
