@@ -3,9 +3,10 @@ import { useAuth } from "../auth/AuthContext";
 
 const links = [
   { to: "/", label: "Overview" },
-  { to: "/ledger", label: "Unified ledger" },
+  { to: "/upload", label: "Carga Excel" },
+  { to: "/ledger", label: "Ledger unificado" },
   { to: "/pipeline", label: "Dual-write" },
-  { to: "/reports", label: "Reports" },
+  { to: "/reports", label: "Reportes" },
 ];
 
 export function Shell() {

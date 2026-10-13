@@ -152,29 +152,29 @@ export const DOSE_ROWS: DoseRow[] = [
 
 export const CAPABILITIES = [
   {
+    id: "excel",
+    title: "Excel mass load",
+    body: "Same flow as SIVEEIC: pick period, drop Excel/CSV, validate with error file, then Guardar into the unified ledger (mocked).",
+  },
+  {
     id: "unify",
     title: "Unified ledger",
-    body: "Historical Excel loads and new typed intakes share one query surface — admin/consultant see a single grid after Consultar.",
+    body: "Historical Excel loads and new intakes share one Consultar grid — HISTORICO / NUEVO / UNIFICADO badges.",
   },
   {
     id: "dual",
     title: "Dual-write sync",
-    body: "New loads write into the unified store while historical rows stay readable. Source badges show HISTORICO / NUEVO / UNIFICADO.",
+    body: "New loads write as NUEVO and project to unified; historical rows stay readable.",
   },
   {
     id: "flags",
     title: "Honest month flags",
-    body: "NR (not reported), NP (not present), ND (not defined) stay distinct from numeric doses — no silent zeros.",
+    body: "NR / NP / ND stay distinct from numeric doses — no silent zeros.",
   },
   {
     id: "rbac",
     title: "Role scopes",
-    body: "Admin filters across companies; consultant is scoped to assigned operators and cannot manage global catalogs.",
-  },
-  {
-    id: "reports",
-    title: "Reports & notices",
-    body: "Multi-filter report previews and worker-anchored notice selection without exposing real personal data.",
+    body: "Admin uploads and filters across companies; consultant is scoped and cannot commit mass loads.",
   },
 ];
 

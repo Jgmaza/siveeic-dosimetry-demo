@@ -29,16 +29,16 @@ export function Overview() {
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
-            to="/ledger"
+            to="/upload"
             className="border border-accent bg-accent px-4 py-2 text-sm text-canvas"
           >
-            Open unified ledger
+            Carga dosimétrica (Excel)
           </Link>
           <Link
-            to="/pipeline"
+            to="/ledger"
             className="border border-line bg-white/70 px-4 py-2 text-sm text-ink"
           >
-            Dual-write pipeline
+            Ledger unificado
           </Link>
         </div>
       </section>

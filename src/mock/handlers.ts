@@ -213,6 +213,90 @@ export const handlers = [
     });
   }),
 
+  http.post("/api/upload/validate", async ({ request }) => {
+    const session = auth(request);
+    if (!session) {
+      return HttpResponse.json({ detail: "Unauthorized" }, { status: 401 });
+    }
+    if (session.role !== "admin") {
+      return HttpResponse.json(
+        { detail: "Only admin can upload dosimetry files." },
+        { status: 403 },
+      );
+    }
+
+    const form = await request.formData();
+    const file = form.get("file");
+    const period =
+      (typeof form.get("period") === "string" && form.get("period")) || "2025";
+    const fileName =
+      file && typeof file === "object" && "name" in file
+        ? String((file as File).name)
+        : "dosimetria-demo.xlsx";
+
+    await new Promise((r) => setTimeout(r, 450));
+
+    const totalRows = 128;
+    const errors = [
+      { row: 12, field: "documento", message: "documento vacío" },
+      { row: 28, field: "mes_3", message: "dosis mes 3 no numérica" },
+      { row: 41, field: "operador", message: "operador no reconocido" },
+      { row: 55, field: "periodo", message: "periodo no coincide con el seleccionado" },
+      { row: 67, field: "mes_7", message: "flag inválido (use NR/NP o número)" },
+      { row: 89, field: "documento", message: "formato de documento inválido" },
+      { row: 104, field: "empresa", message: "empresa fuera del alcance del usuario" },
+    ];
+    const errorRows = errors.length;
+    const okRows = totalRows - errorRows;
+
+    return HttpResponse.json({
+      fileName,
+      period,
+      totalRows,
+      okRows,
+      errorRows,
+      errors,
+      dualWriteNote:
+        "Al guardar, las filas OK se escriben como NUEVO y se proyectan al ledger unificado; HISTORICO no se sobrescribe (mock).",
+    });
+  }),
+
+  http.post("/api/upload/commit", async ({ request }) => {
+    const session = auth(request);
+    if (!session) {
+      return HttpResponse.json({ detail: "Unauthorized" }, { status: 401 });
+    }
+    if (session.role !== "admin") {
+      return HttpResponse.json(
+        { detail: "Only admin can commit dosimetry uploads." },
+        { status: 403 },
+      );
+    }
+
+    const form = await request.formData();
+    const period =
+      (typeof form.get("period") === "string" && form.get("period")) || "2025";
+    const okRowsRaw = form.get("okRows");
+    const inserted = Number(okRowsRaw) || 121;
+    const file = form.get("file");
+    const fileName =
+      file && typeof file === "object" && "name" in file
+        ? String((file as File).name)
+        : "dosimetria-demo.xlsx";
+
+    await new Promise((r) => setTimeout(r, 500));
+
+    return HttpResponse.json({
+      inserted,
+      period,
+      fileName,
+      source: "NUEVO",
+      filesForOperatorPeriod: 3,
+      filesInSystem: 47,
+      message: `Se insertaron ${inserted} registros en el ledger unificado (demo).`,
+    });
+  }),
+
   http.get("/api/reports/preview", ({ request }) => {
     const session = auth(request);
     if (!session) {

@@ -6,6 +6,7 @@ import { Login } from "./pages/Login";
 import { Overview } from "./pages/Overview";
 import { Pipeline } from "./pages/Pipeline";
 import { Reports } from "./pages/Reports";
+import { Upload } from "./pages/Upload";
 
 function Protected({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -34,6 +35,7 @@ export default function App() {
           }
         >
           <Route index element={<Overview />} />
+          <Route path="upload" element={<Upload />} />
           <Route path="ledger" element={<Ledger />} />
           <Route path="pipeline" element={<Pipeline />} />
           <Route path="reports" element={<Reports />} />
